@@ -1,0 +1,156 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is admin.
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Profiles for all users
+    match /users/{userId} {
+      allow read, write: if request.auth != null && (request.auth.uid == userId || isAdmin());
+    }
+
+    // Ventures collection
+    match /ventures/{ventureId} {
+      allow read: if request.auth != null || ventureId == 'pamhepo';
+      allow write: if isAdmin();
+
+      match /logs/{logId} {
+        allow read: if request.auth != null;
+        allow write: if isAdmin();
+      }
+
+      match /conversations/{docId} {
+        allow read: if request.auth != null;
+        allow write: if isAdmin();
+      }
+
+      match /documents/{docId} {
+        allow read: if request.auth != null;
+        allow write: if isAdmin();
+      }
+
+      match /takeaways/{docId} {
+        allow read: if request.auth != null;
+        allow write: if isAdmin();
+      }
+
+      match /tasks/{docId} {
+        allow read: if request.auth != null;
+        allow write: if isAdmin();
+      }
+    }
+
+    // Clients collection
+    match /clients/{clientId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Knowledge chunks
+    match /knowledge_chunks/{chunkId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Feedback & metrics
+    match /feedback/{docId} {
+      allow read: if isAdmin();
+      allow write: if request.auth != null;
+    }
+
+    match /feedback_metrics/{docId=**} {
+      allow read, write: if isAdmin();
+    }
+
+    match /metrics/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    match /ai_improvements/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /ai_prompts/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Messages — per-client subcollections
+    match /messages/{clientId}/stream/{msgId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+
+    // Venture Conversations
+    match /venture_conversations/{conversationId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null &&
+          (isAdmin() || resource.data.createdBy == request.auth.uid);
+      allow delete: if isAdmin();
+
+      match /messages/{messageId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null;
+        allow update: if request.auth != null;
+        allow delete: if false;
+      }
+    }
+
+    // Venture Documents (Phase 2)
+    match /venture_documents/{ventureId}/docs/{docId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // AI Models config
+    match /ai_models/{modelId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // ─── NFC Card App ────────────────────────────────────────────
+
+    // NFC Profiles — owner can read/write; any authenticated user can create
+    match /nfc_profiles/{profileId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // NFC Exchanges — owner reads their own; unauthenticated visitors can create
+    match /nfc_exchanges/{exchangeId} {
+      allow read: if request.auth != null && resource.data.profileUid == request.auth.uid;
+      allow create: if true;
+      allow update: if request.auth != null && resource.data.profileUid == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // Notifications — owner reads/updates their own; anyone can create
+    match /notifications/{notifId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if true;
+      allow update: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // NFC Link Clicks — analytics for outbound link clicks on public profiles
+    // Anyone can create (anonymous visitors); owner can read their own
+    match /nfc_link_clicks/{clickId} {
+      allow read: if request.auth != null && resource.data.profileUid == request.auth.uid;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
+    // Catch-all — deny everything not explicitly covered
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
