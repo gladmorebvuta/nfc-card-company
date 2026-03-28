@@ -1,7 +1,7 @@
 import * as React from "react";
-import { collection, query, where, onSnapshot, limit } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { useAuth, uniqueIdCacheKey } from "../contexts/AuthContext";
+import { useAuth, uniqueIdCacheKey, ensureNfcProfile } from "../contexts/AuthContext";
 
 export interface NfcProfileData {
   id: string;
@@ -39,18 +39,17 @@ export function useNfcProfile() {
       return;
     }
 
-    const q = query(
-      collection(db, "nfc_profiles"),
-      where("uid", "==", user.uid),
-      limit(1)
-    );
+    // Direct document snapshot using uid as doc ID — no collection query, no permission issue
+    const profileRef = doc(db, "nfc_profiles", user.uid);
 
-    const unsub = onSnapshot(q, (snap) => {
-      if (snap.empty) {
+    const unsub = onSnapshot(profileRef, (snap) => {
+      if (!snap.exists()) {
+        // Profile missing at runtime (e.g. data was reset) — re-provision it
+        console.warn("[useNfcProfile] No profile found for uid:", user.uid, "— re-provisioning");
+        ensureNfcProfile(user).catch(console.error);
         setProfile(null);
       } else {
-        const docSnap = snap.docs[0];
-        const data = { id: docSnap.id, ...docSnap.data() } as NfcProfileData;
+        const data = { id: snap.id, ...snap.data() } as NfcProfileData;
         // Keep localStorage cache in sync
         if (data.uniqueId) localStorage.setItem(uniqueIdCacheKey(user.uid), data.uniqueId);
         setProfile(data);
@@ -59,11 +58,11 @@ export function useNfcProfile() {
     }, (err) => {
       // Firestore direct access denied — build a minimal stub from the cached uniqueId
       // so the dashboard can still show the correct share link
-      console.warn("useNfcProfile: Firestore read blocked, using cached uniqueId:", err.message);
+      console.error("[useNfcProfile] Firestore read failed:", err.message);
       const cachedUniqueId = localStorage.getItem(uniqueIdCacheKey(user.uid));
       if (cachedUniqueId) {
         setProfile({
-          id: "",
+          id: user.uid,
           uid: user.uid,
           uniqueId: cachedUniqueId,
           firstName: user.displayName?.split(" ")[0] || "",
@@ -85,6 +84,7 @@ export function useNfcProfile() {
           plan: "starter",
         });
       } else {
+        console.error("[useNfcProfile] No cached uniqueId either — profile will be unavailable");
         setError(err.message);
       }
       setLoading(false);

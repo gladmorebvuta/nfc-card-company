@@ -26,7 +26,7 @@ function formatTimeAgo(date: Date): string {
 export function DashboardLayout() {
   const navigate = useNavigate();
   const { signOut, user } = useAuth();
-  const { profile } = useProfile();
+  const { profile, nfcProfile } = useProfile();
   const [showNotifications, setShowNotifications] = React.useState(false);
   const [showSettings, setShowSettings] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -101,9 +101,9 @@ export function DashboardLayout() {
           >
             <Settings className="h-6 w-6" />
           </button>
-          <button 
+          <button
             className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm border border-white/60 transition-all hover:bg-white/80 hover:text-[#2E1065] active:scale-95"
-            onClick={() => navigate("/")}
+            onClick={() => nfcProfile?.uniqueId ? navigate(`/c/${nfcProfile.uniqueId}`) : undefined}
             title="View Public Profile"
           >
             <ChevronRight className="h-6 w-6" />

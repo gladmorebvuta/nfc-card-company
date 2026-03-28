@@ -1,6 +1,14 @@
 {
   "indexes": [
     {
+      "collectionGroup": "nfc_profiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uniqueId", "order": "ASCENDING" },
+        { "fieldPath": "isActive", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "nfc_exchanges",
       "queryScope": "COLLECTION",
       "fields": [

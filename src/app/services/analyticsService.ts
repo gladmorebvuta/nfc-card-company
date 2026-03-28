@@ -1,4 +1,4 @@
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, increment, Timestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 interface LogLinkClickParams {
@@ -12,7 +12,7 @@ interface LogLinkClickParams {
   linkTitle: string;
   /** Platform type (linkedin, twitter, website, etc.) */
   linkType: string;
-  /** How the visitor arrived: nfc, qr, link, direct_link */
+  /** How the visitor arrived: nfc, qr, link, direct */
   source: string;
 }
 
@@ -33,5 +33,22 @@ export async function logLinkClick(params: LogLinkClickParams) {
     });
   } catch {
     // Non-critical — don't break navigation
+  }
+}
+
+/**
+ * Increment a stat counter on an nfc_profiles document.
+ * Fire-and-forget — should never block UI.
+ */
+export async function incrementProfileStat(
+  profileDocId: string,
+  field: "totalViews" | "totalExchanges" | "totalSaves"
+) {
+  try {
+    await updateDoc(doc(db, "nfc_profiles", profileDocId), {
+      [`stats.${field}`]: increment(1),
+    });
+  } catch {
+    // Non-critical
   }
 }

@@ -39,6 +39,13 @@ export function useExchanges(showArchived = false) {
     const unsub = onSnapshot(q, (snap) => {
       setExchanges(snap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as ExchangeData)));
       setLoading(false);
+    }, (err) => {
+      console.error("[useExchanges] Firestore listener failed:", err.message);
+      if (err.message.includes("index")) {
+        console.error("[useExchanges] Missing composite index. Deploy indexes with: firebase deploy --only firestore:indexes");
+      }
+      setExchanges([]);
+      setLoading(false);
     });
 
     return unsub;

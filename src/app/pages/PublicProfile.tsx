@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router"
 import { toast } from "sonner"
 import { generateVCard } from "../utils/vcard"
 import { createNotification } from "../services/notificationService"
-import { logLinkClick } from "../services/analyticsService"
+import { logLinkClick, incrementProfileStat } from "../services/analyticsService"
 import { FlippableCard } from "../components/FlippableCard"
 import { usePublicProfile } from "../hooks/usePublicProfile"
 import { ExchangeForm } from "../components/ExchangeForm"
@@ -17,7 +17,7 @@ import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
 
 export function PublicProfile() {
   const { uniqueId } = useParams<{ uniqueId: string }>();
-  const { profile: apiProfile, ownerUid, loading: apiLoading, error: apiError } = usePublicProfile(uniqueId);
+  const { profile: apiProfile, ownerUid, profileDocId, source: visitSource, loading: apiLoading, error: apiError } = usePublicProfile(uniqueId);
   const { profile: localProfile } = useProfile();
 
   // Use API profile when viewing /c/:uniqueId, local profile when on /
@@ -31,6 +31,7 @@ export function PublicProfile() {
         name: apiProfile.displayName,
         title: apiProfile.jobTitle || "",
         department: apiProfile.department || "",
+        company: apiProfile.company || "",
         bio: apiProfile.bio || "",
         avatar: apiProfile.avatarUrl || "",
         cover: apiProfile.coverUrl || "",
@@ -48,15 +49,6 @@ export function PublicProfile() {
     }
     return localProfile;
   }, [isLiveCard, apiProfile, localProfile, uniqueId]);
-
-  // Detect how the visitor arrived (for analytics)
-  const visitSource = React.useMemo(() => {
-    const src = new URLSearchParams(window.location.search).get("src");
-    if (src === "nfc") return "nfc";
-    if (src === "qr") return "qr";
-    if (src === "link") return "link";
-    return "direct";
-  }, []);
 
   const handleLinkClick = (link: { url: string; title: string; type: string }) => {
     if (isLiveCard && ownerUid) {
@@ -78,6 +70,19 @@ export function PublicProfile() {
   const [linkCopied, setLinkCopied] = React.useState(false);
   const [exchangeFormOpen, setExchangeFormOpen] = React.useState(false);
 
+  const { scrollYProgress } = useScroll();
+  const bgOpacity1 = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0, 0]);
+  const bgOpacity2 = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+  const bgOpacity3 = useTransform(scrollYProgress, [0.5, 1], [0, 1]);
+  const orbY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+
+  // Build a shareable URL with source tracking (strips any existing ?src= and adds ?src=link)
+  const shareableUrl = React.useMemo(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("src", "link");
+    return url.toString();
+  }, []);
+
   // Loading / error states for live cards
   if (isLiveCard && apiLoading) {
     return (
@@ -94,13 +99,6 @@ export function PublicProfile() {
       </div>
     );
   }
-  
-  const { scrollYProgress } = useScroll();
-  const bgOpacity1 = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0, 0]);
-  const bgOpacity2 = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-  const bgOpacity3 = useTransform(scrollYProgress, [0.5, 1], [0, 1]);
-
-  const orbY = useTransform(scrollYProgress, [0, 1], [0, 200]);
 
   const handleSaveContact = () => {
     generateVCard({
@@ -115,7 +113,7 @@ export function PublicProfile() {
     });
     toast.success("Contact card downloaded!");
 
-    // Notify profile owner someone saved their contact
+    // Notify profile owner someone saved their contact + increment stat
     if (ownerUid) {
       createNotification({
         uid: ownerUid,
@@ -125,14 +123,10 @@ export function PublicProfile() {
         link: "/dashboard",
       });
     }
+    if (profileDocId) {
+      incrementProfileStat(profileDocId, "totalSaves");
+    }
   }
-
-  // Build a shareable URL with source tracking (strips any existing ?src= and adds ?src=link)
-  const shareableUrl = React.useMemo(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("src", "link");
-    return url.toString();
-  }, []);
 
   const handleCopyLink = async () => {
     try {
@@ -647,6 +641,7 @@ export function PublicProfile() {
           open={exchangeFormOpen}
           onOpenChange={setExchangeFormOpen}
           profileUid={ownerUid ?? undefined}
+          profileDocId={profileDocId ?? undefined}
         />
       )}
     </div>

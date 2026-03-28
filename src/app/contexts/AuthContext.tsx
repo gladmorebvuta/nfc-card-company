@@ -19,7 +19,9 @@ interface AuthContextType {
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 
-/** Generate a URL-safe slug from a display name + random suffix, ensuring uniqueness in Firestore */
+/** Generate a URL-safe slug from a display name + random suffix, ensuring uniqueness in Firestore.
+ *  Checks against active profiles only (all profiles are created active, so this catches all slugs).
+ */
 async function generateUniqueId(displayName: string | null): Promise<string> {
   const base = (displayName || "user")
     .toLowerCase()
@@ -33,7 +35,13 @@ async function generateUniqueId(displayName: string | null): Promise<string> {
   for (let attempt = 0; attempt < 5; attempt++) {
     const suffix = Math.random().toString(36).slice(2, 8); // 6-char random for fewer collisions
     const candidate = `${base}-${suffix}`;
-    const q = query(collection(db, "nfc_profiles"), where("uniqueId", "==", candidate), limit(1));
+    // Query active profiles only — the isActive filter satisfies the public read rule
+    const q = query(
+      collection(db, "nfc_profiles"),
+      where("uniqueId", "==", candidate),
+      where("isActive", "==", true),
+      limit(1)
+    );
     const snap = await getDocs(q);
     if (snap.empty) return candidate; // no collision — use it
   }
@@ -48,19 +56,21 @@ export function uniqueIdCacheKey(uid: string) {
 }
 
 /** Ensure the user has an nfc_profiles document; create one if not.
+ *  Uses the user's UID as the document ID for direct, query-free access.
  *  Caches the uniqueId in localStorage so the dashboard can show the link
  *  even when Firestore direct reads are unavailable.
+ *  Exported so useNfcProfile can call it when a profile is missing at runtime.
  */
-async function ensureNfcProfile(user: User): Promise<void> {
-  // Check if a profile already exists for this uid
-  const q = query(collection(db, "nfc_profiles"), where("uid", "==", user.uid), limit(1));
-  const snap = await getDocs(q);
+export async function ensureNfcProfile(user: User): Promise<void> {
+  // Direct document read — no collection query needed, avoids query security validation
+  const profileRef = doc(db, "nfc_profiles", user.uid);
+  const profileSnap = await getDoc(profileRef);
 
-  if (!snap.empty) {
+  if (profileSnap.exists()) {
     // Profile exists — cache the uniqueId locally (scoped to this user)
-    const existingUniqueId = snap.docs[0].data().uniqueId;
-    if (existingUniqueId) {
-      localStorage.setItem(uniqueIdCacheKey(user.uid), existingUniqueId);
+    const data = profileSnap.data();
+    if (data.uniqueId) {
+      localStorage.setItem(uniqueIdCacheKey(user.uid), data.uniqueId);
     }
     return;
   }
@@ -71,7 +81,6 @@ async function ensureNfcProfile(user: User): Promise<void> {
   const firstName = nameParts[0] || "";
   const lastName = nameParts.slice(1).join(" ") || "";
 
-  const profileRef = doc(collection(db, "nfc_profiles"));
   await setDoc(profileRef, {
     uid: user.uid,
     uniqueId,

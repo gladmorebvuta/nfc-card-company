@@ -3,23 +3,13 @@ import { motion, AnimatePresence } from "motion/react"
 import { Download, Search, Filter, MoreHorizontal, Mail, MapPin, Trash2, X } from "lucide-react"
 import { Card, CardContent } from "../components/ui/Card"
 import { Button } from "../components/ui/Button"
-import { recentLeads } from "../mockData"
 import { toast } from "sonner"
 import { generateLeadVCard, exportLeadsCSV } from "../utils/vcard"
 import { useExchanges } from "../hooks/useExchanges"
-import { useAuth } from "../contexts/AuthContext"
-
-const mockLeads = [
-  ...recentLeads,
-  { id: "lead4", name: "Priya Patel", title: "CTO", company: "BioSync Labs", date: "2 days ago", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=128&h=128&q=80" },
-  { id: "lead5", name: "David Kim", title: "VP Sales", company: "NovaChem", date: "3 days ago", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=128&h=128&q=80" },
-  { id: "lead6", name: "Emily Chen", title: "Director of Strategy", company: "PharmaBridge", date: "4 days ago", avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=128&h=128&q=80" },
-];
 
 const PAGE_SIZE = 4;
 
 export function Connections() {
-  const { user } = useAuth();
   const { exchanges, loading: exchangesLoading } = useExchanges();
   const [search, setSearch] = React.useState("");
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
@@ -27,20 +17,17 @@ export function Connections() {
   const [page, setPage] = React.useState(0);
   const [contextMenu, setContextMenu] = React.useState<string | null>(null);
 
-  // Use real exchange data when authenticated, fall back to mock data
   const allLeads = React.useMemo(() => {
-    if (user && exchanges.length > 0) {
-      return exchanges.map((e) => ({
-        id: e.id,
-        name: e.visitorName,
-        title: "",
-        company: e.visitorCompany || "Unknown",
-        date: e.createdAt?.toDate?.()?.toLocaleDateString() || "",
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(e.visitorName)}&background=EDE9FE&color=2E1065`,
-      }));
-    }
-    return mockLeads;
-  }, [user, exchanges]);
+    return exchanges.map((e) => ({
+      id: e.id,
+      name: e.visitorName,
+      title: "",
+      company: e.visitorCompany || "",
+      email: e.visitorEmail,
+      date: e.createdAt?.toDate?.()?.toLocaleDateString() || "",
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(e.visitorName)}&background=EDE9FE&color=2E1065`,
+    }));
+  }, [exchanges]);
 
   const companies = Array.from(new Set(allLeads.map(l => l.company)));
 
@@ -142,10 +129,18 @@ export function Connections() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/40">
-                {paginated.length === 0 ? (
+                {exchangesLoading ? (
                   <tr>
                     <td colSpan={5} className="px-6 py-12 text-center text-gray-400 font-medium">
-                      No connections found matching your search.
+                      Loading connections...
+                    </td>
+                  </tr>
+                ) : paginated.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <p className="text-gray-400 font-medium">{search || filterCompany ? "No connections match your search." : "No connections yet — share your card to start collecting leads."}</p>
+                      </div>
                     </td>
                   </tr>
                 ) : paginated.map((lead) => (
@@ -200,7 +195,7 @@ export function Connections() {
                           size="icon" 
                           className="h-8 w-8 text-gray-400 hover:text-[#2E1065] hover:bg-white/60 rounded-xl"
                           onClick={() => {
-                            window.location.href = `mailto:${lead.name.toLowerCase().replace(/\s+/g, '.')}@${lead.company.toLowerCase().replace(/\s+/g, '')}.com`;
+                            if (lead.email) window.location.href = `mailto:${lead.email}`;
                           }}
                           title={`Email ${lead.name}`}
                         >
@@ -234,7 +229,8 @@ export function Connections() {
                                 <button 
                                   className="w-full text-left px-4 py-2.5 text-sm font-medium text-[#2E1065] hover:bg-[#FFF7EE] transition-colors flex items-center gap-2 border-t border-gray-100"
                                   onClick={() => {
-                                    navigator.clipboard.writeText(`${lead.name}, ${lead.title} at ${lead.company}`);
+                                    const info = [lead.name, lead.email, lead.company].filter(Boolean).join(", ");
+                                    navigator.clipboard.writeText(info);
                                     toast.success("Contact info copied!");
                                     setContextMenu(null);
                                   }}

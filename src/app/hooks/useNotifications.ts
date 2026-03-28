@@ -67,8 +67,12 @@ export function useNotifications(maxCount = 20) {
         );
         setLoading(false);
       },
-      () => {
-        // Permission error or index not ready — degrade gracefully
+      (err) => {
+        // Log the error — Firestore missing-index errors include a direct link to create it
+        console.error("[useNotifications] Firestore listener failed:", err.message);
+        if (err.message.includes("index")) {
+          console.error("[useNotifications] Missing composite index. Deploy indexes with: firebase deploy --only firestore:indexes");
+        }
         setNotifications([]);
         setLoading(false);
       },

@@ -1,27 +1,17 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { Eye, MousePointerClick, Users, Link2, Share2, Copy, SmartphoneNfc, QrCode, Download, Check, X, TrendingUp, TrendingDown, ChevronRight, ExternalLink } from "lucide-react"
+import { Eye, MousePointerClick, Users, Link2, Share2, Copy, QrCode, Download, Check, X, ChevronRight, ExternalLink } from "lucide-react"
 import { Card, CardContent } from "../components/ui/Card"
 import { Button } from "../components/ui/Button"
 import { useProfile } from "../contexts/ProfileContext"
-import { recentLeads } from "../mockData"
+import { useAuth } from "../contexts/AuthContext"
+import { uniqueIdCacheKey } from "../contexts/AuthContext"
+import { useExchanges } from "../hooks/useExchanges"
 import { useNavigate } from "react-router"
 import { toast } from "sonner"
 import { generateVCard } from "../utils/vcard"
 
 import { QRCodeSVG } from 'qrcode.react';
-
-// Trend badge: shows directional % change
-function TrendBadge({ value, positive }: { value: string; positive: boolean }) {
-  return (
-    <span className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[11px] font-bold ${
-      positive ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-600"
-    }`}>
-      {positive ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-      {value}
-    </span>
-  );
-}
 
 // Platform colour map for link tiles
 const PLATFORM_COLORS: Record<string, string> = {
@@ -37,23 +27,29 @@ const PLATFORM_COLORS: Record<string, string> = {
 
 export function Dashboard() {
   const { profile: currentEmployee, nfcProfile, isFirestoreBacked } = useProfile();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const { exchanges } = useExchanges();
   const [linkCopied, setLinkCopied] = React.useState(false);
   const [showQrModal, setShowQrModal] = React.useState(false);
-  const [showOrderModal, setShowOrderModal] = React.useState(false);
 
   // Build unique per-user profile URLs with source tracking
+  // Priority: Firestore profile > localStorage cache > fallback to base URL
   const baseProfileUrl = React.useMemo(() => {
     if (isFirestoreBacked && nfcProfile?.uniqueId) {
       return `${window.location.origin}/c/${nfcProfile.uniqueId}`;
     }
+    // Fallback: try localStorage-cached uniqueId (survives Firestore read failures)
+    if (user) {
+      const cached = localStorage.getItem(uniqueIdCacheKey(user.uid));
+      if (cached) return `${window.location.origin}/c/${cached}`;
+    }
     return `${window.location.origin}/`;
-  }, [isFirestoreBacked, nfcProfile]);
+  }, [isFirestoreBacked, nfcProfile, user]);
 
   // Tagged URLs for different sharing channels
   const profileUrl = `${baseProfileUrl}?src=link`;     // shared / copied link
   const qrProfileUrl = `${baseProfileUrl}?src=qr`;     // QR code scans
-  const nfcProfileUrl = `${baseProfileUrl}?src=nfc`;    // programmed into NFC chips
 
   const handleCopyLink = async () => {
     try {
@@ -85,28 +81,24 @@ export function Dashboard() {
             value: isFirestoreBacked ? currentEmployee.stats.views.toLocaleString() : "—",
             icon: <Eye className="h-5 w-5" />,
             iconBg: "bg-[#F97316]/10 text-[#F97316]",
-            trend: "+12%", positive: true,
           },
           {
             label: "Card Saves",
             value: isFirestoreBacked ? currentEmployee.stats.taps.toLocaleString() : "—",
             icon: <MousePointerClick className="h-5 w-5" />,
             iconBg: "bg-[#8B5CF6]/10 text-[#8B5CF6]",
-            trend: "+4%", positive: true,
           },
           {
             label: "New Leads",
             value: isFirestoreBacked ? String(currentEmployee.stats.leads) : "—",
             icon: <Users className="h-5 w-5" />,
             iconBg: "bg-emerald-100 text-emerald-600",
-            trend: "+8%", positive: true,
           },
           {
             label: "Active Links",
             value: String(currentEmployee.links.length),
             icon: <Link2 className="h-5 w-5" />,
             iconBg: "bg-[#2E1065]/10 text-[#2E1065]",
-            trend: null, positive: true,
           },
         ].map((stat) => (
           <Card key={stat.label} className="p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-all hover:bg-white/70">
@@ -116,10 +108,7 @@ export function Dashboard() {
                 {stat.icon}
               </div>
             </div>
-            <div className="flex items-end justify-between gap-2">
-              <p className="text-3xl font-black tracking-tight text-[#2E1065] leading-none">{stat.value}</p>
-              {stat.trend && <TrendBadge value={stat.trend} positive={stat.positive} />}
-            </div>
+            <p className="text-3xl font-black tracking-tight text-[#2E1065] leading-none">{stat.value}</p>
           </Card>
         ))}
       </div>
@@ -147,10 +136,10 @@ export function Dashboard() {
                 {linkCopied ? <><Check className="h-3 w-3" /> Copied</> : <><Copy className="h-3 w-3" /> Copy Link</>}
               </button>
             </div>
-            <CardContent className="grid gap-4 p-6 sm:grid-cols-2">
-              <button 
+            <CardContent className="p-6">
+              <button
                 onClick={() => setShowQrModal(true)}
-                className="group flex cursor-pointer items-center gap-4 rounded-[1.5rem] border border-white/60 bg-white/40 p-4 transition-all hover:border-[#F97316]/30 hover:bg-white/60 hover:shadow-md text-left"
+                className="group flex w-full cursor-pointer items-center gap-4 rounded-[1.5rem] border border-white/60 bg-white/40 p-4 transition-all hover:border-[#F97316]/30 hover:bg-white/60 hover:shadow-md text-left"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-[#F97316] shadow-sm">
                   <QrCode className="h-6 w-6" />
@@ -158,18 +147,6 @@ export function Dashboard() {
                 <div>
                   <h3 className="font-semibold text-[#2E1065]">My QR Code</h3>
                   <p className="text-xs text-gray-500 font-medium">Download for print</p>
-                </div>
-              </button>
-              <button 
-                onClick={() => setShowOrderModal(true)}
-                className="group flex cursor-pointer items-center gap-4 rounded-[1.5rem] border border-white/60 bg-white/40 p-4 transition-all hover:border-[#8B5CF6]/30 hover:bg-white/60 hover:shadow-md text-left"
-              >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-[#8B5CF6] shadow-sm">
-                  <SmartphoneNfc className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-[#2E1065]">Order Physical</h3>
-                  <p className="text-xs text-gray-500 font-medium">Premium NFC cards</p>
                 </div>
               </button>
             </CardContent>
@@ -187,16 +164,28 @@ export function Dashboard() {
             </div>
             <CardContent className="p-0">
               <div className="divide-y divide-white/30">
-                {recentLeads.map((lead) => (
-                  <div key={lead.id} className="flex items-center justify-between px-5 py-3.5 transition-colors hover:bg-white/40 gap-2">
+                {exchanges.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-10 gap-2">
+                    <Users className="h-8 w-8 text-gray-200" />
+                    <p className="text-sm font-medium text-gray-400">No connections yet</p>
+                    <p className="text-xs text-gray-300">Share your card to start collecting leads</p>
+                  </div>
+                ) : exchanges.slice(0, 3).map((ex) => (
+                  <div key={ex.id} className="flex items-center justify-between px-5 py-3.5 transition-colors hover:bg-white/40 gap-2">
                     <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <img src={lead.avatar} alt={lead.name} className="h-10 w-10 rounded-2xl border-2 border-white object-cover shadow-sm shrink-0" />
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(ex.visitorName)}&background=EDE9FE&color=2E1065`}
+                        alt={ex.visitorName}
+                        className="h-10 w-10 rounded-2xl border-2 border-white object-cover shadow-sm shrink-0"
+                      />
                       <div className="min-w-0">
-                        <h4 className="font-bold text-[#2E1065] truncate text-sm">{lead.name}</h4>
-                        <p className="text-xs font-medium text-gray-500 truncate">{lead.title} · {lead.company}</p>
+                        <h4 className="font-bold text-[#2E1065] truncate text-sm">{ex.visitorName}</h4>
+                        <p className="text-xs font-medium text-gray-500 truncate">{ex.visitorCompany || ex.visitorEmail}</p>
                       </div>
                     </div>
-                    <span className="text-[11px] font-semibold text-gray-400 shrink-0 bg-white/60 px-2 py-1 rounded-full">{lead.date}</span>
+                    <span className="text-[11px] font-semibold text-gray-400 shrink-0 bg-white/60 px-2 py-1 rounded-full">
+                      {ex.createdAt?.toDate?.()?.toLocaleDateString() || ""}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -225,9 +214,11 @@ export function Dashboard() {
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-1">
                       <div className="h-4 w-4 rounded-sm bg-[#2E1065]" />
-                      <div className="leading-none">
-                        <span className="block text-[6px] font-black text-[#2E1065] tracking-wide">MIDDLESEX</span>
-                      </div>
+                      {currentEmployee.department && (
+                        <div className="leading-none">
+                          <span className="block text-[6px] font-black text-[#2E1065] tracking-wide uppercase">{currentEmployee.department}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -376,60 +367,6 @@ export function Dashboard() {
         )}
       </AnimatePresence>
 
-      {/* Order Physical Card Modal */}
-      <AnimatePresence>
-        {showOrderModal && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setShowOrderModal(false)}
-              className="fixed inset-0 z-[60] bg-[#2E1065]/40 backdrop-blur-sm"
-            />
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed left-1/2 top-1/2 z-[70] w-[90%] max-w-sm -translate-x-1/2 -translate-y-1/2 rounded-[2rem] bg-white/95 backdrop-blur-2xl p-8 shadow-2xl border border-white/60"
-            >
-              <button onClick={() => setShowOrderModal(false)} className="absolute top-4 right-4 h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
-                <X className="w-4 h-4" />
-              </button>
-              <div className="text-center mb-6">
-                <div className="h-16 w-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#8B5CF6] to-[#2E1065] flex items-center justify-center shadow-lg">
-                  <SmartphoneNfc className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-black text-[#2E1065]">Order NFC Cards</h3>
-                <p className="text-sm font-medium text-gray-500 mt-1">Premium physical business cards with NFC</p>
-              </div>
-              <div className="space-y-3 mb-6">
-                {[
-                  { qty: "5 Cards", price: "$49", desc: "Personal use" },
-                  { qty: "25 Cards", price: "$179", desc: "Team pack" },
-                  { qty: "100 Cards", price: "$499", desc: "Enterprise" },
-                ].map((tier) => (
-                  <button 
-                    key={tier.qty}
-                    className="w-full flex items-center justify-between rounded-xl border border-white/60 bg-white/40 p-4 hover:bg-white hover:shadow-md hover:border-[#8B5CF6]/30 transition-all text-left"
-                    onClick={() => {
-                      toast.success(`Order placed for ${tier.qty}! (Demo — no real charge)`);
-                      setShowOrderModal(false);
-                    }}
-                  >
-                    <div>
-                      <p className="font-bold text-[#2E1065]">{tier.qty}</p>
-                      <p className="text-xs text-gray-500">{tier.desc}</p>
-                    </div>
-                    <span className="text-lg font-black text-[#F97316]">{tier.price}</span>
-                  </button>
-                ))}
-              </div>
-              <p className="text-[10px] text-center text-gray-400">Ships within 5-7 business days. Cards are pre-encoded with your profile URL.</p>
-              {isFirestoreBacked && nfcProfile?.uniqueId && (
-                <p className="text-[9px] text-center text-gray-300 mt-2 font-mono break-all">{nfcProfileUrl}</p>
-              )}
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </motion.div>
   )
 }

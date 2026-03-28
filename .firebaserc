@@ -1,5 +1,13 @@
 {
-  "projects": {},
-  "targets": {},
+  "projects": {
+    "default": "brandaptos-v2"
+  },
+  "targets": {
+    "brandaptos-v2": {
+      "hosting": {
+        "nfc": ["brandapt-nfc"]
+      }
+    }
+  },
   "etags": {}
 }

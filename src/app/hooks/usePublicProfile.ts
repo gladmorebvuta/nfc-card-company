@@ -1,7 +1,8 @@
 import * as React from "react";
+import { collection, query, where, getDocs, limit } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 import { createNotification } from "../services/notificationService";
-
-const FUNCTIONS_BASE = "https://us-central1-brandaptos-v2.cloudfunctions.net";
+import { incrementProfileStat } from "../services/analyticsService";
 
 export interface PublicProfileData {
   displayName: string;
@@ -22,20 +23,22 @@ export interface PublicProfileData {
 
 /**
  * Determine how the visitor arrived at this profile.
- * URL param ?src= can be: nfc, qr, link  (default: direct_link)
+ * URL param ?src= can be: nfc, qr, link  (default: direct)
  */
-function detectSource(): "nfc" | "qr" | "direct_link" {
+export function detectSource(): "nfc" | "qr" | "link" | "direct" {
   const params = new URLSearchParams(window.location.search);
   const src = params.get("src");
   if (src === "nfc") return "nfc";
   if (src === "qr") return "qr";
-  if (src === "link") return "direct_link";
-  return "direct_link"; // fallback for organic / untagged visits
+  if (src === "link") return "link";
+  return "direct";
 }
 
 export function usePublicProfile(uniqueId: string | undefined) {
   const [profile, setProfile] = React.useState<PublicProfileData | null>(null);
   const [ownerUid, setOwnerUid] = React.useState<string | null>(null);
+  const [profileDocId, setProfileDocId] = React.useState<string | null>(null);
+  const [source] = React.useState(() => detectSource());
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -50,30 +53,62 @@ export function usePublicProfile(uniqueId: string | undefined) {
 
     async function fetchProfile() {
       try {
-        const res = await fetch(`${FUNCTIONS_BASE}/nfcPublicProfile?id=${encodeURIComponent(uniqueId!)}`);
-        const json = await res.json();
+        const q = query(
+          collection(db, "nfc_profiles"),
+          where("uniqueId", "==", uniqueId),
+          where("isActive", "==", true),
+          limit(1),
+        );
+        const snap = await getDocs(q);
+
         if (cancelled) return;
 
-        if (json.status === "success") {
-          setProfile(json.data.profile);
-          const uid = json.data.uid as string | undefined;
-          if (uid) setOwnerUid(uid);
+        if (snap.empty) {
+          setError("Profile not found");
+          setLoading(false);
+          return;
+        }
 
-          // Notify profile owner on NFC taps (avoid notification spam for every view)
-          if (uid && source === "nfc") {
-            createNotification({
-              uid,
-              type: "profile_view",
-              title: "NFC card tapped",
-              body: "Someone tapped your NFC card and viewed your profile.",
-              link: "/dashboard",
-            });
-          }
-        } else {
-          setError(json.error?.message || "Profile not found");
+        const docSnap = snap.docs[0];
+        const docData = docSnap.data();
+        const uid = docData.uid as string;
+
+        const profileData: PublicProfileData = {
+          displayName: docData.displayName || `${docData.firstName || ""} ${docData.lastName || ""}`.trim(),
+          firstName: docData.firstName || "",
+          lastName: docData.lastName || "",
+          jobTitle: docData.jobTitle || null,
+          company: docData.company || null,
+          department: docData.department || null,
+          bio: docData.bio || null,
+          emailPublic: docData.emailPublic || null,
+          phone: docData.phone || null,
+          office: docData.office || null,
+          avatarUrl: docData.avatarUrl || null,
+          coverUrl: docData.coverUrl || null,
+          links: docData.links || [],
+          theme: docData.theme || null,
+        };
+
+        setProfile(profileData);
+        setOwnerUid(uid);
+        setProfileDocId(docSnap.id);
+
+        // Increment view counter (fire-and-forget)
+        incrementProfileStat(docSnap.id, "totalViews");
+
+        // Notify profile owner on NFC taps only (avoid spam for every view)
+        if (source === "nfc") {
+          createNotification({
+            uid,
+            type: "profile_view",
+            title: "NFC card tapped",
+            body: "Someone tapped your NFC card and viewed your profile.",
+            link: "/dashboard",
+          });
         }
       } catch (err: any) {
-        if (!cancelled) setError(err.message);
+        if (!cancelled) setError(err.message || "Failed to load profile");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -81,15 +116,8 @@ export function usePublicProfile(uniqueId: string | undefined) {
 
     fetchProfile();
 
-    // Log the tap with the detected source (fire and forget)
-    fetch(`${FUNCTIONS_BASE}/nfcLogTap`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ profileId: uniqueId, source }),
-    }).catch(() => {}); // Intentionally ignore errors
-
     return () => { cancelled = true; };
   }, [uniqueId]);
 
-  return { profile, ownerUid, loading, error };
+  return { profile, ownerUid, profileDocId, source, loading, error };
 }

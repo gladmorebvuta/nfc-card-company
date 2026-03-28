@@ -5,6 +5,7 @@ import { Textarea } from "./ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { toast } from "sonner";
 import { createNotification } from "../services/notificationService";
+import { incrementProfileStat } from "../services/analyticsService";
 
 const FUNCTIONS_BASE = "https://us-central1-brandaptos-v2.cloudfunctions.net";
 
@@ -15,9 +16,11 @@ interface ExchangeFormProps {
   onOpenChange: (open: boolean) => void;
   /** Firebase UID of the profile owner — used for client-side notification creation */
   profileUid?: string;
+  /** Firestore document ID of the nfc_profiles doc — used for stat increments */
+  profileDocId?: string;
 }
 
-export function ExchangeForm({ profileId, profileName, open, onOpenChange, profileUid }: ExchangeFormProps) {
+export function ExchangeForm({ profileId, profileName, open, onOpenChange, profileUid, profileDocId }: ExchangeFormProps) {
   const [loading, setLoading] = React.useState(false);
   const [form, setForm] = React.useState({
     visitorName: "",
@@ -38,7 +41,7 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
         body: JSON.stringify({
           profileId,
           ...form,
-          source: new URLSearchParams(window.location.search).get("src") || "direct_link",
+          source: new URLSearchParams(window.location.search).get("src") || "direct",
         }),
       });
 
@@ -59,6 +62,10 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
             link: "/dashboard/connections",
             meta: { exchangeId: json.data?.exchangeId ?? "" },
           });
+        }
+
+        if (profileDocId) {
+          incrementProfileStat(profileDocId, "totalExchanges");
         }
 
         setForm({ visitorName: "", visitorEmail: "", visitorPhone: "", visitorCompany: "", visitorNote: "" });
