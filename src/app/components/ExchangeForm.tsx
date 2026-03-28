@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { toast } from "sonner";
 import { createNotification } from "../services/notificationService";
 import { incrementProfileStat } from "../services/analyticsService";
+import { getLocation, LocationData } from "../utils/location";
 
 interface ExchangeFormProps {
   profileId: string;
@@ -22,6 +23,7 @@ interface ExchangeFormProps {
 
 export function ExchangeForm({ profileId, profileName, open, onOpenChange, profileUid, profileDocId }: ExchangeFormProps) {
   const [loading, setLoading] = React.useState(false);
+  const [location, setLocation] = React.useState<LocationData | null>(null);
   const [form, setForm] = React.useState({
     visitorName: "",
     visitorEmail: "",
@@ -29,6 +31,13 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
     visitorCompany: "",
     visitorNote: "",
   });
+
+  // Pre-fetch location when the dialog opens so it's ready by the time the user submits
+  React.useEffect(() => {
+    if (open) {
+      getLocation().then(setLocation);
+    }
+  }, [open]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +55,9 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
         visitorCompany: form.visitorCompany || null,
         visitorNote: form.visitorNote || null,
         source,
+        location: location
+          ? { lat: location.lat, lng: location.lng, accuracy: location.accuracy, city: location.city, country: location.country }
+          : null,
         isRead: false,
         isArchived: false,
         createdAt: Timestamp.now(),

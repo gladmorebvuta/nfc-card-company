@@ -26,6 +26,9 @@ export function Connections() {
       email: e.visitorEmail,
       date: e.createdAt?.toDate?.()?.toLocaleDateString() || "",
       avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(e.visitorName)}&background=EDE9FE&color=2E1065`,
+      location: e.location
+        ? [e.location.city, e.location.country].filter(Boolean).join(", ") || null
+        : null,
     }));
   }, [exchanges]);
 
@@ -158,9 +161,13 @@ export function Connections() {
                       {lead.company}
                     </td>
                     <td className="px-3 sm:px-6 py-3 sm:py-4 hidden md:table-cell">
-                      <div className="flex items-center gap-1 text-gray-500 font-medium">
-                        <MapPin className="h-3.5 w-3.5" /> San Francisco, CA
-                      </div>
+                      {lead.location ? (
+                        <div className="flex items-center gap-1 text-gray-500 font-medium">
+                          <MapPin className="h-3.5 w-3.5" /> {lead.location}
+                        </div>
+                      ) : (
+                        <span className="text-gray-300 text-xs">—</span>
+                      )}
                     </td>
                     <td className="px-3 sm:px-6 py-3 sm:py-4 hidden sm:table-cell text-gray-500 font-medium">
                       {lead.date}

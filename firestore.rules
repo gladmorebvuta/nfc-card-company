@@ -158,6 +158,28 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // NFC Profile Views — per-session view events written by anonymous visitors.
+    // create: open — unauthenticated visitors write on profile load.
+    // update: restricted to behavioral fields only — prevents tampering with
+    //         profileUid, source, sessionId, or createdAt after the fact.
+    // read:   owner only.
+    match /nfc_profile_views/{viewId} {
+      allow read: if request.auth != null && resource.data.profileUid == request.auth.uid;
+      allow create: if true;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys()
+                        .hasOnly(['viewDuration', 'linksReached', 'linkClickCount',
+                                  'clickedEmail', 'clickedPhone', 'clickedLocation', 'location']);
+      allow delete: if false;
+    }
+
+    // NFC Contact Saves — immutable event log for vCard downloads.
+    // Parallel structure to nfc_link_clicks.
+    match /nfc_contact_saves/{saveId} {
+      allow read: if request.auth != null && resource.data.profileUid == request.auth.uid;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
     // Catch-all — deny everything not explicitly covered
     match /{document=**} {
       allow read, write: if false;

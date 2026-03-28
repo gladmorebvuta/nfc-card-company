@@ -7,7 +7,8 @@ import { Link, useParams } from "react-router"
 import { toast } from "sonner"
 import { generateVCard } from "../utils/vcard"
 import { createNotification } from "../services/notificationService"
-import { logLinkClick, incrementProfileStat } from "../services/analyticsService"
+import { logLinkClick, incrementProfileStat, logContactSave } from "../services/analyticsService"
+import { getLocation } from "../utils/location"
 import { FlippableCard } from "../components/FlippableCard"
 import { usePublicProfile } from "../hooks/usePublicProfile"
 import { ExchangeForm } from "../components/ExchangeForm"
@@ -17,7 +18,7 @@ import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
 
 export function PublicProfile() {
   const { uniqueId } = useParams<{ uniqueId: string }>();
-  const { profile: apiProfile, ownerUid, profileDocId, source: visitSource, loading: apiLoading, error: apiError } = usePublicProfile(uniqueId);
+  const { profile: apiProfile, ownerUid, profileDocId, sessionId, source: visitSource, loading: apiLoading, error: apiError } = usePublicProfile(uniqueId);
   const { profile: localProfile } = useProfile();
 
   // Use API profile when viewing /c/:uniqueId, local profile when on /
@@ -59,6 +60,7 @@ export function PublicProfile() {
         linkTitle: link.title,
         linkType: link.type,
         source: visitSource,
+        sessionId,
       });
     }
   };
@@ -125,6 +127,18 @@ export function PublicProfile() {
     }
     if (profileDocId) {
       incrementProfileStat(profileDocId, "totalSaves");
+    }
+    // Log the save event with source + session + location context
+    if (isLiveCard && ownerUid) {
+      getLocation().then((loc) => {
+        logContactSave({
+          profileId: uniqueId!,
+          profileUid: ownerUid!,
+          source: visitSource,
+          sessionId,
+          location: loc,
+        });
+      });
     }
   }
 

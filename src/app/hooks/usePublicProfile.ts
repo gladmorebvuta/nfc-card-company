@@ -1,8 +1,10 @@
 import * as React from "react";
 import { collection, query, where, getDocs, limit } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { db } from "../../lib/firebase";
 import { createNotification } from "../services/notificationService";
-import { incrementProfileStat } from "../services/analyticsService";
+import { incrementProfileStat, logProfileView, updateViewSession } from "../services/analyticsService";
+import { getLocation } from "../utils/location";
 
 export interface PublicProfileData {
   displayName: string;
@@ -34,13 +36,59 @@ export function detectSource(): "nfc" | "qr" | "link" | "direct" {
   return "direct";
 }
 
+// ─── Session management ───────────────────────────────────────────────────────
+// Stored in sessionStorage — survives page refreshes, cleared on tab close.
+// Scoped to uniqueId so multiple profiles on the same device don't collide.
+
+const sidKey = (uid: string) => `nfc_sid_${uid}`;
+const vidKey = (uid: string) => `nfc_vid_${uid}`;
+
+/**
+ * Get or create a stable session for this profile visit.
+ *
+ * - Existing session (same tab): returns the cached sessionId + viewDocId
+ *   so we skip creating a duplicate view event.
+ * - New session: generates a UUID, clears any stale viewDocId from a prior
+ *   visit on the same device.
+ */
+function resolveSession(uniqueId: string): {
+  sessionId: string;
+  existingViewDocId: string | null;
+} {
+  let sessionId = sessionStorage.getItem(sidKey(uniqueId));
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    sessionStorage.setItem(sidKey(uniqueId), sessionId);
+    // New session — stale viewDocId from a previous visit is now invalid
+    sessionStorage.removeItem(vidKey(uniqueId));
+  }
+  return {
+    sessionId,
+    existingViewDocId: sessionStorage.getItem(vidKey(uniqueId)),
+  };
+}
+
+// ─── Hook ─────────────────────────────────────────────────────────────────────
+
 export function usePublicProfile(uniqueId: string | undefined) {
   const [profile, setProfile] = React.useState<PublicProfileData | null>(null);
   const [ownerUid, setOwnerUid] = React.useState<string | null>(null);
   const [profileDocId, setProfileDocId] = React.useState<string | null>(null);
+  const [viewDocId, setViewDocId] = React.useState<string | null>(null);
   const [source] = React.useState(() => detectSource());
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+
+  // Resolve session once on mount — stable for the lifetime of this tab
+  const { sessionId, existingViewDocId } = React.useMemo(
+    () =>
+      uniqueId
+        ? resolveSession(uniqueId)
+        : { sessionId: crypto.randomUUID(), existingViewDocId: null },
+    // uniqueId is stable for any given profile page — intentional single-run
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [uniqueId]
+  );
 
   React.useEffect(() => {
     if (!uniqueId) {
@@ -49,7 +97,6 @@ export function usePublicProfile(uniqueId: string | undefined) {
     }
 
     let cancelled = false;
-    const source = detectSource();
 
     async function fetchProfile() {
       try {
@@ -94,10 +141,62 @@ export function usePublicProfile(uniqueId: string | undefined) {
         setOwnerUid(uid);
         setProfileDocId(docSnap.id);
 
-        // Increment view counter (fire-and-forget)
+        // ── Self-view suppression ──────────────────────────────────────────────
+        // Employees previewing their own card must not inflate their stats.
+        // getAuth().currentUser is synchronous — no extra round trip needed.
+        const currentUser = getAuth().currentUser;
+        if (currentUser?.uid === uid) {
+          if (!cancelled) setLoading(false);
+          return;
+        }
+
+        // ── Session deduplication ──────────────────────────────────────────────
+        // Same browser tab refreshing the page reuses the existing view doc
+        // rather than creating a duplicate event. The viewDocId is used by
+        // Phase 2 behavioral tracking to patch the same document.
+        if (existingViewDocId) {
+          if (!cancelled) {
+            setViewDocId(existingViewDocId);
+            setLoading(false);
+          }
+          return;
+        }
+
+        // ── New session: record the view ───────────────────────────────────────
+        // ?eid= is embedded by Event Mode (Phase 4) when the employee is at a
+        // specific event — used to group all taps from that session.
+        const eventId = new URLSearchParams(window.location.search).get("eid") ?? undefined;
+
+        // Increment the fast-read counter that powers the dashboard stat card
         incrementProfileStat(docSnap.id, "totalViews");
 
-        // Notify profile owner on NFC taps only (avoid spam for every view)
+        // Log the full view event — docId returned for Phase 2 behavioral patches
+        const docId = await logProfileView({
+          profileId: uniqueId,
+          profileUid: uid,
+          source,
+          sessionId,
+          eventId,
+        });
+
+        if (cancelled) return;
+
+        if (docId) {
+          // Cache so page refreshes within this tab reuse the same view doc
+          sessionStorage.setItem(vidKey(uniqueId), docId);
+          setViewDocId(docId);
+
+          // Enrich the view doc with location — fire-and-forget, non-blocking
+          getLocation().then((loc) => {
+            if (loc) {
+              updateViewSession(docId, {
+                location: { lat: loc.lat, lng: loc.lng, accuracy: loc.accuracy, city: loc.city, country: loc.country },
+              });
+            }
+          });
+        }
+
+        // Notify profile owner on NFC taps only — every web view would be noisy
         if (source === "nfc") {
           createNotification({
             uid,
@@ -117,7 +216,7 @@ export function usePublicProfile(uniqueId: string | undefined) {
     fetchProfile();
 
     return () => { cancelled = true; };
-  }, [uniqueId]);
+  }, [uniqueId, source, sessionId, existingViewDocId]);
 
-  return { profile, ownerUid, profileDocId, source, loading, error };
+  return { profile, ownerUid, profileDocId, viewDocId, sessionId, source, loading, error };
 }

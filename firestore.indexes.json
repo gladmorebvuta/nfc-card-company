@@ -32,6 +32,47 @@
         { "fieldPath": "profileUid", "order": "ASCENDING" },
         { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "nfc_profile_views",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profileUid", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "nfc_profile_views",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profileUid", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "nfc_profile_views",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profileUid", "order": "ASCENDING" },
+        { "fieldPath": "eventId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "nfc_contact_saves",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profileUid", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "nfc_contact_saves",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profileUid", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

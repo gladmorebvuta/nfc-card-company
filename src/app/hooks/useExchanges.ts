@@ -12,6 +12,7 @@ export interface ExchangeData {
   visitorCompany: string | null;
   visitorNote: string | null;
   source: string;
+  location: { lat: number; lng: number; accuracy: number; city: string | null; country: string | null } | null;
   isRead: boolean;
   isArchived: boolean;
   createdAt: any;
