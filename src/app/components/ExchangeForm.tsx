@@ -1,4 +1,6 @@
 import * as React from "react";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
@@ -7,14 +9,12 @@ import { toast } from "sonner";
 import { createNotification } from "../services/notificationService";
 import { incrementProfileStat } from "../services/analyticsService";
 
-const FUNCTIONS_BASE = "https://us-central1-brandaptos-v2.cloudfunctions.net";
-
 interface ExchangeFormProps {
   profileId: string;
   profileName: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** Firebase UID of the profile owner — used for client-side notification creation */
+  /** Firebase UID of the profile owner — used for notification + useExchanges query */
   profileUid?: string;
   /** Firestore document ID of the nfc_profiles doc — used for stat increments */
   profileDocId?: string;
@@ -35,47 +35,43 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
     setLoading(true);
 
     try {
-      const res = await fetch(`${FUNCTIONS_BASE}/nfcExchange`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          profileId,
-          ...form,
-          source: new URLSearchParams(window.location.search).get("src") || "direct",
-        }),
+      const source = new URLSearchParams(window.location.search).get("src") || "direct";
+
+      const docRef = await addDoc(collection(db, "nfc_exchanges"), {
+        profileId,
+        profileUid: profileUid || null,
+        visitorName: form.visitorName,
+        visitorEmail: form.visitorEmail,
+        visitorPhone: form.visitorPhone || null,
+        visitorCompany: form.visitorCompany || null,
+        visitorNote: form.visitorNote || null,
+        source,
+        isRead: false,
+        isArchived: false,
+        createdAt: Timestamp.now(),
       });
 
-      const json = await res.json();
+      toast.success("Contact exchanged!");
+      onOpenChange(false);
 
-      if (json.status === "success") {
-        toast.success("Contact exchanged! They'll receive your info.");
-        onOpenChange(false);
-
-        // Create in-app notification for the profile owner
-        const ownerUid = profileUid || json.data?.profileUid;
-        if (ownerUid) {
-          createNotification({
-            uid: ownerUid,
-            type: "exchange",
-            title: "New contact exchange",
-            body: `${form.visitorName}${form.visitorCompany ? ` from ${form.visitorCompany}` : ""} exchanged contact info with you.`,
-            link: "/dashboard/connections",
-            meta: { exchangeId: json.data?.exchangeId ?? "" },
-          });
-        }
-
-        if (profileDocId) {
-          incrementProfileStat(profileDocId, "totalExchanges");
-        }
-
-        setForm({ visitorName: "", visitorEmail: "", visitorPhone: "", visitorCompany: "", visitorNote: "" });
-      } else if (json.error?.code === "RATE_LIMITED") {
-        toast.error("Too many requests. Please try again later.");
-      } else {
-        toast.error(json.error?.message || "Something went wrong");
+      if (profileUid) {
+        createNotification({
+          uid: profileUid,
+          type: "exchange",
+          title: "New contact exchange",
+          body: `${form.visitorName}${form.visitorCompany ? ` from ${form.visitorCompany}` : ""} exchanged contact info with you.`,
+          link: "/dashboard/connections",
+          meta: { exchangeId: docRef.id },
+        });
       }
-    } catch {
-      toast.error("Network error. Please try again.");
+
+      if (profileDocId) {
+        incrementProfileStat(profileDocId, "totalExchanges");
+      }
+
+      setForm({ visitorName: "", visitorEmail: "", visitorPhone: "", visitorCompany: "", visitorNote: "" });
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to save exchange. Please try again.");
     } finally {
       setLoading(false);
     }
