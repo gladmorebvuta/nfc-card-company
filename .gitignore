@@ -1,9 +1,18 @@
 node_modules/
 dist/
+build/
 .env
 .env.*
 *.local
 serviceAccountKey.json
+*service-account*.json
 *.key.json
 .firebase/
+firebase-debug.log*
 .claude/
+
+# Mobile signing keys
+*.jks
+*.keystore
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
