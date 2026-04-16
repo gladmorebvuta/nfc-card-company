@@ -48,7 +48,15 @@ NFC Card Company is a digital business card platform. Users create profiles, sha
 ## Key Firestore Collections
 `nfc_profiles`, `nfc_exchanges`, `nfc_taps`, `nfc_link_clicks`, `nfc_profile_views`, `nfc_events`, `nfc_contact_saves`, `nfc_rate_limits`, `nfc_daily_stats`, `notifications`
 
+## Parallel Agents
+
+If multiple agents are active on this repo, **use worktrees** (see root CLAUDE.md for full protocol).
+
+**Single-agent-only:** `package.json`, `firebase.json`, `src/app/routes.tsx`  
+**Safe to parallelize:** Different page files, different hook files, different component dirs
+
+**Remember:** Backend changes for NFC go in BrandaptOS (`functions/src/nfc/`), not here.
+
 ## Known Tech Debt
-- **MUI + Radix coexistence:** App was started with MUI, later added Radix/shadcn. MUI should be fully removed and replaced with Radix equivalents to reduce bundle size and improve consistency.
 - **No tests**
 - **`src/imports/pasted_text/`** — contains copy-pasted content that should be cleaned up or moved to proper data files
