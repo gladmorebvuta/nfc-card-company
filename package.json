@@ -9,7 +9,8 @@
     "deploy": "npm run build && firebase deploy --only hosting:nfc"
   },
   "dependencies": {
-"@radix-ui/react-accordion": "1.2.3",
+    "react-helmet-async": "^2.0.0",
+    "@radix-ui/react-accordion": "1.2.3",
     "@radix-ui/react-alert-dialog": "1.1.6",
     "@radix-ui/react-aspect-ratio": "1.1.2",
     "@radix-ui/react-avatar": "1.1.3",

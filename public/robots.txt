@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /c/
+Disallow: /dashboard
+Disallow: /edit-profile
+Disallow: /connections
+Disallow: /events
+Disallow: /auth
+
+Sitemap: https://nfc.brandapt.co/sitemap.xml
