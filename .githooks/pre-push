@@ -1,0 +1,14 @@
+#!/bin/bash
+# Pre-push hook: warn about uncommitted changes
+# This prevents pushing without having committed all work
+
+if [ -n "$(git status --porcelain)" ]; then
+  echo ""
+  echo "⚠️  WARNING: You have uncommitted changes!"
+  echo ""
+  git status --short
+  echo ""
+  echo "Did you forget to commit? Push will proceed, but uncommitted files won't be included."
+  echo "Press Ctrl+C within 5 seconds to cancel, or wait to continue..."
+  sleep 5
+fi

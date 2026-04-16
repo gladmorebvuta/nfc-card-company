@@ -1,5 +1,9 @@
 # NFC Card Company — Digital Business Cards
 
+> **Start every session by reading STATUS.md and CHANGELOG.md.**  
+> **Use `./scripts/deploy.sh` instead of raw `firebase deploy`.**  
+> **Update STATUS.md + CHANGELOG.md before your final commit.**
+
 ## Overview
 NFC Card Company is a digital business card platform. Users create profiles, share via NFC taps or QR codes, and track engagement analytics. The frontend is a standalone React app; the backend lives inside BrandaptOS Cloud Functions.
 
