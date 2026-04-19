@@ -16,6 +16,12 @@ export interface ExchangeData {
   isRead: boolean;
   isArchived: boolean;
   createdAt: any;
+  // Phase 3 — lead pipeline fields
+  engagementScore: number;
+  followUpStatus: "new" | "contacted" | "meeting" | "converted" | "not_interested";
+  followUpDate: any;
+  employeeNotes: string;
+  sessionId: string | null;
 }
 
 export function useExchanges(showArchived = false) {

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Outlet, NavLink, useNavigate } from "react-router"
-import { Home, UserCircle, Users, Settings, Bell, Search, LogOut, ChevronRight, X } from "lucide-react"
+import { Home, UserCircle, Users, Calendar, Settings, Bell, Search, LogOut, ChevronRight, X } from "lucide-react"
 import { motion, AnimatePresence } from "motion/react"
 import { cn } from "../../utils"
 import { useProfile } from "../../contexts/ProfileContext"
@@ -38,6 +38,7 @@ export function DashboardLayout() {
     { icon: Home, label: "Overview", path: "/dashboard" },
     { icon: UserCircle, label: "Edit Card", path: "/dashboard/edit" },
     { icon: Users, label: "Connections", path: "/dashboard/connections" },
+    { icon: Calendar, label: "Event Mode", path: "/dashboard/events" },
   ]
 
   const handleSearch = (e: React.FormEvent) => {
@@ -112,7 +113,7 @@ export function DashboardLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex flex-1 flex-col lg:pl-[120px] pb-16 sm:pb-20 lg:pb-0 z-10 relative w-full min-w-0">
+      <div className="flex flex-1 flex-col lg:pl-[120px] pb-28 sm:pb-28 lg:pb-0 relative w-full min-w-0">
         
         {/* Topbar */}
         <header className="sticky top-0 z-40 flex h-16 sm:h-20 lg:h-24 items-center justify-between px-4 sm:px-6 lg:px-12 pt-2 sm:pt-4">
@@ -221,7 +222,7 @@ export function DashboardLayout() {
               </div>
               
               <div className="hidden lg:flex items-center gap-2 bg-white/50 backdrop-blur-md rounded-full py-1.5 pr-2 pl-4 border border-white/60 shadow-sm">
-                <span className="text-sm font-bold text-[#2E1065] mr-2">{profile.name || user?.displayName || "User"}</span>
+                <span className="text-sm font-bold text-[#2E1065] mr-2">{nfcProfile?.displayName || profile.name || "User"}</span>
                 <button 
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-[#2E1065] text-white shadow-md hover:bg-[#2E1065]/90 transition-colors"
                   onClick={async () => {
@@ -243,28 +244,25 @@ export function DashboardLayout() {
         </main>
       </div>
 
-      {/* Mobile Bottom Tab Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-16 sm:h-20 items-center justify-around border-t border-white/40 bg-white/70 pb-safe backdrop-blur-2xl lg:hidden">
+      {/* Mobile Floating Pill Nav */}
+      <nav className="fixed bottom-5 left-4 right-4 z-50 flex h-[60px] items-center justify-around rounded-full border border-white/70 bg-white/80 px-3 shadow-[0_8px_32px_rgba(46,16,101,0.14)] backdrop-blur-2xl lg:hidden">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             end={item.path === "/dashboard"}
-            className={({ isActive }) => cn(
-              "flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-all duration-300",
-              isActive ? "text-[#F97316]" : "text-gray-500 hover:text-[#2E1065]"
-            )}
+            className="group outline-none"
+            title={item.label}
           >
             {({ isActive }) => (
-              <>
-                <div className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300",
-                  isActive ? "bg-[#F97316] text-white shadow-md shadow-[#F97316]/20" : ""
-                )}>
-                  <item.icon className={cn("h-5 w-5", isActive ? "text-white" : "")} />
-                </div>
-                {item.label}
-              </>
+              <div className={cn(
+                "flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 active:scale-90",
+                isActive
+                  ? "bg-[#F97316] text-white shadow-lg shadow-[#F97316]/30"
+                  : "text-gray-500 hover:bg-white/60 hover:text-[#2E1065]"
+              )}>
+                <item.icon className="h-5 w-5" />
+              </div>
             )}
           </NavLink>
         ))}

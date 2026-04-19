@@ -5,10 +5,12 @@ import { Dashboard } from "./pages/Dashboard";
 import { PublicProfile } from "./pages/PublicProfile";
 import { EditProfile } from "./pages/EditProfile";
 import { Connections } from "./pages/Connections";
+import { Events } from "./pages/Events";
 import { AuthPage } from "./pages/AuthPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProfileProvider } from "./contexts/ProfileContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Onboarding } from "./pages/Onboarding";
 
 function AppWrapper({ children }: { children: React.ReactNode }) {
   return (
@@ -42,6 +44,16 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: "/onboarding",
+    Component: () => (
+      <AppWrapper>
+        <ProtectedRoute allowUnboarded>
+          <Onboarding />
+        </ProtectedRoute>
+      </AppWrapper>
+    ),
+  },
+  {
     path: "/dashboard",
     Component: () => (
       <AppWrapper>
@@ -54,6 +66,7 @@ export const router = createBrowserRouter([
       { index: true, Component: Dashboard },
       { path: "edit", Component: EditProfile },
       { path: "connections", Component: Connections },
+      { path: "events", Component: Events },
     ],
   },
 ]);

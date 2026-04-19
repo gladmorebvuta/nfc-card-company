@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 import { db } from "../../lib/firebase";
 import { createNotification } from "../services/notificationService";
 import { incrementProfileStat, logProfileView, updateViewSession } from "../services/analyticsService";
+import { incrementEventStat } from "../services/eventsService";
 import { getLocation } from "../utils/location";
 
 export interface PublicProfileData {
@@ -76,6 +77,7 @@ export function usePublicProfile(uniqueId: string | undefined) {
   const [profileDocId, setProfileDocId] = React.useState<string | null>(null);
   const [viewDocId, setViewDocId] = React.useState<string | null>(null);
   const [source] = React.useState(() => detectSource());
+  const [eventId] = React.useState(() => new URLSearchParams(window.location.search).get("eid") ?? null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -163,10 +165,6 @@ export function usePublicProfile(uniqueId: string | undefined) {
         }
 
         // ── New session: record the view ───────────────────────────────────────
-        // ?eid= is embedded by Event Mode (Phase 4) when the employee is at a
-        // specific event — used to group all taps from that session.
-        const eventId = new URLSearchParams(window.location.search).get("eid") ?? undefined;
-
         // Increment the fast-read counter that powers the dashboard stat card
         incrementProfileStat(docSnap.id, "totalViews");
 
@@ -176,7 +174,7 @@ export function usePublicProfile(uniqueId: string | undefined) {
           profileUid: uid,
           source,
           sessionId,
-          eventId,
+          eventId: eventId ?? undefined,
         });
 
         if (cancelled) return;
@@ -185,6 +183,9 @@ export function usePublicProfile(uniqueId: string | undefined) {
           // Cache so page refreshes within this tab reuse the same view doc
           sessionStorage.setItem(vidKey(uniqueId), docId);
           setViewDocId(docId);
+
+          // Increment event view counter — fire-and-forget
+          if (eventId) incrementEventStat(eventId, "viewCount");
 
           // Enrich the view doc with location — fire-and-forget, non-blocking
           getLocation().then((loc) => {
@@ -218,5 +219,5 @@ export function usePublicProfile(uniqueId: string | undefined) {
     return () => { cancelled = true; };
   }, [uniqueId, source, sessionId, existingViewDocId]);
 
-  return { profile, ownerUid, profileDocId, viewDocId, sessionId, source, loading, error };
+  return { profile, ownerUid, profileDocId, viewDocId, sessionId, eventId, source, loading, error };
 }

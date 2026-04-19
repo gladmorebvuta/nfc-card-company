@@ -7,7 +7,7 @@ import { Link, useParams } from "react-router"
 import { toast } from "sonner"
 import { generateVCard } from "../utils/vcard"
 import { createNotification } from "../services/notificationService"
-import { logLinkClick, incrementProfileStat, logContactSave } from "../services/analyticsService"
+import { logLinkClick, incrementProfileStat, logContactSave, updateViewSession } from "../services/analyticsService"
 import { getLocation } from "../utils/location"
 import { FlippableCard } from "../components/FlippableCard"
 import { usePublicProfile } from "../hooks/usePublicProfile"
@@ -18,7 +18,7 @@ import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
 
 export function PublicProfile() {
   const { uniqueId } = useParams<{ uniqueId: string }>();
-  const { profile: apiProfile, ownerUid, profileDocId, sessionId, source: visitSource, loading: apiLoading, error: apiError } = usePublicProfile(uniqueId);
+  const { profile: apiProfile, ownerUid, profileDocId, viewDocId, sessionId, eventId, source: visitSource, loading: apiLoading, error: apiError } = usePublicProfile(uniqueId);
   const { profile: localProfile } = useProfile();
 
   // Use API profile when viewing /c/:uniqueId, local profile when on /
@@ -51,6 +51,18 @@ export function PublicProfile() {
     return localProfile;
   }, [isLiveCard, apiProfile, localProfile, uniqueId]);
 
+  // Compute engagement score from current session state — called when the exchange form opens
+  const computeEngagementScore = () => {
+    let score = 0;
+    const durationSec = (performance.now() - mountTimeRef.current) / 1000;
+    if (durationSec > 30) score += 10;
+    if (durationSec > 120) score += 20; // cumulative: >2 min = +30 total
+    if (linksReached) score += 15;
+    score += Math.min(linkClickCountRef.current * 10, 30); // up to 3 link clicks
+    if (clickedEmail || clickedPhone) score += 25;
+    return Math.min(score, 100);
+  };
+
   const handleLinkClick = (link: { url: string; title: string; type: string }) => {
     if (isLiveCard && ownerUid) {
       logLinkClick({
@@ -62,6 +74,11 @@ export function PublicProfile() {
         source: visitSource,
         sessionId,
       });
+    }
+    // Track per-session link click count for engagement scoring
+    if (viewDocId && isLiveCard) {
+      linkClickCountRef.current += 1;
+      updateViewSession(viewDocId, { linkClickCount: linkClickCountRef.current });
     }
   };
 
@@ -77,6 +94,57 @@ export function PublicProfile() {
   const bgOpacity2 = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
   const bgOpacity3 = useTransform(scrollYProgress, [0.5, 1], [0, 1]);
   const orbY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+
+  // ─── Behavioral tracking ────────────────────────────────────────────────────
+  // All hooks must live before the early returns below.
+
+  // Stable refs — don't cause re-renders
+  const mountTimeRef = React.useRef(performance.now());
+  const linkClickCountRef = React.useRef(0);
+  const linksRef = React.useRef<HTMLDivElement>(null);
+
+  // Local mirror of behavioral flags — used to compute engagement score
+  const [linksReached, setLinksReached] = React.useState(false);
+  const [clickedEmail, setClickedEmail] = React.useState(false);
+  const [clickedPhone, setClickedPhone] = React.useState(false);
+  const [clickedLocation, setClickedLocation] = React.useState(false);
+  // Snapshot taken when the exchange form opens (so score reflects time spent before deciding to exchange)
+  const [pendingEngagementScore, setPendingEngagementScore] = React.useState(0);
+
+  // Scroll depth — fires once when the links section enters the viewport at ≥50% visibility
+  React.useEffect(() => {
+    if (!viewDocId || !isLiveCard || linksReached || !linksRef.current) return;
+    const el = linksRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLinksReached(true);
+          updateViewSession(viewDocId, { linksReached: true });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  // linksRef.current is mutable — observe once viewDocId is ready and ref is attached
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewDocId, isLiveCard, linksReached]);
+
+  // View duration — patches the session doc when the tab hides or the component unmounts
+  React.useEffect(() => {
+    if (!viewDocId || !isLiveCard) return;
+    const writeD = () => {
+      const secs = Math.round((performance.now() - mountTimeRef.current) / 1000);
+      if (secs > 0) updateViewSession(viewDocId, { viewDuration: secs });
+    };
+    const onVisibility = () => { if (document.visibilityState === "hidden") writeD(); };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      writeD(); // also capture on unmount (SPA navigation away)
+    };
+  }, [viewDocId, isLiveCard]);
 
   // Build a shareable URL with source tracking (strips any existing ?src= and adds ?src=link)
   const shareableUrl = React.useMemo(() => {
@@ -320,7 +388,7 @@ export function PublicProfile() {
                 {/* Row 2: Exchange (flex-grow) + Share icon */}
                 <div className="flex gap-2">
                   <button
-                    onClick={() => isLiveCard ? setExchangeFormOpen(true) : setShowExchangeModal(true)}
+                    onClick={() => { if (isLiveCard) { setPendingEngagementScore(computeEngagementScore()); setExchangeFormOpen(true); } else { setShowExchangeModal(true); } }}
                     className="flex-1 flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-white/90 border border-gray-200/60 text-[#2E1065] text-sm font-bold shadow-sm hover:bg-white hover:shadow-md transition-all active:scale-[0.98]"
                   >
                     <Users className="h-4 w-4" />
@@ -343,19 +411,30 @@ export function PublicProfile() {
               transition={{ delay: 0.45 }}
               className="flex justify-around gap-2 border-y border-gray-100/80 py-5 px-5 sm:px-6"
             >
-              <a href={`mailto:${currentEmployee.email}`} className="group flex flex-col items-center gap-1.5">
+              <a
+                href={`mailto:${currentEmployee.email}`}
+                onClick={() => { if (viewDocId && isLiveCard && !clickedEmail) { setClickedEmail(true); updateViewSession(viewDocId, { clickedEmail: true }); } }}
+                className="group flex flex-col items-center gap-1.5"
+              >
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#F97316] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
                   <Mail className="h-5 w-5" />
                 </div>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Email</span>
               </a>
-              <a href={`tel:${currentEmployee.phone}`} className="group flex flex-col items-center gap-1.5">
+              <a
+                href={`tel:${currentEmployee.phone}`}
+                onClick={() => { if (viewDocId && isLiveCard && !clickedPhone) { setClickedPhone(true); updateViewSession(viewDocId, { clickedPhone: true }); } }}
+                className="group flex flex-col items-center gap-1.5"
+              >
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#8B5CF6] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
                   <Phone className="h-5 w-5" />
                 </div>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Call</span>
               </a>
-              <button onClick={() => setShowOfficeModal(true)} className="group flex flex-col items-center gap-1.5">
+              <button
+                onClick={() => { setShowOfficeModal(true); if (viewDocId && isLiveCard && !clickedLocation) { setClickedLocation(true); updateViewSession(viewDocId, { clickedLocation: true }); } }}
+                className="group flex flex-col items-center gap-1.5"
+              >
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#2E1065] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
                   <MapPin className="h-5 w-5" />
                 </div>
@@ -366,6 +445,7 @@ export function PublicProfile() {
             {/* Links Section */}
             {currentEmployee.links.length > 0 && (
               <motion.div
+                ref={linksRef as React.Ref<HTMLDivElement>}
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.55 }}
@@ -656,6 +736,9 @@ export function PublicProfile() {
           onOpenChange={setExchangeFormOpen}
           profileUid={ownerUid ?? undefined}
           profileDocId={profileDocId ?? undefined}
+          sessionId={sessionId}
+          engagementScore={pendingEngagementScore}
+          eventId={eventId}
         />
       )}
     </div>

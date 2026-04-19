@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { toast } from "sonner";
 import { createNotification } from "../services/notificationService";
 import { incrementProfileStat } from "../services/analyticsService";
+import { incrementEventStat } from "../services/eventsService";
 import { getLocation, LocationData } from "../utils/location";
 
 interface ExchangeFormProps {
@@ -19,9 +20,15 @@ interface ExchangeFormProps {
   profileUid?: string;
   /** Firestore document ID of the nfc_profiles doc — used for stat increments */
   profileDocId?: string;
+  /** Session identifier from the view event — links this exchange to the visitor's session */
+  sessionId?: string;
+  /** Engagement score computed from session behaviour (0–100) */
+  engagementScore?: number;
+  /** Event Mode — links this exchange to the active event for per-event stats */
+  eventId?: string | null;
 }
 
-export function ExchangeForm({ profileId, profileName, open, onOpenChange, profileUid, profileDocId }: ExchangeFormProps) {
+export function ExchangeForm({ profileId, profileName, open, onOpenChange, profileUid, profileDocId, sessionId, engagementScore, eventId }: ExchangeFormProps) {
   const [loading, setLoading] = React.useState(false);
   const [location, setLocation] = React.useState<LocationData | null>(null);
   const [form, setForm] = React.useState({
@@ -58,6 +65,15 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
         location: location
           ? { lat: location.lat, lng: location.lng, accuracy: location.accuracy, city: location.city, country: location.country }
           : null,
+        // Behavioural context — links this exchange to the view session
+        sessionId: sessionId ?? null,
+        engagementScore: engagementScore ?? 0,
+        // Event Mode — links exchange to active event for per-event analytics
+        eventId: eventId ?? null,
+        // Phase 3 pipeline fields — initialised here so Connections page can filter/sort immediately
+        followUpStatus: "new",
+        followUpDate: null,
+        employeeNotes: "",
         isRead: false,
         isArchived: false,
         createdAt: Timestamp.now(),
@@ -79,6 +95,11 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
 
       if (profileDocId) {
         incrementProfileStat(profileDocId, "totalExchanges");
+      }
+
+      // Increment event exchange counter — fire-and-forget
+      if (eventId) {
+        incrementEventStat(eventId, "exchangeCount");
       }
 
       setForm({ visitorName: "", visitorEmail: "", visitorPhone: "", visitorCompany: "", visitorNote: "" });

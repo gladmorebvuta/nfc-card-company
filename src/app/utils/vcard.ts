@@ -61,11 +61,26 @@ export function generateLeadVCard(lead: {
 }
 
 export function exportLeadsCSV(
-  leads: { name: string; title: string; company: string; date: string }[]
+  leads: {
+    name: string;
+    email?: string;
+    company: string;
+    phone?: string;
+    note?: string;
+    score?: number;
+    source?: string;
+    status?: string;
+    location?: string;
+    date: string;
+  }[]
 ) {
-  const header = "Name,Title,Company,Date Added";
+  const header = "Name,Email,Company,Phone,Note,Score,Source,Status,Location,Date Added";
+  const esc = (v: string | number | undefined) => `"${String(v ?? "").replace(/"/g, '""')}"`;
   const rows = leads.map(
-    (l) => `"${l.name}","${l.title}","${l.company}","${l.date}"`
+    (l) =>
+      [l.name, l.email, l.company, l.phone, l.note, l.score, l.source, l.status, l.location, l.date]
+        .map(esc)
+        .join(",")
   );
   const csv = [header, ...rows].join("\n");
   const blob = new Blob([csv], { type: "text/csv" });

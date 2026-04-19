@@ -2,7 +2,7 @@
 
 **Stack:** React + Vite + TypeScript  
 **Firebase:** brandaptos-v2 (shared) | No own functions | Hosting: `brandapt-nfc`  
-**Last updated:** 2026-04-16
+**Last updated:** 2026-04-19
 
 ## Feature Map
 
@@ -23,6 +23,10 @@
 | **Events Page** | done | Event management for NFC cards |
 | **Connections Page** | done | View all exchanges/connections |
 | **Insights Page** | done | Detailed analytics breakdowns |
+| **Live Events Stream** | done | `nfc_events` collection + `useEvents` hook (session analytics: view duration, link clicks, clicked email/phone/location) |
+| **Follow-up Pipeline** | done | Lead pipeline on exchanges: `followUpStatus`, `followUpDate`, `employeeNotes`, `engagementScore` |
+| **Public-Visitor Event Bumps** | done | Anonymous visitors can increment `viewCount` / `exchangeCount` on events |
+| **CI/CD** | done | `.github/workflows/deploy.yml` — builds + deploys on push to main |
 | **Auth** | done | Firebase Auth (shared pool) |
 | **Team/Org Cards** | planned | Multiple cards per organization |
 | **Custom Card Designs** | planned | Branded card templates |
@@ -41,6 +45,8 @@
 | 2026-03 | Backend in BrandaptOS functions | Avoid 3rd functions codebase | ✅ Working |
 | 2026-03 | Direct Firestore writes for exchanges | Removed dead Cloud Function call | ✅ Simpler |
 | 2026-04 | Removed MUI deps (kept Radix/shadcn) | MUI was dead weight (0 imports) | ✅ Cleaner bundle |
+| 2026-04-19 | `firestore.rules` / `firestore.indexes.json` are READ-ONLY mirrors of BrandaptOS | Per ecosystem CLAUDE.md — only BrandaptOS deploys rules/indexes | ✅ Banner added to rules file, firebase.json `firestore` + `storage` blocks removed |
+| 2026-04-19 | `nfc_events` is the canonical analytics collection for sessions | Superset of `nfc_profile_views` — supports unauthenticated counter increments via field-scoped rule | ✅ Rule + indexes deployed via BrandaptOS |
 
 ## Known Issues
 
@@ -50,9 +56,10 @@
 ## Tech Debt
 
 - No tests
-- No CI/CD pipeline
 - `pasted_text` directory should be cleaned up
 - Some unused Radix components still in package.json
+- Firebase Web API key still hardcoded in `src/lib/firebase.ts` (low-risk — web keys are meant to be public; security enforced by Firestore rules — but should migrate to env vars for consistency)
+- `BrandApt_NFC_Platform_Features.pdf` is committed as a binary in `docs/` (46 KB) — fine for now, reconsider if it grows
 
 ## Cross-App Dependencies
 

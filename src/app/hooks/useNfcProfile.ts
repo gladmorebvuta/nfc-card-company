@@ -24,6 +24,7 @@ export interface NfcProfileData {
   stats: { totalViews: number; totalExchanges: number; totalSaves: number };
   isActive: boolean;
   plan: string;
+  onboarded?: boolean;
 }
 
 export function useNfcProfile() {
@@ -39,13 +40,13 @@ export function useNfcProfile() {
       return;
     }
 
-    // Direct document snapshot using uid as doc ID — no collection query, no permission issue
+    // Direct document fetch by user.uid — no query needed, matches security rules.
     const profileRef = doc(db, "nfc_profiles", user.uid);
 
     const unsub = onSnapshot(profileRef, (snap) => {
       if (!snap.exists()) {
-        // Profile missing at runtime (e.g. data was reset) — re-provision it
-        console.warn("[useNfcProfile] No profile found for uid:", user.uid, "— re-provisioning");
+        // Profile missing — re-provision (handles first-login race conditions)
+        console.warn("[useNfcProfile] No profile at nfc_profiles/", user.uid, "— re-provisioning");
         ensureNfcProfile(user).catch(console.error);
         setProfile(null);
       } else {
@@ -56,8 +57,7 @@ export function useNfcProfile() {
       }
       setLoading(false);
     }, (err) => {
-      // Firestore direct access denied — build a minimal stub from the cached uniqueId
-      // so the dashboard can still show the correct share link
+      // Firestore access denied — build a minimal stub from the cached uniqueId
       console.error("[useNfcProfile] Firestore read failed:", err.message);
       const cachedUniqueId = localStorage.getItem(uniqueIdCacheKey(user.uid));
       if (cachedUniqueId) {
@@ -84,7 +84,6 @@ export function useNfcProfile() {
           plan: "starter",
         });
       } else {
-        console.error("[useNfcProfile] No cached uniqueId either — profile will be unavailable");
         setError(err.message);
       }
       setLoading(false);

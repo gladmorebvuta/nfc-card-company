@@ -6,7 +6,7 @@ import {
   signOut as firebaseSignOut,
   User,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, collection, query, where, getDocs, limit } from "firebase/firestore";
+import { doc, getDoc, setDoc, collection, query, where, getDocs, limit, deleteDoc } from "firebase/firestore";
 import { auth, db } from "../../lib/firebase";
 
 interface AuthContextType {
@@ -19,23 +19,19 @@ interface AuthContextType {
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 
-/** Generate a URL-safe slug from a display name + random suffix, ensuring uniqueness in Firestore.
- *  Checks against active profiles only (all profiles are created active, so this catches all slugs).
- */
+/** Generate a URL-safe slug from a display name + random suffix, ensuring uniqueness in Firestore. */
 async function generateUniqueId(displayName: string | null): Promise<string> {
   const base = (displayName || "user")
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, "")
     .trim()
     .split(/\s+/)
-    .slice(0, 2) // first + last name only
+    .slice(0, 2)
     .join("-");
 
-  // Try up to 5 times to generate a unique slug
   for (let attempt = 0; attempt < 5; attempt++) {
-    const suffix = Math.random().toString(36).slice(2, 8); // 6-char random for fewer collisions
+    const suffix = Math.random().toString(36).slice(2, 8);
     const candidate = `${base}-${suffix}`;
-    // Query active profiles only — the isActive filter satisfies the public read rule
     const q = query(
       collection(db, "nfc_profiles"),
       where("uniqueId", "==", candidate),
@@ -43,10 +39,9 @@ async function generateUniqueId(displayName: string | null): Promise<string> {
       limit(1)
     );
     const snap = await getDocs(q);
-    if (snap.empty) return candidate; // no collision — use it
+    if (snap.empty) return candidate;
   }
 
-  // Fallback: use timestamp-based suffix to guarantee uniqueness
   return `${base}-${Date.now().toString(36)}`;
 }
 
@@ -55,19 +50,20 @@ export function uniqueIdCacheKey(uid: string) {
   return `nfc_unique_id_${uid}`;
 }
 
-/** Ensure the user has an nfc_profiles document; create one if not.
- *  Uses the user's UID as the document ID for direct, query-free access.
- *  Caches the uniqueId in localStorage so the dashboard can show the link
- *  even when Firestore direct reads are unavailable.
- *  Exported so useNfcProfile can call it when a profile is missing at runtime.
+/**
+ * Ensure the user has an nfc_profiles document at path nfc_profiles/{uid}.
+ *
+ * Document ID === user.uid so security rules can use `profileId == request.auth.uid`
+ * for a direct, query-free ownership check.
+ *
+ * Migration: if the user has an old random-ID profile (created before this change),
+ * we copy its data to the new UID-keyed path and remove the old document.
  */
 export async function ensureNfcProfile(user: User): Promise<void> {
-  // Direct document read — no collection query needed, avoids query security validation
   const profileRef = doc(db, "nfc_profiles", user.uid);
   const profileSnap = await getDoc(profileRef);
 
   if (profileSnap.exists()) {
-    // Profile exists — cache the uniqueId locally (scoped to this user)
     const data = profileSnap.data();
     if (data.uniqueId) {
       localStorage.setItem(uniqueIdCacheKey(user.uid), data.uniqueId);
@@ -75,7 +71,45 @@ export async function ensureNfcProfile(user: User): Promise<void> {
     return;
   }
 
-  // First login: provision a new profile document
+  // ── Migration: look for a legacy profile with a random document ID ────────
+  // Old profiles have uid stored as a field; they're readable because isActive==true.
+  try {
+    const legacyQ = query(
+      collection(db, "nfc_profiles"),
+      where("uid", "==", user.uid),
+      where("isActive", "==", true),
+      limit(1)
+    );
+    const legacySnap = await getDocs(legacyQ);
+
+    if (!legacySnap.empty) {
+      const legacyDoc = legacySnap.docs[0];
+      const legacyData = legacyDoc.data();
+      console.log("[ensureNfcProfile] Migrating legacy profile", legacyDoc.id, "→ nfc_profiles/", user.uid);
+
+      // Write data to the new UID-keyed path
+      await setDoc(profileRef, { ...legacyData, uid: user.uid });
+
+      // Cache uniqueId
+      if (legacyData.uniqueId) {
+        localStorage.setItem(uniqueIdCacheKey(user.uid), legacyData.uniqueId);
+      }
+
+      // Best-effort: remove the old document (non-fatal if it fails)
+      try {
+        await deleteDoc(legacyDoc.ref);
+      } catch {
+        console.warn("[ensureNfcProfile] Could not delete legacy profile doc — it may remain as a duplicate");
+      }
+
+      return;
+    }
+  } catch (err) {
+    console.warn("[ensureNfcProfile] Legacy profile query failed (non-fatal):", (err as Error).message);
+  }
+
+  // ── First-ever login: create a fresh profile ──────────────────────────────
+  console.log("[ensureNfcProfile] Creating new profile for:", user.displayName, user.uid);
   const uniqueId = await generateUniqueId(user.displayName);
   const nameParts = (user.displayName || "").trim().split(/\s+/);
   const firstName = nameParts[0] || "";
@@ -88,7 +122,7 @@ export async function ensureNfcProfile(user: User): Promise<void> {
     lastName,
     displayName: user.displayName || "",
     jobTitle: null,
-    company: "Middlesex Consulting Group",
+    company: null,
     department: null,
     bio: null,
     emailPublic: user.email || null,
@@ -104,7 +138,6 @@ export async function ensureNfcProfile(user: User): Promise<void> {
     createdAt: new Date().toISOString(),
   });
 
-  // Cache the newly created uniqueId (scoped to this user)
   localStorage.setItem(uniqueIdCacheKey(user.uid), uniqueId);
 }
 
@@ -117,7 +150,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
-        // Step 1: Check or create user doc (best-effort — permission failures are non-fatal)
+        // Step 1: Check or create user doc
         try {
           const userRef = doc(db, "users", firebaseUser.uid);
           const userSnap = await getDoc(userRef);
@@ -133,15 +166,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUserRole("nfc-user");
           }
         } catch {
-          // users collection may be restricted — that's ok, default to nfc-user
           setUserRole("nfc-user");
         }
 
-        // Step 2: Ensure nfc_profiles document exists — always run, independent of step 1
+        // Step 2: Ensure nfc_profiles document exists (with migration)
         try {
           await ensureNfcProfile(firebaseUser);
         } catch (err) {
-          console.error("ensureNfcProfile failed:", err);
+          console.error("[AuthContext] ensureNfcProfile failed:", err);
         }
       } else {
         setUserRole(null);
