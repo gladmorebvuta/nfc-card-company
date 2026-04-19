@@ -1,3 +1,8 @@
+// ┌─────────────────────────────────────────────────────────────────────┐
+// │  READ-ONLY REFERENCE — DO NOT DEPLOY FROM THIS REPO               │
+// │  Canonical version: BrandaptOS/firestore.rules                    │
+// │  Deploy command: cd BrandaptOS && firebase deploy --only firestore │
+// └─────────────────────────────────────────────────────────────────────┘
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -169,6 +174,17 @@ service cloud.firestore {
       allow update: if request.resource.data.diff(resource.data).affectedKeys()
                         .hasOnly(['viewDuration', 'linksReached', 'linkClickCount',
                                   'clickedEmail', 'clickedPhone', 'clickedLocation', 'location']);
+      allow delete: if false;
+    }
+
+    // NFC Events — created by authenticated owners; stat counters can be
+    // incremented by unauthenticated visitors (view + exchange tracking).
+    match /nfc_events/{eventId} {
+      allow read: if request.auth != null && resource.data.profileUid == request.auth.uid;
+      allow create: if request.auth != null;
+      allow update: if (request.auth != null && resource.data.profileUid == request.auth.uid)
+                    || request.resource.data.diff(resource.data).affectedKeys()
+                         .hasOnly(['viewCount', 'exchangeCount']);
       allow delete: if false;
     }
 

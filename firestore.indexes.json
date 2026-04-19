@@ -18,6 +18,15 @@
       ]
     },
     {
+      "collectionGroup": "nfc_exchanges",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profileUid", "order": "ASCENDING" },
+        { "fieldPath": "followUpStatus", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "notifications",
       "queryScope": "COLLECTION",
       "fields": [
@@ -55,6 +64,14 @@
       "fields": [
         { "fieldPath": "profileUid", "order": "ASCENDING" },
         { "fieldPath": "eventId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "nfc_events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "profileUid", "order": "ASCENDING" },
         { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
     },
