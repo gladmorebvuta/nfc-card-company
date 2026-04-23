@@ -4,8 +4,8 @@ import {
   Eye, MousePointerClick, Users, Link2, Share2, Copy, QrCode,
   Download, Check, X, ChevronRight, Zap, Phone, Mail, MapPin, Building,
 } from "lucide-react"
-import { Card, CardContent } from "../components/ui/Card"
-import { Button } from "../components/ui/Button"
+import { Card, CardContent } from "../components/ui/card"
+import { Button } from "../components/ui/button"
 import { useProfile } from "../contexts/ProfileContext"
 import { useAuth } from "../contexts/AuthContext"
 import { uniqueIdCacheKey } from "../contexts/AuthContext"
@@ -18,6 +18,7 @@ import { generateVCard } from "../utils/vcard"
 import { QRCodeSVG } from "qrcode.react"
 import { FlippableCard } from "../components/FlippableCard"
 import mcgLogoColour from "../../assets/MCG Logo Colour.svg"
+import { Seo } from "../components/seo/Seo"
 
 // ─── Platform colours ─────────────────────────────────────────────────────────
 const PLATFORM_COLORS: Record<string, string> = {
@@ -260,6 +261,7 @@ export function Dashboard() {
       animate={{ opacity: 1, y: 0 }}
       className="mx-auto max-w-5xl space-y-6 sm:space-y-8 min-w-0"
     >
+      <Seo title="Dashboard" description="Manage your NFC digital business card." noindex />
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-black tracking-tight text-[#2E1065]">Overview</h1>
         <p className="text-gray-500 font-medium">Welcome back, {currentEmployee.name.split(" ")[0]}</p>

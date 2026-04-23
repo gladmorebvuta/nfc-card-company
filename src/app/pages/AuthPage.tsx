@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 import { motion } from "motion/react";
 import { useAuth } from "../contexts/AuthContext";
 import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
+import { Seo } from "../components/seo/Seo";
 
 function GoogleIcon() {
   return (
@@ -44,6 +45,7 @@ export function AuthPage() {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-[#FFF7EE] via-[#FFEDD5] to-[#EDE9FE]">
+      <Seo title="Sign In" description="Sign in to manage your NFC digital business card." noindex />
 
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">

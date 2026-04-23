@@ -3,11 +3,12 @@ import { motion } from "motion/react"
 import { Download, Search, X, Mail, MapPin, Star, FileText, Wifi, QrCode, Link2, Globe } from "lucide-react"
 import { doc, updateDoc } from "firebase/firestore"
 import { db } from "../../lib/firebase"
-import { Card, CardContent } from "../components/ui/Card"
-import { Button } from "../components/ui/Button"
+import { Card, CardContent } from "../components/ui/card"
+import { Button } from "../components/ui/button"
 import { toast } from "sonner"
 import { generateLeadVCard, exportLeadsCSV } from "../utils/vcard"
 import { useExchanges } from "../hooks/useExchanges"
+import { Seo } from "../components/seo/Seo"
 
 type FollowUpStatus = "new" | "contacted" | "meeting" | "converted" | "not_interested";
 type SortKey = "date" | "score" | "followUp";
@@ -63,8 +64,9 @@ function SourceBadge({ source }: { source: string }) {
 function formatDateInput(value: unknown): string {
   if (!value) return "";
   if (typeof value === "string") return value;
-  if (value && typeof (value as any).toDate === "function") {
-    return (value as any).toDate().toISOString().slice(0, 10);
+  const ts = value as { toDate?: () => Date };
+  if (ts && typeof ts.toDate === "function") {
+    return ts.toDate().toISOString().slice(0, 10);
   }
   return "";
 }
@@ -151,6 +153,7 @@ export function Connections() {
       animate={{ opacity: 1, y: 0 }}
       className="mx-auto max-w-6xl space-y-6 min-w-0"
     >
+      <Seo title="Connections" description="Manage your NFC card connections and leads." noindex />
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>

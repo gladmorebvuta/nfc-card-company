@@ -3,7 +3,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  User, Briefcase, Phone, Globe, ArrowRight, ArrowLeft, Check, Sparkles,
+  User, Briefcase, Phone, Globe, ArrowRight, ArrowLeft, Check,
   Mail, MapPin, Link2,
 } from "lucide-react";
 import { db } from "../../lib/firebase";
@@ -74,7 +74,7 @@ export function Onboarding() {
     if (!user) return;
     setSaving(true);
 
-    const updates: Record<string, any> = { onboarded: true };
+    const updates: Record<string, unknown> = { onboarded: true };
 
     if (displayName.trim()) {
       const parts = displayName.trim().split(/\s+/);

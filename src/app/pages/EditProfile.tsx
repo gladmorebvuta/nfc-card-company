@@ -1,16 +1,16 @@
 import * as React from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { Camera, Plus, Trash2, GripVertical, Eye, Share2, Download, Users, X, Loader2, Mail, Phone, MapPin, Building, ChevronRight } from "lucide-react"
-import { Card, CardContent } from "../components/ui/Card"
-import { Input } from "../components/ui/Input"
-import { Button } from "../components/ui/Button"
+import { Card, CardContent } from "../components/ui/card"
+import { Input } from "../components/ui/input"
+import { Button } from "../components/ui/button"
 import { useProfile } from "../contexts/ProfileContext"
 import { useAuth } from "../contexts/AuthContext"
 import { toast } from "sonner"
-import { generateVCard } from "../utils/vcard"
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { storage } from "../../lib/firebase"
 import { FlippableCard } from "../components/FlippableCard"
+import { Seo } from "../components/seo/Seo"
 
 interface LinkItem {
   id: string;
@@ -183,11 +183,12 @@ export function EditProfile() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="mx-auto max-w-3xl space-y-6 sm:space-y-8 relative min-w-0"
     >
+      <Seo title="Edit Profile" description="Edit your NFC digital business card profile." noindex />
       {/* Hidden file inputs */}
       <input ref={coverInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, "cover")} />
       <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, "avatar")} />

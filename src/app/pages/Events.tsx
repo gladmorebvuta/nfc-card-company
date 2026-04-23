@@ -2,14 +2,15 @@ import * as React from "react"
 import { motion } from "motion/react"
 import { Calendar, Plus, Copy, Zap, Eye, Users, MapPin, CheckCircle } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog"
-import { Card, CardContent } from "../components/ui/Card"
-import { Button } from "../components/ui/Button"
+import { Card, CardContent } from "../components/ui/card"
+import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { toast } from "sonner"
 import { useEvents } from "../hooks/useEvents"
 import { createEvent, endEvent } from "../services/eventsService"
 import { useAuth } from "../contexts/AuthContext"
 import { useProfile } from "../contexts/ProfileContext"
+import { Seo } from "../components/seo/Seo"
 
 export function Events() {
   const { user } = useAuth();
@@ -75,6 +76,7 @@ export function Events() {
       animate={{ opacity: 1, y: 0 }}
       className="mx-auto max-w-4xl space-y-6 min-w-0"
     >
+      <Seo title="Events" description="Manage NFC card events and live sessions." noindex />
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>

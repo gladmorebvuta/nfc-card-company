@@ -1,7 +1,7 @@
 import * as React from "react"
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react"
 import { Users, Share2, Phone, Mail, MapPin, Building, QrCode, Download, ChevronRight, Check, User, AtSign, Briefcase, Building2, Copy, Link2 } from "lucide-react"
-import { Button } from "../components/ui/Button"
+import { Button } from "../components/ui/button"
 import { useProfile } from "../contexts/ProfileContext"
 import { Link, useParams } from "react-router"
 import { toast } from "sonner"
@@ -15,6 +15,8 @@ import { ExchangeForm } from "../components/ExchangeForm"
 
 import { QRCodeSVG } from 'qrcode.react';
 import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
+import { Seo } from "../components/seo/Seo";
+import { personSchema, profilePageSchema } from "../components/seo/schemas";
 
 export function PublicProfile() {
   const { uniqueId } = useParams<{ uniqueId: string }>();
@@ -281,8 +283,41 @@ export function PublicProfile() {
     }
   };
 
+  const profileUrl = `https://nfc.brandapt.co/c/${uniqueId ?? ""}`;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const employeeAny = currentEmployee as any;
+  const profileDescription = currentEmployee.bio
+    ? currentEmployee.bio.slice(0, 155)
+    : `${currentEmployee.title ? `${currentEmployee.title} at ` : ""}${employeeAny.company || "Middlesex Consulting Group"} — digital business card`;
+
   return (
     <div className="min-h-[100dvh] font-sans text-gray-900 relative overflow-x-hidden">
+      {isLiveCard && (
+        <Seo
+          title={currentEmployee.name}
+          description={profileDescription}
+          url={profileUrl}
+          image={currentEmployee.avatar || undefined}
+          type="profile"
+          jsonLd={[
+            personSchema({
+              name: currentEmployee.name,
+              title: currentEmployee.title || undefined,
+              company: employeeAny.company || undefined,
+              bio: currentEmployee.bio || undefined,
+              photoUrl: currentEmployee.avatar || undefined,
+              profileUrl,
+              email: currentEmployee.email || undefined,
+              phone: currentEmployee.phone || undefined,
+            }),
+            profilePageSchema({
+              name: currentEmployee.name,
+              profileUrl,
+              description: profileDescription,
+            }),
+          ]}
+        />
+      )}
 
       {/* Scroll-Responsive Animated Background Layers */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
