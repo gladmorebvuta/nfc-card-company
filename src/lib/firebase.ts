@@ -4,13 +4,14 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 // Same Firebase project as BrandaptOS — shared auth, shared Firestore
+// Values live in .env (gitignored); see .env.example for required keys
 const firebaseConfig = {
-  apiKey: "AIzaSyCWwldeA6VuZN31GM5xoaEWGhgdA5MyXm4",
-  authDomain: "brandaptos-v2.firebaseapp.com",
-  projectId: "brandaptos-v2",
-  storageBucket: "brandaptos-v2.firebasestorage.app",
-  messagingSenderId: "561453413325",
-  appId: "1:561453413325:web:bb19a9891cb2e45c588a84"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID as string,
 };
 
 const app = initializeApp(firebaseConfig);
