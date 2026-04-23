@@ -1,7 +1,6 @@
-import * as React from "react"
 import { motion } from "motion/react"
 import { SmartphoneNfc, Users, Sparkles, ArrowRight, Share2 } from "lucide-react"
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/Card"
+import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"
 
 export function ValueLoop() {
   const steps = [

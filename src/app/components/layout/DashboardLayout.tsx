@@ -30,7 +30,7 @@ export function DashboardLayout() {
   const [showNotifications, setShowNotifications] = React.useState(false);
   const [showSettings, setShowSettings] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [searchFocused, setSearchFocused] = React.useState(false);
+  const [_searchFocused, setSearchFocused] = React.useState(false);
 
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
 
@@ -85,7 +85,7 @@ export function DashboardLayout() {
               )}
               title={item.label}
             >
-              {({ isActive }) => (
+              {({ isActive: _isActive }) => (
                 <>
                   <item.icon className={cn("h-6 w-6 transition-transform group-active:scale-95")} />
                 </>

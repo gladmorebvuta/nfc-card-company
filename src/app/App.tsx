@@ -1,4 +1,3 @@
-import * as React from "react"
 import { RouterProvider } from "react-router"
 import { router } from "./routes"
 import { Toaster } from "sonner"

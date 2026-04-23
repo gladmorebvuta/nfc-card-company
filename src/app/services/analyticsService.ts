@@ -120,7 +120,8 @@ export interface ViewSessionUpdate {
  */
 export async function updateViewSession(viewDocId: string, data: ViewSessionUpdate) {
   try {
-    await updateDoc(doc(db, "nfc_profile_views", viewDocId), data);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await updateDoc(doc(db, "nfc_profile_views", viewDocId), data as any);
   } catch {
     // Non-critical
   }

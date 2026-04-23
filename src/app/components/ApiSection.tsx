@@ -1,7 +1,5 @@
-import * as React from "react"
 import { Server, ShieldAlert } from "lucide-react"
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/Card"
-import { Badge } from "./ui/Badge"
+import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"
 import { cn } from "../utils"
 
 interface Endpoint {

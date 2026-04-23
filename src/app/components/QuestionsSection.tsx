@@ -1,7 +1,6 @@
-import * as React from "react"
 import { motion } from "motion/react"
 import { HelpCircle, AlertTriangle, AlertCircle, CheckCircle } from "lucide-react"
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/Card"
+import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"
 import { cn } from "../utils"
 
 interface Question {

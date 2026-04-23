@@ -1,8 +1,8 @@
 import * as React from "react"
 import { motion } from "motion/react"
 import { ChevronDown, ChevronUp, Calendar, User, CheckCircle2, Circle } from "lucide-react"
-import { Card, CardContent } from "./ui/Card"
-import { Badge } from "./ui/Badge"
+import { Card, CardContent } from "./ui/card"
+import { Badge } from "./ui/badge"
 import { ProgressBar } from "./ui/ProgressBar"
 import { cn } from "../utils"
 
@@ -34,8 +34,8 @@ export function PhaseCard({ phase, defaultExpanded = false }: PhaseProps) {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'completed': return <Badge variant="success">Completed</Badge>;
-      case 'in-progress': return <Badge variant="warning" className="bg-[#F97316]/10 text-[#F97316]">In Progress</Badge>;
+      case 'completed': return <Badge variant="default">Completed</Badge>;
+      case 'in-progress': return <Badge variant="secondary" className="bg-[#F97316]/10 text-[#F97316]">In Progress</Badge>;
       default: return <Badge variant="secondary" className="bg-[#FFF7EE] text-[#2E1065]">Planned</Badge>;
     }
   }

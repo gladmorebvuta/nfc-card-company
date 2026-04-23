@@ -170,7 +170,7 @@ export function usePublicProfile(uniqueId: string | undefined) {
 
         // Log the full view event — docId returned for Phase 2 behavioral patches
         const docId = await logProfileView({
-          profileId: uniqueId,
+          profileId: uniqueId!,
           profileUid: uid,
           source,
           sessionId,
@@ -181,7 +181,7 @@ export function usePublicProfile(uniqueId: string | undefined) {
 
         if (docId) {
           // Cache so page refreshes within this tab reuse the same view doc
-          sessionStorage.setItem(vidKey(uniqueId), docId);
+          sessionStorage.setItem(vidKey(uniqueId!), docId);
           setViewDocId(docId);
 
           // Increment event view counter — fire-and-forget
@@ -207,8 +207,8 @@ export function usePublicProfile(uniqueId: string | undefined) {
             link: "/dashboard",
           });
         }
-      } catch (err: any) {
-        if (!cancelled) setError(err.message || "Failed to load profile");
+      } catch (err) {
+        if (!cancelled) setError(err instanceof Error ? err.message : "Failed to load profile");
       } finally {
         if (!cancelled) setLoading(false);
       }

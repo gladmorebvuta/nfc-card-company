@@ -11,7 +11,7 @@ export interface LinkClickData {
   linkTitle: string;
   linkType: string;
   source: string;
-  createdAt: any;
+  createdAt: { toDate?: () => Date; seconds?: number } | null;
 }
 
 export interface LinkClickSummary {

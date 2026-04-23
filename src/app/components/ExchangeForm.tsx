@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { createNotification } from "../services/notificationService";
 import { incrementProfileStat } from "../services/analyticsService";
 import { incrementEventStat } from "../services/eventsService";
-import { getLocation, LocationData } from "../utils/location";
+import { getLocation, type LocationData } from "../utils/location";
 
 interface ExchangeFormProps {
   profileId: string;
@@ -103,8 +103,9 @@ export function ExchangeForm({ profileId, profileName, open, onOpenChange, profi
       }
 
       setForm({ visitorName: "", visitorEmail: "", visitorPhone: "", visitorCompany: "", visitorNote: "" });
-    } catch (err: any) {
-      toast.error(err?.message || "Failed to save exchange. Please try again.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to save exchange. Please try again.";
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

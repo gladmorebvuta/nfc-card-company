@@ -4,7 +4,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut as firebaseSignOut,
-  User,
+  type User,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, collection, query, where, getDocs, limit, deleteDoc } from "firebase/firestore";
 import { auth, db } from "../../lib/firebase";

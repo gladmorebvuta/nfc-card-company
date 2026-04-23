@@ -3,11 +3,11 @@ import { doc, updateDoc } from "firebase/firestore";
 import { motion, AnimatePresence } from "motion/react";
 import {
   User, Briefcase, Phone, Globe, ArrowRight, ArrowLeft, Check, Sparkles,
-  Mail, Building2, MapPin, Link2,
+  Mail, MapPin, Link2,
 } from "lucide-react";
 import { db } from "../../lib/firebase";
 import { useAuth } from "../contexts/AuthContext";
-import { NfcProfileData } from "../hooks/useNfcProfile";
+import { type NfcProfileData } from "../hooks/useNfcProfile";
 import { cn } from "../utils";
 
 interface OnboardingModalProps {
@@ -66,7 +66,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
     if (!user) return;
     setSaving(true);
 
-    const updates: Record<string, any> = {
+    const updates: Record<string, unknown> = {
       onboarded: true,
     };
 

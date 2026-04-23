@@ -13,8 +13,8 @@ export interface EventData {
   isActive: boolean;
   viewCount: number;
   exchangeCount: number;
-  createdAt: any;
-  endedAt: any;
+  createdAt: { toDate?: () => Date; seconds?: number } | null;
+  endedAt: { toDate?: () => Date; seconds?: number } | null;
 }
 
 export function useEvents() {

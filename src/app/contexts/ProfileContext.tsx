@@ -2,7 +2,7 @@ import * as React from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useAuth } from "./AuthContext";
-import { useNfcProfile, NfcProfileData } from "../hooks/useNfcProfile";
+import { useNfcProfile, type NfcProfileData } from "../hooks/useNfcProfile";
 
 interface LinkItem {
   id: string;
@@ -112,7 +112,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const updateProfile = React.useCallback(async (updates: Partial<ProfileData>) => {
     if (isFirestoreBacked && nfcProfile) {
       // Write to Firestore
-      const nfcUpdates: Record<string, any> = {};
+      const nfcUpdates: Record<string, unknown> = {};
       if (updates.name) {
         const parts = updates.name.split(" ");
         nfcUpdates.firstName = parts[0] || "";

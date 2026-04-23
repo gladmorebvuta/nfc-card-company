@@ -15,11 +15,11 @@ export interface ExchangeData {
   location: { lat: number; lng: number; accuracy: number; city: string | null; country: string | null } | null;
   isRead: boolean;
   isArchived: boolean;
-  createdAt: any;
+  createdAt: { toDate?: () => Date; seconds?: number } | null;
   // Phase 3 — lead pipeline fields
   engagementScore: number;
   followUpStatus: "new" | "contacted" | "meeting" | "converted" | "not_interested";
-  followUpDate: any;
+  followUpDate: { toDate?: () => Date; seconds?: number } | null;
   employeeNotes: string;
   sessionId: string | null;
 }
