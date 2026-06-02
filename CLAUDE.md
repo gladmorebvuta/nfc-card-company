@@ -10,6 +10,17 @@
 2. **Append to CHANGELOG.md** — Added/Changed/Fixed/Removed under today's date
 3. **Use `./scripts/deploy.sh`** instead of raw `firebase deploy`
 
+## How to Write Code (MANDATORY — governs every diff)
+
+These behavioral rules apply to every edit here. They bias toward caution over speed; for trivial one-liners, use judgment. Gates define the bar; these define the mindset.
+
+1. **Think before coding.** State assumptions; if uncertain, ask — especially whether logic belongs in this frontend (direct Firestore) or in BrandaptOS Cloud Functions (`functions/src/nfc/`), and whether the path is anonymous-visitor or authenticated-owner. This repo has NO functions of its own. Present alternatives instead of silently picking. Architecture tradeoffs go in the STATUS.md Decision Log.
+2. **Simplicity first.** Minimum code that solves the problem. No speculative features, no single-use abstractions, no error handling for impossible cases. 200 lines that could be 50 → rewrite. Ask: "Would a senior engineer call this overcomplicated?"
+3. **Surgical changes.** Touch only what you must; don't refactor what isn't broken or restyle adjacent code. Match the repo's patterns — shadcn/Radix, the `nfc_` collection prefix. Remove only the orphans YOUR change created; log unrelated dead code to STATUS.md rather than deleting it. Every changed line traces to the request.
+4. **Goal-driven execution.** Turn vague tasks into verifiable goals ("fix the bug" → "write a failing test, then make it pass"). For multi-step work, state a brief plan with a verify step each. **Verify =** `npm run build`; any rules or functions change is verified from BrandaptOS, not here.
+
+**Working if:** fewer stray diffs, fewer overcomplication rewrites, and questions land before implementation rather than after.
+
 ## Overview
 NFC Card Company is a digital business card platform. Users create profiles, share via NFC taps or QR codes, and track engagement analytics. The frontend is a standalone React app; the backend lives inside BrandaptOS Cloud Functions.
 
