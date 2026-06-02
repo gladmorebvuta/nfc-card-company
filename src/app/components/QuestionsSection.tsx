@@ -24,7 +24,7 @@ export function QuestionsSection({ questions }: { questions: Question[] }) {
   const getImpactColor = (impact: string) => {
     switch (impact.toLowerCase()) {
       case 'critical': return 'bg-red-100 text-red-800 border-red-200';
-      case 'high': return 'bg-[#F97316]/10 text-[#F97316] border-[#F97316]/20';
+      case 'high': return 'bg-[#3B82F6]/10 text-[#3B82F6] border-[#3B82F6]/20';
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
@@ -71,7 +71,7 @@ export function QuestionsSection({ questions }: { questions: Question[] }) {
                   <div className="mt-0.5 shrink-0 bg-gray-50 rounded-full p-1.5 border border-gray-100 shadow-inner">
                     {getStatusIcon(q.status)}
                   </div>
-                  <h4 className="text-sm font-semibold leading-tight text-[#2E1065] md:text-base">
+                  <h4 className="text-sm font-semibold leading-tight text-[#030213] md:text-base">
                     {q.question}
                   </h4>
                 </div>

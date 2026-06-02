@@ -1,8 +1,6 @@
 import * as React from "react";
 import { motion } from "motion/react";
-
-import frontImage from "../../assets/MCG Business Card v.1.1 Front (Digital)-01.svg";
-import backCardUrl from "../../assets/MCG Business Card v.1.1 Back (Digital)-02.svg";
+import { Phone, Mail, Globe, MapPin } from "lucide-react";
 
 interface CardProfile {
   name: string;
@@ -21,14 +19,31 @@ const backfaceHidden: React.CSSProperties = {
 /* ── FRONT of the card ── */
 function CardFront() {
   return (
-    <div className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-white"
+    <div
+      className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-gradient-to-br from-[#030213] via-[#030213] to-[#020817]"
       style={backfaceHidden}
     >
-      <img
-        src={frontImage}
-        alt="MCG Business Card Front"
-        className="absolute top-0 left-0 w-full h-auto"
-      />
+      {/* Glassmorphic effect with subtle blue accent glow */}
+      <div className="absolute inset-0 backdrop-blur-sm" />
+      <div className="absolute top-0 right-12 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Brandapt logo — top left */}
+      <div className="absolute top-4 left-4 flex items-center">
+        <img
+          src="/logo-dark.png"
+          alt="Brandapt"
+          className="h-6 object-contain"
+        />
+      </div>
+
+      {/* Subtle blue→purple accent stripe on the left edge */}
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-purple-500 opacity-60" />
+
+      {/* Faint "B" watermark in corner */}
+      <div className="absolute bottom-2 right-3 text-white/10 text-4xl font-bold font-mono">
+        B
+      </div>
+
       {/* Subtle glass overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
     </div>
@@ -37,75 +52,79 @@ function CardFront() {
 
 /* ── BACK of the card ── */
 function CardBack({ profile }: { profile: CardProfile }) {
-  const website = profile.links?.find(l => l.type === 'website')?.url.replace(/^https?:\/\//, '') || 'middlesexcg.com';
-  const officeLines = profile.office ? profile.office.split('-').map(s => s.trim()) : [];
+  // Extract website URL, strip protocol, no fallback — only render if present
+  const website = profile.links
+    ?.find((l) => l.type === "website")
+    ?.url.replace(/^https?:\/\//, "");
 
   return (
-    <div className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-white"
-      style={{ ...backfaceHidden, transform: "rotateY(180deg)", WebkitTransform: "rotateY(180deg)" }}
+    <div
+      className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-gradient-to-br from-[#030213] via-[#030213] to-[#020817] flex flex-col justify-between p-3 font-mono"
+      style={{
+        ...backfaceHidden,
+        transform: "rotateY(180deg)",
+        WebkitTransform: "rotateY(180deg)",
+      }}
     >
-      {/* Background SVG Base */}
-      <img
-        src={backCardUrl}
-        alt="MCG Business Card Back"
-        className="absolute inset-0 w-full h-full object-contain"
-      />
+      {/* Glassmorphic effect */}
+      <div className="absolute inset-0 backdrop-blur-sm pointer-events-none" />
 
-      {/* ── Exact SVG Overlay for Pixel-Perfect Layout ── */}
-      <svg
-        viewBox="0 0 252 144"
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Name & Title */}
-        <text x="9.2" y="67" fill="#2E2664" fontFamily="Qugan, sans-serif" fontSize="16.8" letterSpacing="0.01em">
-          {profile.name}
-        </text>
-        <text x="10.2" y="75.2" fill="#7562AB" fontFamily="Qugan, sans-serif" fontSize="5.2">
-          {profile.title}
-        </text>
+      {/* Content overlay */}
+      <div className="relative z-10 flex flex-col h-full">
+        {/* Name & Title section */}
+        <div className="flex flex-col mb-2">
+          <h2 className="text-white font-medium text-sm leading-tight">
+            {profile.name}
+          </h2>
+          <p className="text-white/60 text-xs leading-tight">
+            {profile.title}
+          </p>
+        </div>
 
-        {/* Contact Info */}
-        <g>
+        {/* Contact info rows */}
+        <div className="flex flex-col gap-1.5 flex-grow justify-center">
           {/* Phone */}
-          <path fill="#7562AB" d="M13.4,117.6s0,0,0,0c0,0,0,0,0,0,0-.4-.2-.8-.6-1.1-.3-.3-.7-.5-1.1-.6,0,0,0,0,0,0,0,0,0,0,0,0s0,0,0,0c0,0,0,0,0,0,.5,0,1,.3,1.3.6.4.4.6.8.6,1.3,0,0,0,0,0,0,0,0,0,0,0,0ZM12.3,117.6s0,0,0,0c0,0,0,0,0,0,0-.2-.1-.3-.2-.4-.1-.1-.3-.2-.4-.2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,.2,0,.4.2.6.3.2.2.3.3.3.6,0,0,0,0,0,0,0,0,0,0,0,0ZM13.2,119.9c-.4,0-.9-.1-1.3-.3-.5-.2-.9-.5-1.3-.9-.4-.4-.7-.8-.9-1.3-.2-.5-.3-.9-.3-1.3s0-.1,0-.2c0,0,.1,0,.2,0h.6c0,0,.1,0,.2,0,0,0,0,.1.1.2v.6c.1,0,.1.1.1.2,0,0,0,.1,0,.1l-.6.5c.1.2.2.4.4.6.1.2.3.3.4.5.2.2.3.3.5.4.2.1.4.3.6.4l.6-.6s0,0,.1,0c0,0,.1,0,.2,0h.5c0,.1.1.2.2.2,0,0,0,.1,0,.2v.6c0,0,0,.1,0,.2,0,0-.1,0-.2,0ZM9.9,117.2l.5-.5s0,0,0,0c0,0,0,0,0,0v-.6c-.1,0-.1,0-.2,0,0,0,0,0,0,0h-.5s0,0,0,0c0,0,0,0,0,0,0,.2,0,.4,0,.6,0,.2.1.4.2.6ZM12.1,119.4c.2,0,.4.2.6.2.2,0,.4,0,.5,0,0,0,0,0,0,0,0,0,0,0,0,0v-.5s0,0,0,0c0,0,0,0,0,0h-.5c0-.1,0-.1,0-.1,0,0,0,0,0,0l-.5.5Z"/>
-          <text x="18.5" y="118.9" fill="#2E2664" fontFamily="Rinter, Qugan, sans-serif" fontSize="4.6">{profile.phone}</text>
+          {profile.phone && (
+            <div className="flex items-center gap-1.5">
+              <Phone className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
+              <span className="text-white/80 text-xs truncate">
+                {profile.phone}
+              </span>
+            </div>
+          )}
 
           {/* Email */}
-          <g stroke="#7562AB" strokeWidth="0.2" strokeMiterlimit="10" fill="none">
-            <path d="M9.2,123.5l2,1.6c.2.1.4.1.6,0l2-1.6"/>
-            <path d="M13.7,125.9v-2.6c0-.1,0-.2-.2-.2h-4.1c-.1,0-.2,0-.2.2v2.9c0,.1,0,.2.2.2h4.3"/>
-          </g>
-          <text x="18.5" y="125.8" fill="#2E2664" fontFamily="Qugan, sans-serif" fontSize="4.6">{profile.email}</text>
+          {profile.email && (
+            <div className="flex items-center gap-1.5">
+              <Mail className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
+              <span className="text-white/80 text-xs truncate">
+                {profile.email}
+              </span>
+            </div>
+          )}
 
           {/* Website */}
-          <g stroke="#7562AB" strokeWidth="0.2" strokeMiterlimit="10" fill="none">
-            <ellipse cx="11.4" cy="131.4" rx="1" ry="2.5"/>
-            <line x1="9.1" y1="130.6" x2="13.7" y2="130.6"/>
-            <line x1="13" y1="132.3" x2="9.1" y2="132.3"/>
-            <circle cx="11.4" cy="131.4" r="2.5"/>
-          </g>
-          <text x="18.5" y="132.8" fill="#2E2664" fontFamily="Qugan, sans-serif" fontSize="4.6">{website}</text>
+          {website && (
+            <div className="flex items-center gap-1.5">
+              <Globe className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
+              <span className="text-white/80 text-xs truncate">{website}</span>
+            </div>
+          )}
 
-          {/* Address */}
-          <g stroke="#7562AB" strokeWidth="0.2" strokeMiterlimit="10" fill="none">
-            <path d="M177.2,120.2s-2-2-2-3.5.9-2,2-2,2,.9,2,2-.9,2.2-1.5,2.9"/>
-            <circle cx="177.2" cy="116.7" r=".9"/>
-          </g>
-          <text x="183.7" y="118.8" fill="#2E2664" fontFamily="Qugan, sans-serif" fontSize="4.6">{officeLines[0] || profile.office || '203 Lowell Street'}</text>
-          {officeLines.length > 1 ? (
-            <text x="183.7" y="125.8" fill="#2E2664" fontFamily="Qugan, sans-serif" fontSize="4.6">{officeLines[1]}</text>
-          ) : (
-            <text x="183.7" y="125.8" fill="#2E2664" fontFamily="Qugan, sans-serif" fontSize="4.6">USA</text>
+          {/* Office/Address */}
+          {profile.office && (
+            <div className="flex items-start gap-1.5">
+              <MapPin className="h-3.5 w-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
+              <span className="text-white/80 text-xs line-clamp-2">
+                {profile.office}
+              </span>
+            </div>
           )}
-          {officeLines.length > 2 && (
-             <text x="183.7" y="132.8" fill="#2E2664" fontFamily="Qugan, sans-serif" fontSize="4.6">{officeLines[2]}</text>
-          )}
-        </g>
-      </svg>
+        </div>
+      </div>
 
       {/* Subtle glass overlay */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-white/10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 pointer-events-none" />
     </div>
   );
 }
@@ -127,7 +146,7 @@ export function FlippableCard({ profile }: { profile: CardProfile }) {
       >
         {/* 3D flip container — CSS transition is more reliable than Framer Motion for preserve-3d */}
         <div
-          className="relative w-full rounded-2xl shadow-[0_20px_50px_rgba(46,16,101,0.25)]"
+          className="relative w-full rounded-2xl shadow-[0_20px_50px_rgba(3,2,19,0.35)]"
           style={{
             transformStyle: "preserve-3d",
             WebkitTransformStyle: "preserve-3d",
@@ -150,7 +169,7 @@ export function FlippableCard({ profile }: { profile: CardProfile }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
           transition={{ delay: 2 }}
-          className="text-center text-[10px] tracking-[0.2em] uppercase text-[#2E1065]/40 mt-3 select-none"
+          className="text-center text-[10px] tracking-[0.2em] uppercase text-white/40 mt-3 select-none"
         >
           Tap to flip
         </motion.p>

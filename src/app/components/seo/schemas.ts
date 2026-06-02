@@ -3,16 +3,16 @@ const SITE_URL = 'https://nfc.brandapt.co'
 export const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'BrandApt NFC',
+  name: 'Brandapt Cards',
   url: SITE_URL,
-  logo: `${SITE_URL}/favicon.svg`,
+  logo: `${SITE_URL}/logo-light.png`,
   description: 'Digital business cards powered by NFC technology.',
 }
 
 export const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'BrandApt NFC',
+  name: 'Brandapt Cards',
   url: SITE_URL,
 }
 

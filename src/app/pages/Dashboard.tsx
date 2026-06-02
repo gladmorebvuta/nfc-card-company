@@ -17,7 +17,7 @@ import { toast } from "sonner"
 import { generateVCard } from "../utils/vcard"
 import { QRCodeSVG } from "qrcode.react"
 import { FlippableCard } from "../components/FlippableCard"
-import mcgLogoColour from "../../assets/MCG Logo Colour.svg"
+import { BrandaptLogo } from "../components/BrandaptLogo"
 import { Seo } from "../components/seo/Seo"
 
 // ─── Platform colours ─────────────────────────────────────────────────────────
@@ -26,15 +26,15 @@ const PLATFORM_COLORS: Record<string, string> = {
   twitter: "#1DA1F2",
   instagram: "#E1306C",
   facebook: "#1877F2",
-  website: "#2E1065",
+  website: "#030213",
   github: "#333",
   youtube: "#FF0000",
-  default: "#8B5CF6",
+  default: "#3B82F6",
 };
 
 // ─── Source metadata ──────────────────────────────────────────────────────────
 const SOURCE_META: Record<string, { label: string; color: string }> = {
-  nfc:    { label: "NFC",    color: "#7C3AED" },
+  nfc:    { label: "NFC",    color: "#3B82F6" },
   qr:     { label: "QR",    color: "#3B82F6" },
   link:   { label: "Link",  color: "#0D9488" },
   direct: { label: "Direct",color: "#9CA3AF" },
@@ -70,20 +70,20 @@ function Sparkline({ viewsByDay }: { viewsByDay: Record<string, number> }) {
     <div className="space-y-1.5">
       <div className="flex items-baseline justify-between">
         <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Views — 7 days</span>
-        <span className="text-2xl font-black text-[#2E1065]">{total}</span>
+        <span className="text-2xl font-black text-[#030213]">{total}</span>
       </div>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: 56 }} preserveAspectRatio="none">
         <defs>
           <linearGradient id="sp-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#F97316" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="#F97316" stopOpacity="0" />
+            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
           </linearGradient>
         </defs>
         <polygon points={areaPts} fill="url(#sp-grad)" />
-        <polyline points={linePts} fill="none" stroke="#F97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        <polyline points={linePts} fill="none" stroke="#3B82F6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         {days.map((d, i) =>
           d.count > 0 ? (
-            <circle key={d.date} cx={xOf(i)} cy={yOf(d.count)} r="3" fill="#F97316" />
+            <circle key={d.date} cx={xOf(i)} cy={yOf(d.count)} r="3" fill="#3B82F6" />
           ) : null
         )}
       </svg>
@@ -149,9 +149,9 @@ function Funnel({ views, exchanges, converted }: { views: number; exchanges: num
           <ChevronRight className="h-4 w-4 text-gray-300" />
           <span className="text-[9px] font-black text-gray-400">{vToE}%</span>
         </div>
-        <div className="flex-1 rounded-xl bg-[#FFF7EE] px-3 py-3 text-center">
-          <p className="text-2xl font-black text-[#F97316]">{exchanges.toLocaleString()}</p>
-          <p className="text-[10px] font-bold text-[#F97316]/60 mt-0.5 uppercase tracking-wide">Exchanges</p>
+        <div className="flex-1 rounded-xl bg-[#ffffff] px-3 py-3 text-center">
+          <p className="text-2xl font-black text-[#3B82F6]">{exchanges.toLocaleString()}</p>
+          <p className="text-[10px] font-bold text-[#3B82F6]/60 mt-0.5 uppercase tracking-wide">Exchanges</p>
         </div>
         <div className="flex flex-col items-center justify-center shrink-0">
           <ChevronRight className="h-4 w-4 text-gray-300" />
@@ -188,7 +188,7 @@ function LinkPerformance({
           return (
             <div key={link.linkUrl || i} className="space-y-1">
               <div className="flex items-center justify-between gap-2 text-xs">
-                <span className="font-semibold text-[#2E1065] truncate flex-1">{link.linkTitle}</span>
+                <span className="font-semibold text-[#030213] truncate flex-1">{link.linkTitle}</span>
                 <span className="font-bold text-gray-400 shrink-0">
                   {link.count} clicks · {ctr}% CTR
                 </span>
@@ -263,7 +263,7 @@ export function Dashboard() {
     >
       <Seo title="Dashboard" description="Manage your NFC digital business card." noindex />
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tight text-[#2E1065]">Overview</h1>
+        <h1 className="text-3xl font-black tracking-tight text-[#030213]">Overview</h1>
         <p className="text-gray-500 font-medium">Welcome back, {currentEmployee.name.split(" ")[0]}</p>
       </div>
 
@@ -300,13 +300,13 @@ export function Dashboard() {
             label: "Profile Views",
             value: isFirestoreBacked ? currentEmployee.stats.views.toLocaleString() : "—",
             icon: <Eye className="h-5 w-5" />,
-            iconBg: "bg-[#F97316]/10 text-[#F97316]",
+            iconBg: "bg-[#3B82F6]/10 text-[#3B82F6]",
           },
           {
             label: "Card Saves",
             value: isFirestoreBacked ? currentEmployee.stats.taps.toLocaleString() : "—",
             icon: <MousePointerClick className="h-5 w-5" />,
-            iconBg: "bg-[#8B5CF6]/10 text-[#8B5CF6]",
+            iconBg: "bg-[#3B82F6]/10 text-[#3B82F6]",
           },
           {
             label: "New Leads",
@@ -318,7 +318,7 @@ export function Dashboard() {
             label: "Active Links",
             value: String(currentEmployee.links.length),
             icon: <Link2 className="h-5 w-5" />,
-            iconBg: "bg-[#2E1065]/10 text-[#2E1065]",
+            iconBg: "bg-[#030213]/10 text-[#030213]",
           },
         ].map((stat) => (
           <Card key={stat.label} className="p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-all hover:bg-white/70">
@@ -328,7 +328,7 @@ export function Dashboard() {
                 {stat.icon}
               </div>
             </div>
-            <p className="text-3xl font-black tracking-tight text-[#2E1065] leading-none">{stat.value}</p>
+            <p className="text-3xl font-black tracking-tight text-[#030213] leading-none">{stat.value}</p>
           </Card>
         ))}
       </div>
@@ -342,7 +342,7 @@ export function Dashboard() {
           <Card>
             <div className="flex items-center justify-between border-b border-white/40 p-5">
               <div>
-                <h2 className="text-base font-bold text-[#2E1065]">Share Profile</h2>
+                <h2 className="text-base font-bold text-[#030213]">Share Profile</h2>
                 {baseProfileUrl !== `${window.location.origin}/` && (
                   <p className="text-xs text-gray-400 font-medium mt-0.5 truncate max-w-[180px]">
                     {baseProfileUrl.replace(/^https?:\/\//, "")}
@@ -354,7 +354,7 @@ export function Dashboard() {
                 className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all border ${
                   linkCopied
                     ? "bg-emerald-100 text-emerald-700 border-emerald-200"
-                    : "bg-white/60 text-[#2E1065] border-white hover:bg-white shadow-sm"
+                    : "bg-white/60 text-[#030213] border-white hover:bg-white shadow-sm"
                 }`}
               >
                 {linkCopied ? (
@@ -367,13 +367,13 @@ export function Dashboard() {
             <CardContent className="p-6">
               <button
                 onClick={() => setShowQrModal(true)}
-                className="group flex w-full cursor-pointer items-center gap-4 rounded-[1.5rem] border border-white/60 bg-white/40 p-4 transition-all hover:border-[#F97316]/30 hover:bg-white/60 hover:shadow-md text-left"
+                className="group flex w-full cursor-pointer items-center gap-4 rounded-[1.5rem] border border-white/60 bg-white/40 p-4 transition-all hover:border-[#3B82F6]/30 hover:bg-white/60 hover:shadow-md text-left"
               >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-[#F97316] shadow-sm">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-[#3B82F6] shadow-sm">
                   <QrCode className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#2E1065]">My QR Code</h3>
+                  <h3 className="font-semibold text-[#030213]">My QR Code</h3>
                   <p className="text-xs text-gray-500 font-medium">Download for print</p>
                 </div>
               </button>
@@ -383,7 +383,7 @@ export function Dashboard() {
           {/* Analytics: Sparkline + Source breakdown */}
           <Card>
             <div className="border-b border-white/40 px-5 py-4">
-              <h2 className="text-base font-bold text-[#2E1065]">Analytics</h2>
+              <h2 className="text-base font-bold text-[#030213]">Analytics</h2>
             </div>
             <CardContent className="p-5 space-y-5">
               {insightsLoading ? (
@@ -416,10 +416,10 @@ export function Dashboard() {
           {/* Recent Leads */}
           <Card>
             <div className="flex items-center justify-between border-b border-white/40 p-5">
-              <h2 className="text-base font-bold text-[#2E1065]">Recent Leads</h2>
+              <h2 className="text-base font-bold text-[#030213]">Recent Leads</h2>
               <button
                 onClick={() => navigate("/dashboard/connections")}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[#F97316] hover:text-[#F97316]/80 transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[#3B82F6] hover:text-[#3B82F6]/80 transition-colors"
               >
                 View all <ChevronRight className="h-3.5 w-3.5" />
               </button>
@@ -445,7 +445,7 @@ export function Dashboard() {
                           className="h-10 w-10 rounded-2xl border-2 border-white object-cover shadow-sm shrink-0"
                         />
                         <div className="min-w-0">
-                          <h4 className="font-bold text-[#2E1065] truncate text-sm">{ex.visitorName}</h4>
+                          <h4 className="font-bold text-[#030213] truncate text-sm">{ex.visitorName}</h4>
                           <p className="text-xs font-medium text-gray-500 truncate">
                             {ex.visitorCompany || ex.visitorEmail}
                           </p>
@@ -493,12 +493,12 @@ export function Dashboard() {
               <div className="absolute left-1/2 top-0 z-50 h-5 w-28 -translate-x-1/2 rounded-b-2xl bg-white" />
 
               {/* Scrollable profile content */}
-              <div className="h-full w-full overflow-y-auto bg-gradient-to-tr from-[#FFF7EE] via-[#FFEDD5] to-[#EDE9FE] scrollbar-hide">
+              <div className="h-full w-full overflow-y-auto bg-gradient-to-tr from-[#ffffff] via-[#ececf0] to-[#ececf0] scrollbar-hide">
 
                 {/* Company header bar — matches the real sticky header */}
                 <div className="flex items-center justify-between px-3 py-2.5 bg-white/70 backdrop-blur-xl border-b border-white/50 sticky top-0 z-20">
-                  <img src={mcgLogoColour} alt="MCG" className="h-5 w-auto" />
-                  <QrCode className="h-4 w-4 text-[#2E1065] opacity-60" />
+                  <BrandaptLogo variant="dark" className="h-5" />
+                  <QrCode className="h-4 w-4 text-[#030213] opacity-60" />
                 </div>
 
                 <div className="px-2 pt-2 pb-6 space-y-2">
@@ -513,8 +513,8 @@ export function Dashboard() {
                       {currentEmployee.cover ? (
                         <img src={currentEmployee.cover} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#2E1065] via-[#4c1d95] to-[#7c3aed]">
-                          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #F97316 0%, transparent 50%), radial-gradient(circle at 80% 20%, #8B5CF6 0%, transparent 40%)" }} />
+                        <div className="w-full h-full bg-gradient-to-br from-blue-500 via-cyan-500 to-purple-500">
+                          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #3B82F6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #3B82F6 0%, transparent 40%)" }} />
                         </div>
                       )}
                     </div>
@@ -523,7 +523,7 @@ export function Dashboard() {
                     <div className="flex flex-col items-center px-4 pb-4">
                       {/* Avatar overlapping cover */}
                       <div className="relative -mt-7 mb-2">
-                        <div className="h-14 w-14 rounded-full border-[3px] border-white shadow-lg overflow-hidden bg-gradient-to-br from-[#2E1065] to-[#7c3aed] flex items-center justify-center">
+                        <div className="h-14 w-14 rounded-full border-[3px] border-white shadow-lg overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center">
                           {currentEmployee.avatar ? (
                             <img src={currentEmployee.avatar} alt={currentEmployee.name} className="w-full h-full object-cover" />
                           ) : (
@@ -534,9 +534,9 @@ export function Dashboard() {
                         </div>
                       </div>
 
-                      <h3 className="text-sm font-black text-[#2E1065] text-center leading-tight">{currentEmployee.name}</h3>
+                      <h3 className="text-sm font-black text-[#030213] text-center leading-tight">{currentEmployee.name}</h3>
                       {currentEmployee.title && (
-                        <p className="text-[10px] font-bold text-[#F97316] mt-0.5 text-center">{currentEmployee.title}</p>
+                        <p className="text-[10px] font-bold text-[#3B82F6] mt-0.5 text-center">{currentEmployee.title}</p>
                       )}
                       {currentEmployee.department && (
                         <p className="text-[8px] font-semibold text-gray-400 mt-0.5 flex items-center gap-0.5">
@@ -544,7 +544,7 @@ export function Dashboard() {
                         </p>
                       )}
                       {currentEmployee.bio && (
-                        <p className="mt-2 text-[8px] leading-relaxed text-[#2E1065]/60 text-center line-clamp-2 max-w-[200px]">
+                        <p className="mt-2 text-[8px] leading-relaxed text-[#030213]/60 text-center line-clamp-2 max-w-[200px]">
                           {currentEmployee.bio}
                         </p>
                       )}
@@ -565,15 +565,15 @@ export function Dashboard() {
                             });
                             toast.success("Contact card downloaded!");
                           }}
-                          className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-gradient-to-br from-[#2E1065] to-[#4c1d95] text-white text-[10px] font-bold shadow-[0_4px_14px_rgba(46,16,101,0.25)]"
+                          className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-gradient-to-br from-[#030213] to-[#1e1b4b] text-white text-[10px] font-bold shadow-[0_4px_14px_rgba(46,16,101,0.25)]"
                         >
                           <Download className="h-3 w-3" /> Save Contact
                         </button>
                         <div className="flex gap-1.5">
-                          <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white/90 border border-gray-200/60 text-[#2E1065] text-[10px] font-bold shadow-sm">
+                          <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white/90 border border-gray-200/60 text-[#030213] text-[10px] font-bold shadow-sm">
                             <Users className="h-3 w-3" /> Exchange
                           </div>
-                          <div className="flex h-9 w-9 aspect-square items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#2E1065] shadow-sm">
+                          <div className="flex h-9 w-9 aspect-square items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#030213] shadow-sm">
                             <Share2 className="h-3 w-3" />
                           </div>
                         </div>
@@ -583,9 +583,9 @@ export function Dashboard() {
                     {/* Quick contact icons — Email / Call / Office */}
                     <div className="flex justify-around border-y border-gray-100/80 py-3 px-4">
                       {[
-                        { Icon: Mail,   label: "Email",  color: "text-[#F97316]"  },
-                        { Icon: Phone,  label: "Call",   color: "text-[#8B5CF6]"  },
-                        { Icon: MapPin, label: "Office", color: "text-[#2E1065]"  },
+                        { Icon: Mail,   label: "Email",  color: "text-[#3B82F6]"  },
+                        { Icon: Phone,  label: "Call",   color: "text-[#3B82F6]"  },
+                        { Icon: MapPin, label: "Office", color: "text-[#030213]"  },
                       ].map(({ Icon, label, color }) => (
                         <div key={label} className="flex flex-col items-center gap-1">
                           <div className={`flex h-9 w-9 items-center justify-center rounded-xl bg-white/80 ${color} shadow-sm border border-white/60`}>
@@ -617,7 +617,7 @@ export function Dashboard() {
                                 >
                                   {initial}
                                 </div>
-                                <p className="text-[10px] font-bold text-[#2E1065] truncate">{link.title}</p>
+                                <p className="text-[10px] font-bold text-[#030213] truncate">{link.title}</p>
                               </div>
                               <ChevronRight className="h-3 w-3 text-gray-300 shrink-0 ml-1" />
                             </div>
@@ -640,7 +640,7 @@ export function Dashboard() {
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setShowQrModal(false)}
-              className="fixed inset-0 z-[60] bg-[#2E1065]/40 backdrop-blur-sm"
+              className="fixed inset-0 z-[60] bg-[#030213]/40 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
@@ -654,19 +654,19 @@ export function Dashboard() {
                 <X className="w-4 h-4" />
               </button>
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-black text-[#2E1065]">Your QR Code</h3>
+                <h3 className="text-2xl font-black text-[#030213]">Your QR Code</h3>
                 <p className="text-sm font-medium text-gray-500 mt-1">Share or download for print</p>
               </div>
-              <div className="aspect-square w-48 mx-auto bg-white rounded-[1.5rem] border border-gray-100 flex items-center justify-center mb-6 shadow-lg shadow-[#2E1065]/5">
-                <QRCodeSVG value={qrProfileUrl} size={140} level="Q" includeMargin={false} fgColor="#2E1065" />
+              <div className="aspect-square w-48 mx-auto bg-white rounded-[1.5rem] border border-gray-100 flex items-center justify-center mb-6 shadow-lg shadow-[#030213]/5">
+                <QRCodeSVG value={qrProfileUrl} size={140} level="Q" includeMargin={false} fgColor="#030213" />
               </div>
               <p className="text-xs text-center text-gray-400 mb-6 font-medium">{baseProfileUrl}</p>
               <div className="grid grid-cols-2 gap-3">
-                <Button variant="outline" className="h-12 rounded-xl text-[#2E1065]" onClick={handleCopyLink}>
+                <Button variant="outline" className="h-12 rounded-xl text-[#030213]" onClick={handleCopyLink}>
                   {linkCopied ? "Copied!" : "Copy Link"}
                 </Button>
                 <Button
-                  className="h-12 rounded-xl bg-[#2E1065] hover:bg-[#2E1065]/90 text-white"
+                  className="h-12 rounded-xl bg-[#030213] hover:bg-[#030213]/90 text-white"
                   onClick={() => {
                     toast.success("QR Code downloaded!");
                     setShowQrModal(false);

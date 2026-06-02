@@ -35,8 +35,8 @@ export function PhaseCard({ phase, defaultExpanded = false }: PhaseProps) {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'completed': return <Badge variant="default">Completed</Badge>;
-      case 'in-progress': return <Badge variant="secondary" className="bg-[#F97316]/10 text-[#F97316]">In Progress</Badge>;
-      default: return <Badge variant="secondary" className="bg-[#FFF7EE] text-[#2E1065]">Planned</Badge>;
+      case 'in-progress': return <Badge variant="secondary" className="bg-[#3B82F6]/10 text-[#3B82F6]">In Progress</Badge>;
+      default: return <Badge variant="secondary" className="bg-[#ffffff] text-[#030213]">Planned</Badge>;
     }
   }
 
@@ -45,16 +45,16 @@ export function PhaseCard({ phase, defaultExpanded = false }: PhaseProps) {
       <div 
         className={cn(
           "flex cursor-pointer flex-col justify-between p-6 transition-colors md:flex-row md:items-center",
-          isExpanded ? "bg-white" : "hover:bg-[#FFF7EE]/30"
+          isExpanded ? "bg-white" : "hover:bg-[#ffffff]/30"
         )}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-start gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FFF7EE] text-[#2E1065] shadow-inner font-bold">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#ffffff] text-[#030213] shadow-inner font-bold">
             {phase.version}
           </div>
           <div>
-            <h3 className="text-xl font-bold text-[#2E1065]">{phase.title}</h3>
+            <h3 className="text-xl font-bold text-[#030213]">{phase.title}</h3>
             <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-gray-500">
               <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> {phase.dueDate}</span>
               <span className="hidden md:inline">•</span>
@@ -95,9 +95,9 @@ export function PhaseCard({ phase, defaultExpanded = false }: PhaseProps) {
               <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-500">Milestones</h4>
               <ul className="space-y-3">
                 {phase.milestones.map((milestone, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-sm font-medium text-[#2E1065]">
-                    <div className="mt-0.5 h-4 w-4 rounded-full bg-[#FFF7EE] border border-[#F97316] flex items-center justify-center shrink-0">
-                      <div className="h-1.5 w-1.5 rounded-full bg-[#F97316]" />
+                  <li key={idx} className="flex items-start gap-2.5 text-sm font-medium text-[#030213]">
+                    <div className="mt-0.5 h-4 w-4 rounded-full bg-[#ffffff] border border-[#3B82F6] flex items-center justify-center shrink-0">
+                      <div className="h-1.5 w-1.5 rounded-full bg-[#3B82F6]" />
                     </div>
                     {milestone}
                   </li>
@@ -109,16 +109,16 @@ export function PhaseCard({ phase, defaultExpanded = false }: PhaseProps) {
               <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-500">Detailed Tasks</h4>
               <div className="space-y-2">
                 {phase.tasks.map((task) => (
-                  <div key={task.id} className="group flex items-center justify-between rounded-xl border border-gray-100 bg-white p-3 shadow-sm transition-all hover:border-[#8B5CF6]/30 hover:shadow-md">
+                  <div key={task.id} className="group flex items-center justify-between rounded-xl border border-gray-100 bg-white p-3 shadow-sm transition-all hover:border-[#3B82F6]/30 hover:shadow-md">
                     <div className="flex items-center gap-3">
                       {task.status === 'completed' ? (
-                        <CheckCircle2 className="h-5 w-5 text-[#8B5CF6]" />
+                        <CheckCircle2 className="h-5 w-5 text-[#3B82F6]" />
                       ) : (
                         <Circle className="h-5 w-5 text-gray-300" />
                       )}
                       <span className={cn(
                         "text-sm font-medium",
-                        task.status === 'completed' ? "text-gray-400 line-through" : "text-[#2E1065]"
+                        task.status === 'completed' ? "text-gray-400 line-through" : "text-[#030213]"
                       )}>
                         {task.title}
                       </span>

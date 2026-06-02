@@ -1,9 +1,9 @@
-# BrandApt NFC — Digital Business Cards
+# Brandapt Cards — Digital Business Cards
 
 > NFC-powered digital business card platform for professionals
 
-## What is BrandApt NFC?
-BrandApt NFC is a digital business card platform where professionals create shareable profiles accessible via NFC tap or QR code scan. When a visitor taps a physical NFC card, they are taken to the owner's profile page where they can view contact details, save a vCard, and exchange contact information.
+## What is Brandapt Cards?
+Brandapt Cards is a digital business card platform where professionals create shareable profiles accessible via NFC tap or QR code scan. When a visitor taps a physical NFC card, they are taken to the owner's profile page where they can view contact details, save a vCard, and exchange contact information.
 
 ## Key Features
 - Digital profile pages served at /c/:uniqueId
@@ -17,7 +17,7 @@ BrandApt NFC is a digital business card platform where professionals create shar
 - Live session analytics: view duration, scroll depth, link interaction
 
 ## Target Users
-Business professionals who attend networking events and want a modern, contactless way to share their business card. Currently deployed for Middlesex Consulting Group (MCG).
+Business professionals who attend networking events and want a modern, contactless way to share their business card.
 
 ## Technology
 - React 19 + TypeScript + Vite

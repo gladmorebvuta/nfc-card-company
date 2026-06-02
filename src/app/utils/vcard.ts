@@ -16,7 +16,7 @@ export function generateVCard(contact: {
     `FN:${contact.name}`,
     `N:${last};${first};;;`,
     `TITLE:${contact.title}`,
-    `ORG:Middlesex Consulting Group;${contact.department}`,
+    `ORG:Brandapt;${contact.department}`,
     `EMAIL;TYPE=WORK:${contact.email}`,
     `TEL;TYPE=WORK:${contact.phone}`,
     `ADR;TYPE=WORK:;;${contact.office};;;;`,

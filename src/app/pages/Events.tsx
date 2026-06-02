@@ -80,13 +80,13 @@ export function Events() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#2E1065]">Event Mode</h1>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213]">Event Mode</h1>
           <p className="text-sm text-gray-500 font-medium">
             Tag every tap from a networking event — see exactly who you met and where
           </p>
         </div>
         <Button
-          className="gap-2 bg-[#2E1065] hover:bg-[#2E1065]/90 text-white rounded-xl shadow-lg shadow-[#2E1065]/20"
+          className="gap-2 bg-[#030213] hover:bg-[#030213]/90 text-white rounded-xl shadow-lg shadow-[#030213]/20"
           onClick={() => setShowCreate(true)}
           disabled={!!activeEvent}
           title={activeEvent ? "End the current event before creating a new one" : undefined}
@@ -97,7 +97,7 @@ export function Events() {
 
       {/* Active Event Card */}
       {loading ? null : activeEvent ? (
-        <Card className="border-2 border-[#F97316]/30">
+        <Card className="border-2 border-[#3B82F6]/30">
           <CardContent className="p-6 space-y-5">
             {/* Event name + end button */}
             <div className="flex items-start justify-between gap-4">
@@ -108,7 +108,7 @@ export function Events() {
                 </span>
                 <div>
                   <span className="text-xs font-bold uppercase tracking-widest text-green-600">Live</span>
-                  <h2 className="text-xl font-black text-[#2E1065] leading-tight">{activeEvent.name}</h2>
+                  <h2 className="text-xl font-black text-[#030213] leading-tight">{activeEvent.name}</h2>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mt-1">
                     {activeEvent.location && (
                       <span className="flex items-center gap-1">
@@ -134,16 +134,16 @@ export function Events() {
             {/* Live stats */}
             <div className="flex gap-3">
               <div className="flex items-center gap-3 rounded-xl bg-white/80 border border-white px-4 py-3 shadow-sm">
-                <Eye className="h-4 w-4 text-[#F97316]" />
+                <Eye className="h-4 w-4 text-[#3B82F6]" />
                 <div>
-                  <div className="text-xl font-black text-[#2E1065]">{activeEvent.viewCount}</div>
+                  <div className="text-xl font-black text-[#030213]">{activeEvent.viewCount}</div>
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Views</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 rounded-xl bg-white/80 border border-white px-4 py-3 shadow-sm">
-                <Users className="h-4 w-4 text-[#F97316]" />
+                <Users className="h-4 w-4 text-[#3B82F6]" />
                 <div>
-                  <div className="text-xl font-black text-[#2E1065]">{activeEvent.exchangeCount}</div>
+                  <div className="text-xl font-black text-[#030213]">{activeEvent.exchangeCount}</div>
                   <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Exchanges</div>
                 </div>
               </div>
@@ -173,7 +173,7 @@ export function Events() {
                   </code>
                   <button
                     onClick={() => copyLink(eventLink(activeEvent.id, src), src.toUpperCase())}
-                    className="shrink-0 rounded-lg p-1.5 text-gray-400 hover:text-[#2E1065] hover:bg-gray-100 transition-colors"
+                    className="shrink-0 rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-gray-100 transition-colors"
                     title={`Copy ${src.toUpperCase()} link`}
                   >
                     <Copy className="h-3.5 w-3.5" />
@@ -186,16 +186,16 @@ export function Events() {
       ) : (
         <Card>
           <CardContent className="flex flex-col items-center gap-3 py-14 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#EDE9FE]">
-              <Zap className="h-8 w-8 text-[#2E1065]" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#ececf0]">
+              <Zap className="h-8 w-8 text-[#030213]" />
             </div>
-            <p className="text-base font-bold text-[#2E1065]">No active event</p>
+            <p className="text-base font-bold text-[#030213]">No active event</p>
             <p className="text-sm text-gray-400 max-w-xs leading-relaxed">
               Create an event before your next networking session to tag every tap and
               know exactly where each connection came from.
             </p>
             <Button
-              className="mt-2 gap-2 bg-[#F97316] hover:bg-[#F97316]/90 text-white rounded-xl shadow-lg shadow-[#F97316]/20"
+              className="mt-2 gap-2 bg-[#3B82F6] hover:bg-[#3B82F6]/90 text-white rounded-xl shadow-lg shadow-[#3B82F6]/20"
               onClick={() => setShowCreate(true)}
             >
               <Plus className="h-4 w-4" /> Create Event
@@ -227,7 +227,7 @@ export function Events() {
                   {pastEvents.map(ev => (
                     <tr key={ev.id} className="hover:bg-white/60 transition-colors">
                       <td className="px-6 py-3">
-                        <div className="flex items-center gap-2 font-bold text-[#2E1065]">
+                        <div className="flex items-center gap-2 font-bold text-[#030213]">
                           <CheckCircle className="h-3.5 w-3.5 text-gray-300 shrink-0" />
                           {ev.name}
                         </div>
@@ -238,13 +238,13 @@ export function Events() {
                       <td className="px-6 py-3 hidden md:table-cell text-gray-500 font-medium">
                         {ev.location || <span className="text-gray-300">—</span>}
                       </td>
-                      <td className="px-6 py-3 font-bold text-[#2E1065]">{ev.viewCount}</td>
-                      <td className="px-6 py-3 font-bold text-[#2E1065]">{ev.exchangeCount}</td>
+                      <td className="px-6 py-3 font-bold text-[#030213]">{ev.viewCount}</td>
+                      <td className="px-6 py-3 font-bold text-[#030213]">{ev.exchangeCount}</td>
                       <td className="px-6 py-3 text-right">
                         <button
                           onClick={() => copyLink(eventLink(ev.id, "nfc"), "Event")}
                           title="Copy NFC link"
-                          className="rounded-lg p-1.5 text-gray-400 hover:text-[#2E1065] hover:bg-white/60 transition-colors"
+                          className="rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-white/60 transition-colors"
                         >
                           <Copy className="h-4 w-4" />
                         </button>

@@ -2,7 +2,7 @@
 
 **Stack:** React + Vite + TypeScript  
 **Firebase:** brandaptos-v2 (shared) | No own functions | Hosting: `brandapt-nfc`  
-**Last updated:** 2026-04-19
+**Last updated:** 2026-06-02
 
 ## Feature Map
 
@@ -30,6 +30,7 @@
 | **Auth** | done | Firebase Auth (shared pool) |
 | **Team/Org Cards** | planned | Multiple cards per organization |
 | **Custom Card Designs** | planned | Branded card templates |
+| **Brandapt Rebrand** | done | Full visual rebrand to Brandapt design system (navy `#030213`, Space Mono, glassmorphism, dark-first); code-rendered Brandapt business card; reused BrandaptOS logo/favicon assets |
 | **CRM Integration** | planned | Export contacts to CRM tools |
 
 ## User Flows
@@ -47,11 +48,12 @@
 | 2026-04 | Removed MUI deps (kept Radix/shadcn) | MUI was dead weight (0 imports) | ✅ Cleaner bundle |
 | 2026-04-19 | `firestore.rules` / `firestore.indexes.json` are READ-ONLY mirrors of BrandaptOS | Per ecosystem CLAUDE.md — only BrandaptOS deploys rules/indexes | ✅ Banner added to rules file, firebase.json `firestore` + `storage` blocks removed |
 | 2026-04-19 | `nfc_events` is the canonical analytics collection for sessions | Superset of `nfc_profile_views` — supports unauthenticated counter increments via field-scoped rule | ✅ Rule + indexes deployed via BrandaptOS |
+| 2026-06-02 | Rebrand from white-label "MCG" theme to Brandapt design system | App should match the Brandapt ecosystem; old theme was a leftover client (Middlesex Consulting Group) skin | ✅ Tokens, fonts, logos, and a code-rendered card replace all MCG assets; deleted orphaned MCG SVGs + dead `test.ts` |
 
 ## Known Issues
 
 - Build bundle is 1.1MB (needs code-splitting)
-- `src/imports/pasted_text/` contains copy-pasted roadmap content
+- `src/imports/pasted_text/` contains copy-pasted roadmap content (MCG card SVGs in `src/imports/` removed during 2026-06-02 rebrand)
 
 ## Tech Debt
 

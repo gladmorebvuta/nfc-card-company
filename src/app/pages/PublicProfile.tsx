@@ -14,7 +14,7 @@ import { usePublicProfile } from "../hooks/usePublicProfile"
 import { ExchangeForm } from "../components/ExchangeForm"
 
 import { QRCodeSVG } from 'qrcode.react';
-import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
+import { BrandaptLogo } from "../components/BrandaptLogo";
 import { Seo } from "../components/seo/Seo";
 import { personSchema, profilePageSchema } from "../components/seo/schemas";
 
@@ -159,7 +159,7 @@ export function PublicProfile() {
   if (isLiveCard && apiLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2E1065]" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#030213]" />
       </div>
     );
   }
@@ -225,7 +225,7 @@ export function PublicProfile() {
 
   const handleNativeShare = async () => {
     const shareData = {
-      title: `${currentEmployee.name} — Middlesex Consulting Group`,
+      title: `${currentEmployee.name} — Brandapt`,
       text: `Connect with ${currentEmployee.name}, ${currentEmployee.title}`,
       url: shareableUrl,
     };
@@ -250,9 +250,9 @@ export function PublicProfile() {
     youtube: "#FF0000",
     facebook: "#1877F2",
     tiktok: "#010101",
-    website: "#F97316",
-    calendar: "#8B5CF6",
-    action: "#8B5CF6",
+    website: "#3B82F6",
+    calendar: "#3B82F6",
+    action: "#3B82F6",
     social: "#0A66C2",
     default: "#6B7280",
   };
@@ -288,7 +288,7 @@ export function PublicProfile() {
   const employeeAny = currentEmployee as any;
   const profileDescription = currentEmployee.bio
     ? currentEmployee.bio.slice(0, 155)
-    : `${currentEmployee.title ? `${currentEmployee.title} at ` : ""}${employeeAny.company || "Middlesex Consulting Group"} — digital business card`;
+    : `${currentEmployee.title ? `${currentEmployee.title} at ` : ""}${employeeAny.company || "Brandapt"} — digital business card`;
 
   return (
     <div className="min-h-[100dvh] font-sans text-gray-900 relative overflow-x-hidden">
@@ -321,9 +321,9 @@ export function PublicProfile() {
 
       {/* Scroll-Responsive Animated Background Layers */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <motion.div style={{ opacity: bgOpacity1 }} className="absolute inset-0 bg-gradient-to-tr from-[#FFF7EE] via-[#FFEDD5] to-[#EDE9FE]" />
-        <motion.div style={{ opacity: bgOpacity2 }} className="absolute inset-0 bg-gradient-to-tr from-[#EDE9FE] via-[#FFF7EE] to-[#FFEDD5]" />
-        <motion.div style={{ opacity: bgOpacity3 }} className="absolute inset-0 bg-gradient-to-tr from-[#FFEDD5] via-[#EDE9FE] to-[#FFF7EE]" />
+        <motion.div style={{ opacity: bgOpacity1 }} className="absolute inset-0 bg-gradient-to-tr from-[#ffffff] via-[#ececf0] to-[#ececf0]" />
+        <motion.div style={{ opacity: bgOpacity2 }} className="absolute inset-0 bg-gradient-to-tr from-[#ececf0] via-[#ffffff] to-[#ececf0]" />
+        <motion.div style={{ opacity: bgOpacity3 }} className="absolute inset-0 bg-gradient-to-tr from-[#ececf0] via-[#ececf0] to-[#ffffff]" />
       </div>
 
       {/* Background Ambience */}
@@ -338,9 +338,9 @@ export function PublicProfile() {
           className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 mb-2 sticky top-0 z-20 bg-white/70 backdrop-blur-xl border-b border-white/50 rounded-b-2xl shadow-[0_2px_16px_rgba(46,16,101,0.06)]"
         >
           <div className="flex items-center min-w-0">
-            <img src={mcgLogoColour} alt="Middlesex Consulting Group" className="h-8 w-auto" />
+            <BrandaptLogo variant="dark" className="h-8" />
           </div>
-          <button onClick={() => setShowShareModal(true)} className="p-2 rounded-full bg-white/40 hover:bg-white/60 transition-colors backdrop-blur-md text-[#2E1065]">
+          <button onClick={() => setShowShareModal(true)} className="p-2 rounded-full bg-white/40 hover:bg-white/60 transition-colors backdrop-blur-md text-[#030213]">
             <QrCode className="h-5 w-5" />
           </button>
         </motion.div>
@@ -363,9 +363,9 @@ export function PublicProfile() {
               {currentEmployee.cover ? (
                 <img src={currentEmployee.cover} alt="" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-[#2E1065] via-[#4c1d95] to-[#7c3aed]">
+                <div className="w-full h-full bg-gradient-to-br from-blue-500 via-cyan-500 to-purple-500">
                   {/* subtle pattern */}
-                  <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #F97316 0%, transparent 50%), radial-gradient(circle at 80% 20%, #8B5CF6 0%, transparent 40%)" }} />
+                  <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #3B82F6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #3B82F6 0%, transparent 40%)" }} />
                 </div>
               )}
             </div>
@@ -379,7 +379,7 @@ export function PublicProfile() {
             >
               {/* Avatar — overlaps cover banner */}
               <div className="relative -mt-10 mb-3">
-                <div className="h-20 w-20 rounded-full border-4 border-white shadow-[0_8px_24px_rgba(46,16,101,0.18)] overflow-hidden bg-gradient-to-br from-[#2E1065] to-[#7c3aed] flex items-center justify-center">
+                <div className="h-20 w-20 rounded-full border-4 border-white shadow-[0_8px_24px_rgba(46,16,101,0.18)] overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center">
                   {currentEmployee.avatar ? (
                     <img src={currentEmployee.avatar} alt={currentEmployee.name} className="w-full h-full object-cover" />
                   ) : (
@@ -390,9 +390,9 @@ export function PublicProfile() {
                 </div>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#2E1065] text-center leading-tight">{currentEmployee.name}</h1>
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213] text-center leading-tight">{currentEmployee.name}</h1>
               {currentEmployee.title && (
-                <p className="text-sm font-bold text-[#F97316] mt-0.5 text-center">{currentEmployee.title}</p>
+                <p className="text-sm font-bold text-[#3B82F6] mt-0.5 text-center">{currentEmployee.title}</p>
               )}
               {currentEmployee.department && (
                 <p className="text-xs font-semibold text-gray-400 mt-0.5 flex items-center gap-1">
@@ -400,7 +400,7 @@ export function PublicProfile() {
                 </p>
               )}
               {currentEmployee.bio && (
-                <p className="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-[#2E1065]/60 text-center max-w-[280px]">
+                <p className="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-[#030213]/60 text-center max-w-[280px]">
                   {currentEmployee.bio}
                 </p>
               )}
@@ -415,7 +415,7 @@ export function PublicProfile() {
                 {/* Row 1: Save Contact — full width */}
                 <button
                   onClick={handleSaveContact}
-                  className="w-full flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-gradient-to-br from-[#2E1065] to-[#4c1d95] text-white text-sm font-bold shadow-[0_4px_18px_rgba(46,16,101,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-gradient-to-br from-[#030213] to-[#1e1b4b] text-white text-sm font-bold shadow-[0_4px_18px_rgba(46,16,101,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
                 >
                   <Download className="h-4 w-4" />
                   Save Contact
@@ -424,14 +424,14 @@ export function PublicProfile() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => { if (isLiveCard) { setPendingEngagementScore(computeEngagementScore()); setExchangeFormOpen(true); } else { setShowExchangeModal(true); } }}
-                    className="flex-1 flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-white/90 border border-gray-200/60 text-[#2E1065] text-sm font-bold shadow-sm hover:bg-white hover:shadow-md transition-all active:scale-[0.98]"
+                    className="flex-1 flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-white/90 border border-gray-200/60 text-[#030213] text-sm font-bold shadow-sm hover:bg-white hover:shadow-md transition-all active:scale-[0.98]"
                   >
                     <Users className="h-4 w-4" />
                     Exchange
                   </button>
                   <button
                     onClick={() => setShowShareModal(true)}
-                    className="flex h-13 w-13 aspect-square py-3.5 px-3.5 items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#2E1065] shadow-sm hover:bg-white hover:shadow-md transition-all active:scale-[0.98]"
+                    className="flex h-13 w-13 aspect-square py-3.5 px-3.5 items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#030213] shadow-sm hover:bg-white hover:shadow-md transition-all active:scale-[0.98]"
                   >
                     <Share2 className="h-4 w-4" />
                   </button>
@@ -451,7 +451,7 @@ export function PublicProfile() {
                 onClick={() => { if (viewDocId && isLiveCard && !clickedEmail) { setClickedEmail(true); updateViewSession(viewDocId, { clickedEmail: true }); } }}
                 className="group flex flex-col items-center gap-1.5"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#F97316] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#3B82F6] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
                   <Mail className="h-5 w-5" />
                 </div>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Email</span>
@@ -461,7 +461,7 @@ export function PublicProfile() {
                 onClick={() => { if (viewDocId && isLiveCard && !clickedPhone) { setClickedPhone(true); updateViewSession(viewDocId, { clickedPhone: true }); } }}
                 className="group flex flex-col items-center gap-1.5"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#8B5CF6] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#3B82F6] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
                   <Phone className="h-5 w-5" />
                 </div>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Call</span>
@@ -470,7 +470,7 @@ export function PublicProfile() {
                 onClick={() => { setShowOfficeModal(true); if (viewDocId && isLiveCard && !clickedLocation) { setClickedLocation(true); updateViewSession(viewDocId, { clickedLocation: true }); } }}
                 className="group flex flex-col items-center gap-1.5"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#2E1065] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#030213] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Office</span>
@@ -507,11 +507,11 @@ export function PublicProfile() {
                           {initial}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-bold text-[#2E1065] leading-tight truncate">{link.title}</p>
+                          <p className="text-sm font-bold text-[#030213] leading-tight truncate">{link.title}</p>
                           <p className="text-[11px] font-medium text-gray-400 truncate">{stripUrl(link.url)}</p>
                         </div>
                       </div>
-                      <ChevronRight className="h-4 w-4 shrink-0 text-gray-300 group-hover:text-[#2E1065] transition-colors ml-2" />
+                      <ChevronRight className="h-4 w-4 shrink-0 text-gray-300 group-hover:text-[#030213] transition-colors ml-2" />
                     </a>
                   );
                 })}
@@ -529,7 +529,7 @@ export function PublicProfile() {
           transition={{ delay: 1 }}
           className="mt-6 flex justify-center"
         >
-          <Link to="/dashboard" className="text-xs font-semibold text-[#2E1065]/50 hover:text-[#2E1065] transition-colors">
+          <Link to="/dashboard" className="text-xs font-semibold text-[#030213]/50 hover:text-[#030213] transition-colors">
             Employee Login
           </Link>
         </motion.div>
@@ -544,7 +544,7 @@ export function PublicProfile() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowShareModal(false)}
-              className="fixed inset-0 z-50 bg-[#2E1065]/50 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-[#030213]/50 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, y: "100%" }}
@@ -556,7 +556,7 @@ export function PublicProfile() {
               {/* Sheet */}
               <div className="bg-white rounded-t-[2rem] shadow-[0_-12px_48px_rgba(46,16,101,0.18)] overflow-hidden">
                 {/* Accent bar */}
-                <div className="h-1.5 w-full bg-gradient-to-r from-[#F97316] via-[#8B5CF6] to-[#2E1065]" />
+                <div className="h-1.5 w-full bg-gradient-to-r from-[#3B82F6] via-[#3B82F6] to-[#030213]" />
 
                 <div className="px-6 pt-5 pb-8">
                   {/* Drag handle */}
@@ -564,14 +564,14 @@ export function PublicProfile() {
 
                   {/* Profile row */}
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-[#2E1065] to-[#7c3aed] flex items-center justify-center shrink-0 shadow-sm">
+                    <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center shrink-0 shadow-sm">
                       {currentEmployee.avatar
                         ? <img src={currentEmployee.avatar} alt="" className="w-full h-full object-cover" />
                         : <span className="text-base font-black text-white">{currentEmployee.name?.charAt(0)}</span>
                       }
                     </div>
                     <div>
-                      <p className="text-sm font-black text-[#2E1065] leading-tight">{currentEmployee.name}</p>
+                      <p className="text-sm font-black text-[#030213] leading-tight">{currentEmployee.name}</p>
                       <p className="text-xs font-medium text-gray-400">{currentEmployee.title}</p>
                     </div>
                   </div>
@@ -584,7 +584,7 @@ export function PublicProfile() {
                         size={180}
                         level="Q"
                         includeMargin={false}
-                        fgColor="#2E1065"
+                        fgColor="#030213"
                       />
                     </div>
                     <p className="mt-3 text-xs font-semibold text-gray-400">Scan to view profile</p>
@@ -596,7 +596,7 @@ export function PublicProfile() {
                     <span className="text-xs font-medium text-gray-500 truncate flex-1">{shareableUrl.replace(/^https?:\/\//, "")}</span>
                     <button
                       onClick={handleCopyLink}
-                      className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-gray-200 text-xs font-bold text-[#2E1065] hover:bg-gray-50 transition-all active:scale-[0.97] shadow-sm"
+                      className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-gray-200 text-xs font-bold text-[#030213] hover:bg-gray-50 transition-all active:scale-[0.97] shadow-sm"
                     >
                       {linkCopied ? <><Check className="h-3.5 w-3.5 text-emerald-500" />Copied</> : <><Copy className="h-3.5 w-3.5" />Copy</>}
                     </button>
@@ -605,7 +605,7 @@ export function PublicProfile() {
                   {/* Share button */}
                   <button
                     onClick={handleNativeShare}
-                    className="w-full h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#2E1065] to-[#4c1d95] text-white font-bold text-sm shadow-[0_4px_18px_rgba(46,16,101,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
+                    className="w-full h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#030213] to-[#1e1b4b] text-white font-bold text-sm shadow-[0_4px_18px_rgba(46,16,101,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
                   >
                     <Share2 className="h-4 w-4" /> Share via...
                   </button>
@@ -625,7 +625,7 @@ export function PublicProfile() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => { setShowExchangeModal(false); setTimeout(() => setExchangeSuccess(false), 300); }}
-              className="fixed inset-0 z-50 bg-[#2E1065]/50 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-[#030213]/50 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, y: "100%" }}
@@ -636,7 +636,7 @@ export function PublicProfile() {
             >
               <div className="bg-white rounded-t-[2rem] shadow-[0_-12px_48px_rgba(46,16,101,0.18)] overflow-hidden">
                 {/* Accent bar */}
-                <div className="h-1.5 w-full bg-gradient-to-r from-[#F97316] via-[#8B5CF6] to-[#2E1065]" />
+                <div className="h-1.5 w-full bg-gradient-to-r from-[#3B82F6] via-[#3B82F6] to-[#030213]" />
 
                 <div className="px-6 pt-5 pb-8">
                   <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
@@ -645,7 +645,7 @@ export function PublicProfile() {
                     <>
                       {/* "Connecting with" header */}
                       <div className="flex items-center gap-3 mb-6">
-                        <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-[#2E1065] to-[#7c3aed] flex items-center justify-center shrink-0 shadow-sm">
+                        <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center shrink-0 shadow-sm">
                           {currentEmployee.avatar
                             ? <img src={currentEmployee.avatar} alt="" className="w-full h-full object-cover" />
                             : <span className="text-base font-black text-white">{currentEmployee.name?.charAt(0)}</span>
@@ -653,7 +653,7 @@ export function PublicProfile() {
                         </div>
                         <div>
                           <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Connecting with</p>
-                          <p className="text-sm font-black text-[#2E1065]">{currentEmployee.name}</p>
+                          <p className="text-sm font-black text-[#030213]">{currentEmployee.name}</p>
                         </div>
                       </div>
 
@@ -668,20 +668,20 @@ export function PublicProfile() {
                           { icon: <Briefcase className="h-4 w-4" />, type: "text", placeholder: "Job Title", required: false },
                           { icon: <Building2 className="h-4 w-4" />, type: "text", placeholder: "Company", required: false },
                         ].map(({ icon, type, placeholder, required }) => (
-                          <div key={placeholder} className="flex items-center gap-3 h-13 bg-gray-50 border border-gray-100 rounded-2xl px-4 focus-within:border-[#F97316]/40 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(249,115,22,0.08)] transition-all">
+                          <div key={placeholder} className="flex items-center gap-3 h-13 bg-gray-50 border border-gray-100 rounded-2xl px-4 focus-within:border-[#3B82F6]/40 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(249,115,22,0.08)] transition-all">
                             <span className="text-gray-400 shrink-0">{icon}</span>
                             <input
                               required={required}
                               type={type}
                               placeholder={placeholder}
-                              className="flex-1 bg-transparent py-3.5 text-sm font-medium text-[#2E1065] placeholder:text-gray-400 focus:outline-none"
+                              className="flex-1 bg-transparent py-3.5 text-sm font-medium text-[#030213] placeholder:text-gray-400 focus:outline-none"
                             />
                           </div>
                         ))}
 
                         <button
                           type="submit"
-                          className="w-full mt-2 h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#F97316] to-[#ea580c] text-white font-bold text-sm shadow-[0_4px_18px_rgba(249,115,22,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
+                          className="w-full mt-2 h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#ea580c] text-white font-bold text-sm shadow-[0_4px_18px_rgba(249,115,22,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
                         >
                           <Users className="h-4 w-4" /> Exchange Contact
                         </button>
@@ -696,12 +696,12 @@ export function PublicProfile() {
                       <div className="h-20 w-20 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-[1.5rem] flex items-center justify-center mb-5 shadow-[0_8px_24px_rgba(16,185,129,0.3)]">
                         <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                       </div>
-                      <h3 className="text-2xl font-black text-[#2E1065] mb-1">Connected!</h3>
+                      <h3 className="text-2xl font-black text-[#030213] mb-1">Connected!</h3>
                       <p className="text-center text-sm text-gray-500 font-medium max-w-[220px]">
                         Your info was sent to {currentEmployee.name.split(" ")[0]}.
                       </p>
                       <button
-                        className="mt-7 w-full h-13 py-3.5 rounded-full border border-gray-200 bg-white text-[#2E1065] font-bold text-sm hover:bg-gray-50 transition-all active:scale-[0.98]"
+                        className="mt-7 w-full h-13 py-3.5 rounded-full border border-gray-200 bg-white text-[#030213] font-bold text-sm hover:bg-gray-50 transition-all active:scale-[0.98]"
                         onClick={() => { setShowExchangeModal(false); setTimeout(() => setExchangeSuccess(false), 300); }}
                       >
                         Close
@@ -724,7 +724,7 @@ export function PublicProfile() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowOfficeModal(false)}
-              className="fixed inset-0 z-50 bg-[#2E1065]/40 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-[#030213]/40 backdrop-blur-sm"
             />
             <motion.div 
               initial={{ opacity: 0, y: "100%" }}
@@ -735,8 +735,8 @@ export function PublicProfile() {
             >
               <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6" />
               <div className="text-center mb-6">
-                <MapPin className="h-8 w-8 text-[#F97316] mx-auto mb-3" />
-                <h3 className="text-2xl font-black text-[#2E1065]">Office Location</h3>
+                <MapPin className="h-8 w-8 text-[#3B82F6] mx-auto mb-3" />
+                <h3 className="text-2xl font-black text-[#030213]">Office Location</h3>
                 <p className="text-sm font-medium text-gray-500 mt-2">{currentEmployee.office}</p>
               </div>
               <a
@@ -745,14 +745,14 @@ export function PublicProfile() {
                 rel="noreferrer"
                 className="block"
               >
-                <Button size="lg" className="w-full shadow-[0_8px_30px_rgb(46,16,101,0.2)] text-base font-semibold h-14 bg-gradient-to-br from-[#2E1065] to-[#4c1d95] hover:opacity-95 rounded-full flex items-center justify-center gap-2 border border-white/10 transition-all active:scale-[0.98]">
+                <Button size="lg" className="w-full shadow-[0_8px_30px_rgb(46,16,101,0.2)] text-base font-semibold h-14 bg-gradient-to-br from-[#030213] to-[#1e1b4b] hover:opacity-95 rounded-full flex items-center justify-center gap-2 border border-white/10 transition-all active:scale-[0.98]">
                   Open in Maps
                 </Button>
               </a>
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="w-full text-base font-semibold h-14 mt-3 rounded-full border-gray-200/60 bg-white/50 text-[#2E1065] hover:bg-white transition-all active:scale-[0.98]"
+                className="w-full text-base font-semibold h-14 mt-3 rounded-full border-gray-200/60 bg-white/50 text-[#030213] hover:bg-white transition-all active:scale-[0.98]"
                 onClick={() => setShowOfficeModal(false)}
               >
                 Close

@@ -3,6 +3,22 @@
 All notable changes are documented here.  
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## 2026-06-02
+
+### Changed
+- Rebranded the entire app from the white-label "MCG" theme to the Brandapt design system: design tokens in `src/styles/theme.css` swapped to navy `#030213`/dark-first palette, glassmorphism utilities added, and `Qugan` font replaced with `Space Mono` (`src/styles/fonts.css`).
+- Swept ~270 hardcoded MCG purple/orange hex values (`#2E1065`, `#F97316`, cream/peach tints) → Brandapt navy/blue across all pages and components; social-platform brand colors preserved.
+- Redesigned the digital business card (`FlippableCard.tsx`) as a code-rendered Brandapt card (navy + Space Mono + Lucide contact icons, profile-driven, no static client SVGs) while keeping the 3D flip mechanics.
+- Replaced MCG logo usage with a theme-aware `BrandaptLogo` component across AuthPage, Dashboard, Onboarding, PublicProfile, and DashboardLayout; updated "Middlesex Consulting Group" strings (vCard ORG, share titles, auth copy) to Brandapt.
+- `index.html` title/OG/Twitter/theme-color updated to "Brandapt Cards"; `public/llms.txt` rebranded.
+
+### Added
+- `src/app/components/ThemeProvider.tsx` (dark-first light/dark/system theme context) and `src/app/components/BrandaptLogo.tsx`, mounted via `src/main.tsx`.
+- Brandapt brand assets copied from BrandaptOS into `public/`: `favicon.svg`, `favicon-32x32.png`, `favicon-16x16.png`, `apple-touch-icon.png`, `logo-light.png`, `logo-dark.png`.
+
+### Removed
+- Orphaned MCG SVG assets in `src/assets/` and `src/imports/`, plus the dead `src/app/test.ts` debug file.
+
 ## 2026-04-19
 
 ### Added
