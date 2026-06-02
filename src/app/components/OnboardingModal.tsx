@@ -109,24 +109,24 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#2E1065]/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#030213]/60 backdrop-blur-sm p-4">
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         className="relative w-full max-w-md rounded-[2rem] bg-white/98 backdrop-blur-xl border border-white/60 shadow-2xl overflow-hidden"
       >
         {/* Header gradient strip */}
-        <div className="h-1.5 bg-gradient-to-r from-[#F97316] via-[#FB923C] to-[#7C3AED]" />
+        <div className="h-1.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500" />
 
         <div className="p-7 pb-6">
           {/* Logo + heading */}
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F97316] to-[#7C3AED] shadow-lg">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="text-xs font-bold text-[#F97316] uppercase tracking-wider">Welcome</p>
-              <h2 className="text-lg font-black text-[#2E1065] leading-tight">Let's set up your card</h2>
+              <p className="text-xs font-bold text-[#3B82F6] uppercase tracking-wider">Welcome</p>
+              <h2 className="text-lg font-black text-[#030213] leading-tight">Let's set up your card</h2>
             </div>
           </div>
 
@@ -138,7 +138,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300",
                   i <= step
-                    ? "bg-[#F97316]"
+                    ? "bg-[#3B82F6]"
                     : "bg-gray-200",
                   i === step ? "w-8" : "w-4"
                 )}
@@ -226,7 +226,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                       placeholder="I help companies build great digital products..."
                       maxLength={300}
                       rows={5}
-                      className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#F97316]/50 focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 transition-all"
+                      className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
                     />
                     <p className="text-right text-xs text-gray-400 mt-1">{bio.length}/300</p>
                   </div>
@@ -259,7 +259,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                           const opt = PLATFORM_OPTIONS.find((p) => p.value === e.target.value);
                           if (opt && !linkLabel) setLinkLabel(opt.label);
                         }}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:border-[#F97316]/50 focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 transition-all"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
                       >
                         {PLATFORM_OPTIONS.map((p) => (
                           <option key={p.value} value={p.value}>{p.label}</option>
@@ -293,7 +293,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                   "flex flex-1 items-center justify-center gap-2 h-11 rounded-full font-bold text-sm transition-all",
                   step === 0 && !displayName.trim()
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-[#F97316] to-[#FB923C] text-white shadow-lg shadow-[#F97316]/30 hover:shadow-xl hover:shadow-[#F97316]/40 active:scale-95"
+                    : "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-[#3B82F6]/30 hover:shadow-xl hover:shadow-[#3B82F6]/40 active:scale-95"
                 )}
               >
                 Continue <ArrowRight className="h-4 w-4" />
@@ -310,7 +310,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                 <button
                   onClick={() => finish(false)}
                   disabled={saving}
-                  className="flex-1 flex items-center justify-center gap-2 h-11 rounded-full bg-gradient-to-r from-[#F97316] to-[#FB923C] text-white font-bold text-sm shadow-lg shadow-[#F97316]/30 hover:shadow-xl active:scale-95 transition-all disabled:opacity-60"
+                  className="flex-1 flex items-center justify-center gap-2 h-11 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold text-sm shadow-lg shadow-[#3B82F6]/30 hover:shadow-xl active:scale-95 transition-all disabled:opacity-60"
                 >
                   {saving ? (
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -332,11 +332,11 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
 function StepHeader({ icon, title, subtitle }: { icon: React.ReactNode; title: string; subtitle: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#FFF7EE] text-[#F97316] border border-[#F97316]/20">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#ffffff] text-[#3B82F6] border border-[#3B82F6]/20">
         {icon}
       </div>
       <div>
-        <h3 className="font-black text-[#2E1065] text-base">{title}</h3>
+        <h3 className="font-black text-[#030213] text-base">{title}</h3>
         <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
       </div>
     </div>
@@ -366,7 +366,7 @@ function Field({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className={cn(
-            "w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#F97316]/50 focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 transition-all",
+            "w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all",
             icon ? "pl-9 pr-4" : "px-4"
           )}
         />

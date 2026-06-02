@@ -15,7 +15,7 @@ export default function App() {
             backdropFilter: "blur(20px)",
             border: "1px solid rgba(255,255,255,0.6)",
             borderRadius: "1rem",
-            color: "#2E1065",
+            color: "#030213",
             fontWeight: 600,
           },
         }}

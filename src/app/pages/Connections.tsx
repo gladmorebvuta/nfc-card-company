@@ -157,7 +157,7 @@ export function Connections() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#2E1065]">Connections</h1>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213]">Connections</h1>
           <p className="text-sm text-gray-500 font-medium">
             Lead pipeline — {exchanges.length} total
           </p>
@@ -176,14 +176,14 @@ export function Connections() {
           <select
             value={sortBy}
             onChange={e => { setSortBy(e.target.value as SortKey); setPage(0); }}
-            className="rounded-xl border border-white bg-white/50 px-3 py-1.5 text-sm font-semibold text-[#2E1065] shadow-sm focus:outline-none"
+            className="rounded-xl border border-white bg-white/50 px-3 py-1.5 text-sm font-semibold text-[#030213] shadow-sm focus:outline-none"
           >
             <option value="date">Sort: Latest</option>
             <option value="score">Sort: Score ↓</option>
             <option value="followUp">Sort: Follow-up ↑</option>
           </select>
           <Button
-            className="gap-2 shadow-lg shadow-[#F97316]/20 bg-[#2E1065] hover:bg-[#2E1065]/90 text-white rounded-xl"
+            className="gap-2 shadow-lg shadow-[#3B82F6]/20 bg-[#030213] hover:bg-[#030213]/90 text-white rounded-xl"
             onClick={() => {
               exportLeadsCSV(
                 filtered.map(e => ({
@@ -223,8 +223,8 @@ export function Connections() {
               onClick={() => { setStatusFilter(key); setPage(0); }}
               className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold transition-colors ${
                 active
-                  ? "bg-[#2E1065] text-white"
-                  : "bg-white/60 text-gray-500 hover:text-[#2E1065] border border-white/60"
+                  ? "bg-[#030213] text-white"
+                  : "bg-white/60 text-gray-500 hover:text-[#030213] border border-white/60"
               }`}
             >
               {label}
@@ -239,7 +239,7 @@ export function Connections() {
       <Card>
         {/* Search */}
         <div className="flex items-center gap-3 border-b border-white/40 p-4 sm:p-6">
-          <div className="flex flex-1 items-center gap-2 rounded-2xl border border-white/60 bg-white/40 px-4 py-2 shadow-sm focus-within:bg-white focus-within:border-[#F97316]/50 transition-all">
+          <div className="flex flex-1 items-center gap-2 rounded-2xl border border-white/60 bg-white/40 px-4 py-2 shadow-sm focus-within:bg-white focus-within:border-[#3B82F6]/50 transition-all">
             <Search className="h-4 w-4 text-gray-400 shrink-0" />
             <input
               type="text"
@@ -304,7 +304,7 @@ export function Connections() {
                               className="h-9 w-9 rounded-xl border-2 border-white shadow-sm shrink-0"
                             />
                             <div className="min-w-0">
-                              <div className="font-bold text-[#2E1065] truncate">{e.visitorName}</div>
+                              <div className="font-bold text-[#030213] truncate">{e.visitorName}</div>
                               <div className="text-xs text-gray-400 truncate">
                                 {e.visitorCompany || e.visitorEmail}
                               </div>
@@ -341,7 +341,7 @@ export function Connections() {
                             type="date"
                             defaultValue={formatDateInput(e.followUpDate)}
                             onChange={ev => handleFollowUpDateChange(e.id, ev.target.value)}
-                            className={`rounded-lg border px-2 py-1 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-[#F97316] ${
+                            className={`rounded-lg border px-2 py-1 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-[#3B82F6] ${
                               overdue
                                 ? "border-red-300 text-red-600 bg-red-50"
                                 : "border-gray-200 text-gray-600 bg-white/60"
@@ -354,7 +354,7 @@ export function Connections() {
                           <select
                             value={e.followUpStatus ?? "new"}
                             onChange={ev => handleStatusChange(e.id, ev.target.value as FollowUpStatus)}
-                            className={`rounded-full border-0 px-2 py-1 text-xs font-bold cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#F97316] ${statusCfg.bg} ${statusCfg.color}`}
+                            className={`rounded-full border-0 px-2 py-1 text-xs font-bold cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#3B82F6] ${statusCfg.bg} ${statusCfg.color}`}
                           >
                             {Object.entries(STATUS_CONFIG).map(([k, v]) => (
                               <option key={k} value={k}>{v.label}</option>
@@ -377,8 +377,8 @@ export function Connections() {
                               }}
                               className={`rounded-lg p-1.5 transition-colors ${
                                 notesOpen
-                                  ? "bg-[#2E1065] text-white"
-                                  : "text-gray-400 hover:text-[#2E1065] hover:bg-white/60"
+                                  ? "bg-[#030213] text-white"
+                                  : "text-gray-400 hover:text-[#030213] hover:bg-white/60"
                               }`}
                             >
                               <FileText className="h-4 w-4" />
@@ -386,7 +386,7 @@ export function Connections() {
                             <button
                               title={`Email ${e.visitorName}`}
                               onClick={() => { window.location.href = `mailto:${e.visitorEmail}`; }}
-                              className="rounded-lg p-1.5 text-gray-400 hover:text-[#2E1065] hover:bg-white/60 transition-colors"
+                              className="rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-white/60 transition-colors"
                             >
                               <Mail className="h-4 w-4" />
                             </button>
@@ -400,7 +400,7 @@ export function Connections() {
                                 });
                                 toast.success(`${e.visitorName}'s vCard downloaded!`);
                               }}
-                              className="rounded-lg p-1.5 text-gray-400 hover:text-[#2E1065] hover:bg-white/60 transition-colors"
+                              className="rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-white/60 transition-colors"
                             >
                               <Download className="h-4 w-4" />
                             </button>
@@ -414,7 +414,7 @@ export function Connections() {
                           <td colSpan={7} className="px-4 pb-4 pt-0 bg-white/40">
                             <div className="flex gap-2 items-start pt-2">
                               <textarea
-                                className="flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#F97316] resize-none"
+                                className="flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#3B82F6] resize-none"
                                 rows={2}
                                 placeholder="Add a private note about this lead…"
                                 value={noteDraft}
@@ -422,7 +422,7 @@ export function Connections() {
                               />
                               <Button
                                 size="sm"
-                                className="bg-[#2E1065] text-white hover:bg-[#2E1065]/90 rounded-xl shrink-0"
+                                className="bg-[#030213] text-white hover:bg-[#030213]/90 rounded-xl shrink-0"
                                 onClick={() => handleNoteSave(e.id)}
                               >
                                 Save
@@ -442,14 +442,14 @@ export function Connections() {
           <div className="flex items-center justify-between gap-3 border-t border-white/40 p-4 text-xs font-medium text-gray-500 bg-white/20">
             <span>
               Showing{" "}
-              <strong className="text-[#2E1065]">
+              <strong className="text-[#030213]">
                 {filtered.length === 0 ? 0 : page * PAGE_SIZE + 1}
               </strong>
               –
-              <strong className="text-[#2E1065]">
+              <strong className="text-[#030213]">
                 {Math.min((page + 1) * PAGE_SIZE, filtered.length)}
               </strong>{" "}
-              of <strong className="text-[#2E1065]">{filtered.length}</strong>
+              of <strong className="text-[#030213]">{filtered.length}</strong>
             </span>
             <div className="flex gap-2">
               <Button
@@ -464,7 +464,7 @@ export function Connections() {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 bg-white border-white text-[#2E1065] shadow-sm"
+                className="h-8 bg-white border-white text-[#030213] shadow-sm"
                 disabled={page >= totalPages - 1}
                 onClick={() => setPage(p => p + 1)}
               >

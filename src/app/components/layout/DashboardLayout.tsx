@@ -4,8 +4,7 @@ import { Home, UserCircle, Users, Calendar, Settings, Bell, Search, LogOut, Chev
 import { motion, AnimatePresence } from "motion/react"
 import { cn } from "../../utils"
 import { useProfile } from "../../contexts/ProfileContext"
-import mcgLogoColour from "../../../assets/MCG Logo Colour.svg";
-import mcgIconColour from "../../../assets/MCG Icon Colour.svg";
+import { BrandaptLogo } from "../BrandaptLogo"
 import { toast } from "sonner"
 import { useAuth } from "../../contexts/AuthContext"
 import { useNotifications } from "../../hooks/useNotifications"
@@ -51,7 +50,7 @@ export function DashboardLayout() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-tr from-[#FFF7EE] via-[#FFEDD5] to-[#EDE9FE] font-sans text-gray-900 selection:bg-[#F97316]/30 relative overflow-x-hidden">
+    <div className="flex min-h-screen bg-gradient-to-tr from-[#ffffff] via-[#ececf0] to-[#ececf0] font-sans text-gray-900 selection:bg-[#3B82F6]/30 relative overflow-x-hidden">
 
       {/* Background Ambience */}
       <div className="absolute top-[-20%] left-[-10%] w-[60vw] max-w-[500px] h-[60vw] max-h-[500px] rounded-full bg-white opacity-40 blur-[120px] pointer-events-none" />
@@ -62,13 +61,13 @@ export function DashboardLayout() {
         
         {/* Brand Mark */}
         <div className="mb-6">
-          <img src={mcgIconColour} alt="MCG" className="h-10 w-10" />
+          <BrandaptLogo className="h-8" />
         </div>
 
         {/* Avatar / Profile Trigger */}
         <div className="relative mb-8 group cursor-pointer">
           <img src={profile.avatar || user?.photoURL || ""} alt="Avatar" className="h-12 w-12 rounded-full border-2 border-white shadow-sm object-cover" />
-          <span className="absolute -top-1 -right-1 flex h-4 w-4 rounded-full bg-[#F97316] border-2 border-white" />
+          <span className="absolute -top-1 -right-1 flex h-4 w-4 rounded-full bg-[#3B82F6] border-2 border-white" />
         </div>
 
         <nav className="flex flex-1 flex-col items-center gap-6">
@@ -79,9 +78,9 @@ export function DashboardLayout() {
               end={item.path === "/dashboard"}
               className={({ isActive }) => cn(
                 "group relative flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300",
-                isActive 
-                  ? "bg-[#F97316] text-white shadow-lg shadow-[#F97316]/30" 
-                  : "bg-white text-gray-600 hover:bg-white/80 hover:text-[#2E1065] shadow-sm border border-white/60"
+                isActive
+                  ? "bg-[#3B82F6] text-white shadow-lg shadow-[#3B82F6]/30"
+                  : "bg-white text-gray-600 hover:bg-white/80 hover:text-[#030213] shadow-sm border border-white/60"
               )}
               title={item.label}
             >
@@ -96,14 +95,14 @@ export function DashboardLayout() {
 
         <div className="mt-auto flex flex-col gap-4">
           <button 
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm border border-white/60 transition-all hover:bg-white/80 hover:text-[#2E1065] active:scale-95"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm border border-white/60 transition-all hover:bg-white/80 hover:text-[#030213] active:scale-95"
             onClick={() => setShowSettings(true)}
             title="Settings"
           >
             <Settings className="h-6 w-6" />
           </button>
           <button
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm border border-white/60 transition-all hover:bg-white/80 hover:text-[#2E1065] active:scale-95"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm border border-white/60 transition-all hover:bg-white/80 hover:text-[#030213] active:scale-95"
             onClick={() => nfcProfile?.uniqueId ? navigate(`/c/${nfcProfile.uniqueId}`) : undefined}
             title="View Public Profile"
           >
@@ -119,13 +118,13 @@ export function DashboardLayout() {
         <header className="sticky top-0 z-40 flex h-16 sm:h-20 lg:h-24 items-center justify-between px-4 sm:px-6 lg:px-12 pt-2 sm:pt-4">
           <div className="lg:hidden flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-2">
             <img src={profile.avatar || user?.photoURL || ""} alt="Avatar" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-white shadow-sm object-cover shrink-0" />
-            <img src={mcgLogoColour} alt="Middlesex Consulting Group" className="h-7 sm:h-8 w-auto" />
+            <BrandaptLogo className="h-6 sm:h-7" />
           </div>
           
           <div className="hidden lg:flex items-center gap-2 text-sm font-semibold text-gray-500">
             <span>Home</span>
             <ChevronRight className="h-4 w-4" />
-            <span className="text-[#2E1065]">Dashboard</span>
+            <span className="text-[#030213]">Dashboard</span>
           </div>
 
           <div className="flex items-center justify-end gap-2 sm:gap-6 shrink-0">
@@ -147,11 +146,11 @@ export function DashboardLayout() {
             <div className="flex items-center gap-3">
               <div className="relative">
                 <button
-                  className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white/50 backdrop-blur-md border border-white/60 text-gray-600 shadow-sm transition-all hover:bg-white hover:text-[#2E1065] hover:shadow-md active:scale-95"
+                  className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white/50 backdrop-blur-md border border-white/60 text-gray-600 shadow-sm transition-all hover:bg-white hover:text-[#030213] hover:shadow-md active:scale-95"
                   onClick={() => setShowNotifications(!showNotifications)}
                 >
                   {unreadCount > 0 && (
-                    <span className="absolute top-2 right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#F97316] px-1 text-[10px] font-bold text-white ring-2 ring-white">
+                    <span className="absolute top-2 right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#3B82F6] px-1 text-[10px] font-bold text-white ring-2 ring-white">
                       {unreadCount > 9 ? "9+" : unreadCount}
                     </span>
                   )}
@@ -164,14 +163,14 @@ export function DashboardLayout() {
                       className="absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-80 rounded-2xl bg-white/95 backdrop-blur-2xl border border-white/60 shadow-xl z-50 overflow-hidden"
                     >
                       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-                        <span className="text-sm font-bold text-[#2E1065]">Notifications</span>
+                        <span className="text-sm font-bold text-[#030213]">Notifications</span>
                         {unreadCount > 0 && (
                           <button
                             onClick={async () => {
                               await markAllAsRead();
                               toast.success("All marked as read");
                             }}
-                            className="text-xs font-semibold text-[#F97316] hover:underline"
+                            className="text-xs font-semibold text-[#3B82F6] hover:underline"
                           >
                             Mark all read
                           </button>
@@ -189,8 +188,8 @@ export function DashboardLayout() {
                             <button
                               key={n.id}
                               className={cn(
-                                "w-full text-left px-4 py-3 hover:bg-[#FFF7EE] transition-colors border-b border-gray-50 last:border-0",
-                                !n.isRead && "bg-[#FFF7EE]/50",
+                                "w-full text-left px-4 py-3 hover:bg-[#ffffff] transition-colors border-b border-gray-50 last:border-0",
+                                !n.isRead && "bg-[#ffffff]/50",
                               )}
                               onClick={async () => {
                                 if (!n.isRead) await markAsRead(n.id);
@@ -200,10 +199,10 @@ export function DashboardLayout() {
                             >
                               <div className="flex items-start gap-2">
                                 {!n.isRead && (
-                                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#F97316]" />
+                                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#3B82F6]" />
                                 )}
                                 <div className={cn(!n.isRead ? "" : "pl-4")}>
-                                  <p className="text-sm font-semibold text-[#2E1065]">{n.title}</p>
+                                  <p className="text-sm font-semibold text-[#030213]">{n.title}</p>
                                   <p className="text-xs text-gray-500 mt-0.5">{n.body}</p>
                                   <p className="text-[10px] text-gray-400 mt-1">
                                     {n.createdAt?.toDate
@@ -222,9 +221,9 @@ export function DashboardLayout() {
               </div>
               
               <div className="hidden lg:flex items-center gap-2 bg-white/50 backdrop-blur-md rounded-full py-1.5 pr-2 pl-4 border border-white/60 shadow-sm">
-                <span className="text-sm font-bold text-[#2E1065] mr-2">{nfcProfile?.displayName || profile.name || "User"}</span>
-                <button 
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[#2E1065] text-white shadow-md hover:bg-[#2E1065]/90 transition-colors"
+                <span className="text-sm font-bold text-[#030213] mr-2">{nfcProfile?.displayName || profile.name || "User"}</span>
+                <button
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-[#030213] text-white shadow-md hover:bg-[#030213]/90 transition-colors"
                   onClick={async () => {
                     await signOut();
                     toast.success("Logged out successfully!");
@@ -258,8 +257,8 @@ export function DashboardLayout() {
               <div className={cn(
                 "flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 active:scale-90",
                 isActive
-                  ? "bg-[#F97316] text-white shadow-lg shadow-[#F97316]/30"
-                  : "text-gray-500 hover:bg-white/60 hover:text-[#2E1065]"
+                  ? "bg-[#3B82F6] text-white shadow-lg shadow-[#3B82F6]/30"
+                  : "text-gray-500 hover:bg-white/60 hover:text-[#030213]"
               )}>
                 <item.icon className="h-5 w-5" />
               </div>
@@ -275,7 +274,7 @@ export function DashboardLayout() {
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setShowSettings(false)}
-              className="fixed inset-0 z-[60] bg-[#2E1065]/40 backdrop-blur-sm"
+              className="fixed inset-0 z-[60] bg-[#030213]/40 backdrop-blur-sm"
             />
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
@@ -285,7 +284,7 @@ export function DashboardLayout() {
               <button onClick={() => setShowSettings(false)} className="absolute top-4 right-4 h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
                 <X className="w-4 h-4" />
               </button>
-              <h3 className="text-2xl font-black text-[#2E1065] mb-6">Settings</h3>
+              <h3 className="text-2xl font-black text-[#030213] mb-6">Settings</h3>
               <div className="space-y-4">
                 {[
                   { label: "Edit Profile", action: () => { navigate("/dashboard/edit"); setShowSettings(false); } },
@@ -296,7 +295,7 @@ export function DashboardLayout() {
                   <button 
                     key={item.label}
                     onClick={item.action}
-                    className="w-full text-left px-4 py-3.5 rounded-xl border border-white/60 bg-white/40 hover:bg-white hover:shadow-md transition-all text-sm font-semibold text-[#2E1065] flex items-center justify-between"
+                    className="w-full text-left px-4 py-3.5 rounded-xl border border-white/60 bg-white/40 hover:bg-white hover:shadow-md transition-all text-sm font-semibold text-[#030213] flex items-center justify-between"
                   >
                     {item.label}
                     <ChevronRight className="h-4 w-4 text-gray-400" />

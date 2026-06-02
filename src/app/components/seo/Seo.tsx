@@ -12,7 +12,7 @@ interface SeoProps {
 
 const SITE_URL = 'https://nfc.brandapt.co'
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`
-const SITE_NAME = 'BrandApt NFC'
+const SITE_NAME = 'Brandapt Cards'
 
 export function Seo({
   title,

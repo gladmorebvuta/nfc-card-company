@@ -27,7 +27,7 @@ const PLATFORMS = [
   { id: "facebook",  label: "Facebook",    initial: "fb", color: "#1877F2", defaultTitle: "Facebook",              placeholder: "https://facebook.com/..." },
   { id: "youtube",   label: "YouTube",     initial: "yt", color: "#FF0000", defaultTitle: "YouTube Channel",       placeholder: "https://youtube.com/@..." },
   { id: "tiktok",    label: "TikTok",      initial: "tt", color: "#010101", defaultTitle: "TikTok",                placeholder: "https://tiktok.com/@..." },
-  { id: "website",   label: "Website",     initial: "W",  color: "#F97316", defaultTitle: "Visit Website",         placeholder: "https://..." },
+  { id: "website",   label: "Website",     initial: "W",  color: "#3B82F6", defaultTitle: "Visit Website",         placeholder: "https://..." },
   { id: "calendar",  label: "Calendly",    initial: "Ca", color: "#8B5CF6", defaultTitle: "Book a Meeting",        placeholder: "https://calendly.com/..." },
   { id: "custom",    label: "Custom",      initial: "+",  color: "#6B7280", defaultTitle: "",                      placeholder: "https://..." },
 ];
@@ -195,21 +195,21 @@ export function EditProfile() {
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#2E1065]">Edit Card</h1>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213]">Edit Card</h1>
           <p className="text-sm sm:text-base text-gray-500 font-medium">Update your public digital business card</p>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
           <Button 
             variant="outline" 
             size="lg" 
-            className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white text-[#2E1065] rounded-xl"
+            className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white text-[#030213] rounded-xl"
             onClick={() => setShowPreview(true)}
           >
             <Eye className="h-4 w-4" /> Preview
           </Button>
           <Button 
             size="lg" 
-            className="shadow-lg shadow-[#F97316]/20 bg-[#2E1065] hover:bg-[#2E1065]/90 text-white rounded-xl"
+            className="shadow-lg shadow-[#3B82F6]/20 bg-[#030213] hover:bg-[#030213]/90 text-white rounded-xl"
             onClick={handleSave}
             disabled={saving}
           >
@@ -222,19 +222,19 @@ export function EditProfile() {
         {/* Images */}
         <Card>
           <div className="border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#2E1065]">Images</h2>
+            <h2 className="text-lg font-bold text-[#030213]">Images</h2>
           </div>
           <CardContent className="p-6">
             <div className="space-y-6">
               <div>
                 <label className="mb-2 block text-sm font-semibold text-gray-700">Cover Photo</label>
-                <div className="relative h-32 sm:h-40 w-full overflow-hidden rounded-xl sm:rounded-[1.5rem] border-2 border-dashed border-white/60 bg-white/40 transition-colors hover:border-[#F97316]/50">
+                <div className="relative h-32 sm:h-40 w-full overflow-hidden rounded-xl sm:rounded-[1.5rem] border-2 border-dashed border-white/60 bg-white/40 transition-colors hover:border-[#3B82F6]/50">
                   {coverUrl && <img src={coverUrl} alt="Cover" className="h-full w-full object-cover" />}
                   <div className="absolute inset-0 flex items-center justify-center bg-black/10">
                     <Button
                       variant="secondary"
                       size="sm"
-                      className="gap-2 shadow-lg bg-white border border-white text-[#2E1065] hover:text-[#F97316]"
+                      className="gap-2 shadow-lg bg-white border border-white text-[#030213] hover:text-[#3B82F6]"
                       onClick={() => coverInputRef.current?.click()}
                       disabled={uploadingCover}
                     >
@@ -251,7 +251,7 @@ export function EditProfile() {
                   <div className="relative shrink-0">
                     {avatarUrl
                       ? <img src={avatarUrl} alt="Avatar" className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl sm:rounded-[1.25rem] border-4 border-white bg-white object-cover shadow-md" />
-                      : <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl sm:rounded-[1.25rem] border-4 border-white bg-gradient-to-br from-[#2E1065] to-[#7c3aed] flex items-center justify-center shadow-md">
+                      : <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl sm:rounded-[1.25rem] border-4 border-white bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center shadow-md">
                           <span className="text-2xl font-black text-white">{name?.charAt(0)}</span>
                         </div>
                     }
@@ -265,7 +265,7 @@ export function EditProfile() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white hover:text-[#F97316]"
+                      className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white hover:text-[#3B82F6]"
                       onClick={() => avatarInputRef.current?.click()}
                       disabled={uploadingAvatar}
                     >
@@ -282,7 +282,7 @@ export function EditProfile() {
         {/* Basic Info */}
         <Card>
           <div className="border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#2E1065]">Basic Info</h2>
+            <h2 className="text-lg font-bold text-[#030213]">Basic Info</h2>
           </div>
           <CardContent className="space-y-4 p-6">
             <div className="grid gap-4 sm:grid-cols-2">
@@ -310,7 +310,7 @@ export function EditProfile() {
             <div className="space-y-2 mt-4">
               <label className="text-sm font-semibold text-gray-700">Bio</label>
               <textarea 
-                className="w-full rounded-[1.25rem] border border-white/60 bg-white/60 p-4 text-sm text-[#2E1065] shadow-sm transition-all focus:border-[#F97316]/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F97316]/20"
+                className="w-full rounded-[1.25rem] border border-white/60 bg-white/60 p-4 text-sm text-[#030213] shadow-sm transition-all focus:border-[#3B82F6]/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20"
                 rows={3}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
@@ -322,7 +322,7 @@ export function EditProfile() {
         {/* Contact Methods */}
         <Card>
           <div className="border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#2E1065]">Contact Options</h2>
+            <h2 className="text-lg font-bold text-[#030213]">Contact Options</h2>
           </div>
           <CardContent className="space-y-4 p-6">
             <div className="grid gap-4 sm:grid-cols-2">
@@ -341,11 +341,11 @@ export function EditProfile() {
         {/* Links */}
         <Card>
           <div className="flex items-center justify-between border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#2E1065]">Links & Socials</h2>
+            <h2 className="text-lg font-bold text-[#030213]">Links & Socials</h2>
             <Button
               variant="outline"
               size="sm"
-              className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white hover:text-[#F97316]"
+              className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white hover:text-[#3B82F6]"
               onClick={() => setShowPlatformPicker(true)}
             >
               <Plus className="h-4 w-4" /> Add Link
@@ -404,7 +404,7 @@ export function EditProfile() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={handleClosePlatformPicker}
-                className="fixed inset-0 z-[80] bg-[#2E1065]/40 backdrop-blur-sm"
+                className="fixed inset-0 z-[80] bg-[#030213]/40 backdrop-blur-sm"
               />
               <motion.div
                 initial={{ opacity: 0, y: "100%" }}
@@ -413,8 +413,8 @@ export function EditProfile() {
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
                 className="fixed bottom-0 left-0 right-0 z-[90] max-h-[80vh] overflow-y-auto"
               >
-                <div className="bg-white rounded-t-[2rem] shadow-[0_-12px_48px_rgba(46,16,101,0.18)] overflow-hidden">
-                  <div className="h-1.5 w-full bg-gradient-to-r from-[#F97316] via-[#8B5CF6] to-[#2E1065]" />
+                <div className="bg-white rounded-t-[2rem] shadow-[0_-12px_48px_rgba(3,2,19,0.18)] overflow-hidden">
+                  <div className="h-1.5 w-full bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#030213]" />
                   <div className="px-6 pt-5 pb-8">
                     <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
                     <div className="flex items-center justify-between mb-5">
@@ -424,7 +424,7 @@ export function EditProfile() {
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                           </button>
                         )}
-                        <h3 className="text-lg font-black text-[#2E1065]">{pendingLink ? "Add Link" : "Choose Platform"}</h3>
+                        <h3 className="text-lg font-black text-[#030213]">{pendingLink ? "Add Link" : "Choose Platform"}</h3>
                       </div>
                       <button onClick={handleClosePlatformPicker} className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
                         <X className="h-4 w-4 text-gray-500" />
@@ -438,7 +438,7 @@ export function EditProfile() {
                             <div className="h-10 w-10 rounded-xl flex items-center justify-center text-white text-sm font-black shadow-sm shrink-0" style={{ backgroundColor: platform.color }}>
                               {platform.initial}
                             </div>
-                            <span className="font-semibold text-[#2E1065]">{platform.label}</span>
+                            <span className="font-semibold text-[#030213]">{platform.label}</span>
                           </div>
                           <div className="space-y-2">
                             <Input
@@ -459,7 +459,7 @@ export function EditProfile() {
                           <Button
                             onClick={handleConfirmLink}
                             disabled={!pendingLink.url.trim()}
-                            className="w-full h-12 bg-[#2E1065] hover:bg-[#2E1065]/90 text-white rounded-xl font-bold shadow-lg shadow-[#2E1065]/20"
+                            className="w-full h-12 bg-[#030213] hover:bg-[#030213]/90 text-white rounded-xl font-bold shadow-lg shadow-[#030213]/20"
                           >
                             <Plus className="h-4 w-4 mr-2" /> Add Link
                           </Button>
@@ -504,9 +504,9 @@ export function EditProfile() {
           >
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 rounded-full bg-[#2E1065] px-6 py-3 text-sm font-bold text-white shadow-xl shadow-[#2E1065]/30 transition-all hover:bg-[#2E1065]/90 active:scale-95 border border-white/10"
+              className="flex items-center gap-2 rounded-full bg-[#030213] px-6 py-3 text-sm font-bold text-white shadow-xl shadow-[#030213]/30 transition-all hover:bg-[#030213]/90 active:scale-95 border border-white/10"
             >
-              <div className="h-2 w-2 rounded-full bg-[#F97316] animate-pulse" />
+              <div className="h-2 w-2 rounded-full bg-[#3B82F6] animate-pulse" />
               Save Changes
             </button>
           </motion.div>
@@ -519,7 +519,7 @@ export function EditProfile() {
           const PLATFORM_COLORS: Record<string, string> = {
             linkedin: "#0A66C2", twitter: "#1DA1F2", x: "#000000", instagram: "#E1306C",
             github: "#333333", youtube: "#FF0000", facebook: "#1877F2", tiktok: "#010101",
-            website: "#F97316", calendar: "#8B5CF6", default: "#6B7280",
+            website: "#3B82F6", calendar: "#8B5CF6", default: "#6B7280",
           };
           const getColor = (type: string) => PLATFORM_COLORS[type?.toLowerCase()] ?? PLATFORM_COLORS.default;
           const getInitial = (t: string, type: string) => {
@@ -535,7 +535,7 @@ export function EditProfile() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowPreview(false)}
-                className="fixed inset-0 z-[60] bg-[#2E1065]/40 backdrop-blur-sm"
+                className="fixed inset-0 z-[60] bg-[#030213]/40 backdrop-blur-sm"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -550,13 +550,13 @@ export function EditProfile() {
                 {/* Close */}
                 <button
                   onClick={() => setShowPreview(false)}
-                  className="absolute top-3 right-3 z-50 h-8 w-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#2E1065] hover:bg-white transition-colors border border-white/60 shadow-sm"
+                  className="absolute top-3 right-3 z-50 h-8 w-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#030213] hover:bg-white transition-colors border border-white/60 shadow-sm"
                 >
                   <X className="w-4 h-4" />
                 </button>
 
                 {/* Scrollable content — matches PublicProfile layout */}
-                <div className="h-full w-full overflow-y-auto bg-gradient-to-tr from-[#FFF7EE] to-[#EDE9FE] scrollbar-hide px-3 pt-8">
+                <div className="h-full w-full overflow-y-auto bg-gradient-to-tr from-[#ffffff] to-[#ececf0] scrollbar-hide px-3 pt-8">
 
                   {/* Flippable Business Card */}
                   <div className="mb-4">
@@ -571,8 +571,8 @@ export function EditProfile() {
                       {coverUrl ? (
                         <img src={coverUrl} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#2E1065] via-[#4c1d95] to-[#7c3aed]">
-                          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #F97316 0%, transparent 50%), radial-gradient(circle at 80% 20%, #8B5CF6 0%, transparent 40%)" }} />
+                        <div className="w-full h-full bg-gradient-to-br from-blue-500 via-cyan-500 to-purple-500">
+                          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #3B82F6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #8B5CF6 0%, transparent 40%)" }} />
                         </div>
                       )}
                     </div>
@@ -581,7 +581,7 @@ export function EditProfile() {
                     <div className="flex flex-col items-center px-5 pb-5">
                       {/* Avatar — overlaps cover */}
                       <div className="relative -mt-10 mb-3">
-                        <div className="h-20 w-20 rounded-full border-4 border-white shadow-[0_8px_24px_rgba(46,16,101,0.18)] overflow-hidden bg-gradient-to-br from-[#2E1065] to-[#7c3aed] flex items-center justify-center">
+                        <div className="h-20 w-20 rounded-full border-4 border-white shadow-[0_8px_24px_rgba(3,2,19,0.18)] overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center">
                           {avatarUrl ? (
                             <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
                           ) : (
@@ -592,25 +592,25 @@ export function EditProfile() {
                         </div>
                       </div>
 
-                      <h1 className="text-xl font-black tracking-tight text-[#2E1065] text-center leading-tight">{name || "Your Name"}</h1>
-                      {title && <p className="text-sm font-bold text-[#F97316] mt-0.5 text-center">{title}</p>}
+                      <h1 className="text-xl font-black tracking-tight text-[#030213] text-center leading-tight">{name || "Your Name"}</h1>
+                      {title && <p className="text-sm font-bold text-[#3B82F6] mt-0.5 text-center">{title}</p>}
                       {department && (
                         <p className="text-xs font-semibold text-gray-400 mt-0.5 flex items-center gap-1">
                           <Building className="h-3 w-3" />{department}
                         </p>
                       )}
-                      {bio && <p className="mt-3 text-xs font-medium leading-relaxed text-[#2E1065]/60 text-center max-w-[260px]">{bio}</p>}
+                      {bio && <p className="mt-3 text-xs font-medium leading-relaxed text-[#030213]/60 text-center max-w-[260px]">{bio}</p>}
 
                       {/* Action Buttons */}
                       <div className="mt-5 flex flex-col gap-2.5 w-full">
-                        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-to-br from-[#2E1065] to-[#4c1d95] text-white text-sm font-bold shadow-[0_4px_18px_rgba(46,16,101,0.30)]">
+                        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-to-br from-[#030213] to-[#1e1b4b] text-white text-sm font-bold shadow-[0_4px_18px_rgba(3,2,19,0.30)]">
                           <Download className="h-4 w-4" /> Save Contact
                         </button>
                         <div className="flex gap-2">
-                          <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-full bg-white/90 border border-gray-200/60 text-[#2E1065] text-sm font-bold shadow-sm">
+                          <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-full bg-white/90 border border-gray-200/60 text-[#030213] text-sm font-bold shadow-sm">
                             <Users className="h-4 w-4" /> Exchange
                           </button>
-                          <button className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#2E1065] shadow-sm">
+                          <button className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#030213] shadow-sm">
                             <Share2 className="h-4 w-4" />
                           </button>
                         </div>
@@ -620,9 +620,9 @@ export function EditProfile() {
                     {/* Quick Contact Icons */}
                     <div className="flex justify-around gap-2 border-y border-gray-100/80 py-4 px-5">
                       {[
-                        { icon: <Mail className="h-4 w-4" />, label: "Email", color: "text-[#F97316]" },
+                        { icon: <Mail className="h-4 w-4" />, label: "Email", color: "text-[#3B82F6]" },
                         { icon: <Phone className="h-4 w-4" />, label: "Call", color: "text-[#8B5CF6]" },
-                        { icon: <MapPin className="h-4 w-4" />, label: "Office", color: "text-[#2E1065]" },
+                        { icon: <MapPin className="h-4 w-4" />, label: "Office", color: "text-[#030213]" },
                       ].map((item) => (
                         <div key={item.label} className="flex flex-col items-center gap-1.5">
                           <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-white/80 backdrop-blur-xl ${item.color} shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60`}>
@@ -650,7 +650,7 @@ export function EditProfile() {
                                   {initial}
                                 </div>
                                 <div className="min-w-0">
-                                  <p className="text-xs font-bold text-[#2E1065] leading-tight truncate">{link.title}</p>
+                                  <p className="text-xs font-bold text-[#030213] leading-tight truncate">{link.title}</p>
                                   {link.url && <p className="text-[10px] font-medium text-gray-400 truncate">{stripUrl(link.url)}</p>}
                                 </div>
                               </div>

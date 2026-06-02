@@ -22,9 +22,9 @@ export function ApiSection({ endpoints }: { endpoints: Endpoint[] }) {
 
   return (
     <Card className="h-full border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6 border-b border-gray-50 bg-[#FFF7EE]/30 rounded-t-3xl">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6 border-b border-gray-50 bg-[#ffffff]/30 rounded-t-3xl">
         <div className="flex items-center space-x-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8B5CF6] text-white shadow-md">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#3B82F6] text-white shadow-md">
             <Server className="h-5 w-5" />
           </div>
           <div>
@@ -46,13 +46,13 @@ export function ApiSection({ endpoints }: { endpoints: Endpoint[] }) {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {endpoints.map((ep, idx) => (
-                <tr key={idx} className="hover:bg-[#FFF7EE]/20 transition-colors">
+                <tr key={idx} className="hover:bg-[#ffffff]/20 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap font-mono">
                     <span className={cn("px-2.5 py-1 rounded-md text-xs font-bold border", getMethodColor(ep.method))}>
                       {ep.method}
                     </span>
                   </td>
-                  <td className="px-6 py-4 font-mono text-[#2E1065] font-medium tracking-tight whitespace-nowrap">
+                  <td className="px-6 py-4 font-mono text-[#030213] font-medium tracking-tight whitespace-nowrap">
                     {ep.path}
                   </td>
                   <td className="px-6 py-4 max-w-xs truncate" title={ep.desc}>
@@ -64,8 +64,8 @@ export function ApiSection({ endpoints }: { endpoints: Endpoint[] }) {
                         <span className="text-green-600 font-medium text-xs bg-green-50 px-2 py-1 rounded-md">Public</span>
                       ) : (
                         <>
-                          <ShieldAlert className="h-4 w-4 text-[#F97316]" />
-                          <span className="text-[#F97316] font-medium text-xs bg-[#F97316]/10 px-2 py-1 rounded-md">{ep.auth}</span>
+                          <ShieldAlert className="h-4 w-4 text-[#3B82F6]" />
+                          <span className="text-[#3B82F6] font-medium text-xs bg-[#3B82F6]/10 px-2 py-1 rounded-md">{ep.auth}</span>
                         </>
                       )}
                     </div>

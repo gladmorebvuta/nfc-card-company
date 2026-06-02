@@ -10,7 +10,7 @@ import { db } from "../../lib/firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { cn } from "../utils";
-import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
+import { BrandaptLogo } from "../components/BrandaptLogo";
 
 const PLATFORM_OPTIONS = [
   { value: "linkedin", label: "LinkedIn" },
@@ -119,7 +119,7 @@ export function Onboarding() {
   const StepIcon = currentStep.icon;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF7EE] via-[#FFEDD5] to-[#EDE9FE] flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-[#ffffff] via-[#ececf0] to-[#ececf0] flex flex-col">
 
       {/* Ambient blobs */}
       <div className="pointer-events-none fixed top-[-20%] left-[-10%] w-[60vw] max-w-[500px] h-[60vw] max-h-[500px] rounded-full bg-white opacity-40 blur-[120px]" />
@@ -127,7 +127,7 @@ export function Onboarding() {
 
       {/* Top bar */}
       <header className="relative z-10 flex items-center justify-between px-6 sm:px-10 py-5">
-        <img src={mcgLogoColour} alt="MCG" className="h-7 w-auto" />
+        <BrandaptLogo variant="dark" className="h-7" />
         <span className="text-xs font-semibold text-gray-400 bg-white/60 backdrop-blur-md rounded-full px-4 py-1.5 border border-white/60">
           Step {step + 1} of {TOTAL_STEPS}
         </span>
@@ -144,8 +144,8 @@ export function Onboarding() {
                 key={i}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-500",
-                  i < step  ? "bg-[#F97316]" : "",
-                  i === step ? "bg-[#F97316]" : "",
+                  i < step  ? "bg-[#3B82F6]" : "",
+                  i === step ? "bg-[#3B82F6]" : "",
                   i > step  ? "bg-white/60" : "",
                   i === step ? "flex-[2]" : "flex-1"
                 )}
@@ -162,12 +162,12 @@ export function Onboarding() {
             className="mb-8"
           >
             <div className="flex items-center gap-3 mb-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F97316] to-[#FB923C] shadow-lg shadow-[#F97316]/30">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-[#3B82F6]/30">
                 <StepIcon className="h-5 w-5 text-white" />
               </div>
               <div>
-                <p className="text-[11px] font-bold text-[#F97316] uppercase tracking-widest">Step {step + 1}</p>
-                <h1 className="text-2xl sm:text-3xl font-black text-[#2E1065] leading-tight">{currentStep.title}</h1>
+                <p className="text-[11px] font-bold text-[#3B82F6] uppercase tracking-widest">Step {step + 1}</p>
+                <h1 className="text-2xl sm:text-3xl font-black text-[#030213] leading-tight">{currentStep.title}</h1>
               </div>
             </div>
             <p className="text-sm text-gray-500 ml-[52px]">{currentStep.subtitle}</p>
@@ -217,7 +217,7 @@ export function Onboarding() {
                     maxLength={300}
                     rows={6}
                     autoFocus
-                    className="w-full resize-none rounded-2xl border border-white/60 bg-white/70 backdrop-blur-md px-5 py-4 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#F97316]/50 focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 transition-all shadow-sm"
+                    className="w-full resize-none rounded-2xl border border-white/60 bg-white/70 backdrop-blur-md px-5 py-4 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all shadow-sm"
                   />
                   <p className="text-right text-xs text-gray-400 mt-2">{bio.length} / 300</p>
                 </motion.div>
@@ -238,7 +238,7 @@ export function Onboarding() {
                         const opt = PLATFORM_OPTIONS.find((p) => p.value === e.target.value);
                         if (opt) setLinkLabel(opt.label);
                       }}
-                      className="w-full rounded-2xl border border-white/60 bg-white/70 backdrop-blur-md px-5 py-3 text-sm text-gray-800 focus:border-[#F97316]/50 focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 transition-all shadow-sm"
+                      className="w-full rounded-2xl border border-white/60 bg-white/70 backdrop-blur-md px-5 py-3 text-sm text-gray-800 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all shadow-sm"
                     >
                       {PLATFORM_OPTIONS.map((p) => (
                         <option key={p.value} value={p.value}>{p.label}</option>
@@ -272,7 +272,7 @@ export function Onboarding() {
                   "flex flex-1 items-center justify-center gap-2 h-14 rounded-2xl font-bold text-base transition-all",
                   step === 0 && !displayName.trim()
                     ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-[#F97316] to-[#FB923C] text-white shadow-xl shadow-[#F97316]/30 hover:shadow-2xl hover:shadow-[#F97316]/40 active:scale-95"
+                    : "bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-xl shadow-[#3B82F6]/30 hover:shadow-2xl hover:shadow-[#3B82F6]/40 active:scale-95"
                 )}
               >
                 Continue <ArrowRight className="h-5 w-5" />
@@ -282,7 +282,7 @@ export function Onboarding() {
                 <button
                   onClick={() => finish(false)}
                   disabled={saving}
-                  className="flex w-full items-center justify-center gap-2 h-14 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#FB923C] text-white font-bold text-base shadow-xl shadow-[#F97316]/30 hover:shadow-2xl active:scale-95 transition-all disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 h-14 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-bold text-base shadow-xl shadow-[#3B82F6]/30 hover:shadow-2xl active:scale-95 transition-all disabled:opacity-60"
                 >
                   {saving ? (
                     <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -344,7 +344,7 @@ function Field({
           placeholder={placeholder}
           autoFocus={autoFocus}
           className={cn(
-            "w-full rounded-2xl border border-white/60 bg-white/70 backdrop-blur-md py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#F97316]/50 focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 transition-all shadow-sm",
+            "w-full rounded-2xl border border-white/60 bg-white/70 backdrop-blur-md py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all shadow-sm",
             icon ? "pl-11 pr-5" : "px-5"
           )}
         />

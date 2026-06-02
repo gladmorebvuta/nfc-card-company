@@ -4,16 +4,16 @@ import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"
 
 export function ValueLoop() {
   const steps = [
-    { id: 1, title: "Tap & Connect", desc: "NFC device triggers profile load", icon: SmartphoneNfc, color: "bg-[#8B5CF6]" },
-    { id: 2, title: "View Profile", desc: "Rich media & links displayed", icon: Users, color: "bg-[#F97316]" },
-    { id: 3, title: "Save & Engage", desc: "VCard exchange & analytics", icon: Sparkles, color: "bg-[#2E1065]" },
+    { id: 1, title: "Tap & Connect", desc: "NFC device triggers profile load", icon: SmartphoneNfc, color: "bg-[#3B82F6]" },
+    { id: 2, title: "View Profile", desc: "Rich media & links displayed", icon: Users, color: "bg-[#3B82F6]" },
+    { id: 3, title: "Save & Engage", desc: "VCard exchange & analytics", icon: Sparkles, color: "bg-[#030213]" },
   ]
 
   return (
     <Card className="h-full border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
       <CardHeader className="pb-4">
         <div className="flex items-center space-x-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FFF7EE] text-[#F97316] shadow-sm border border-[#F97316]/20">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ffffff] text-[#3B82F6] shadow-sm border border-[#3B82F6]/20">
             <Share2 className="h-5 w-5" />
           </div>
           <div>
@@ -26,8 +26,8 @@ export function ValueLoop() {
         <div className="relative py-8 px-4 sm:px-8 flex flex-col items-center sm:flex-row justify-between w-full mx-auto max-w-2xl gap-8 sm:gap-4">
           
           {/* Connecting Line */}
-          <div className="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-[#8B5CF6] via-[#F97316] to-[#2E1065] opacity-20 hidden sm:block -translate-y-1/2 rounded-full" />
-          <div className="absolute left-1/2 top-0 h-full w-1 bg-gradient-to-b from-[#8B5CF6] via-[#F97316] to-[#2E1065] opacity-20 sm:hidden -translate-x-1/2 rounded-full" />
+          <div className="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 opacity-20 hidden sm:block -translate-y-1/2 rounded-full" />
+          <div className="absolute left-1/2 top-0 h-full w-1 bg-gradient-to-b from-blue-500 via-cyan-500 to-purple-500 opacity-20 sm:hidden -translate-x-1/2 rounded-full" />
 
           {steps.map((step, idx) => (
             <motion.div 
@@ -40,7 +40,7 @@ export function ValueLoop() {
               <div className={`mb-4 flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg transition-transform group-hover:scale-110 ${step.color} ring-4 ring-white`}>
                 <step.icon className="h-7 w-7" />
               </div>
-              <h4 className="mb-1 text-base font-bold text-[#2E1065]">{step.title}</h4>
+              <h4 className="mb-1 text-base font-bold text-[#030213]">{step.title}</h4>
               <p className="text-xs font-medium text-gray-500 leading-relaxed">{step.desc}</p>
               
               {idx < steps.length - 1 && (

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Navigate } from "react-router";
 import { motion } from "motion/react";
 import { useAuth } from "../contexts/AuthContext";
-import mcgLogoColour from "../../assets/MCG Logo Colour.svg";
+import { BrandaptLogo } from "../components/BrandaptLogo";
 import { Seo } from "../components/seo/Seo";
 
 function GoogleIcon() {
@@ -22,8 +22,8 @@ export function AuthPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-tr from-[#FFF7EE] to-[#EDE9FE]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2E1065]" />
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-tr from-[#ffffff] to-[#ececf0]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#030213]" />
       </div>
     );
   }
@@ -44,14 +44,14 @@ export function AuthPage() {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-[#FFF7EE] via-[#FFEDD5] to-[#EDE9FE]">
+    <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-[#ffffff] via-[#ececf0] to-[#ececf0]">
       <Seo title="Sign In" description="Sign in to manage your NFC digital business card." noindex />
 
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-[#F97316]/10 blur-3xl" />
-        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-[#8B5CF6]/15 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-[#2E1065]/5 blur-3xl" />
+        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-[#3B82F6]/10 blur-3xl" />
+        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-[#3B82F6]/15 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-[#030213]/5 blur-3xl" />
       </div>
 
       <motion.div
@@ -64,7 +64,7 @@ export function AuthPage() {
         <div className="rounded-[2rem] bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_24px_64px_rgba(46,16,101,0.12)] overflow-hidden">
 
           {/* Top accent bar */}
-          <div className="h-1 w-full bg-gradient-to-r from-[#F97316] via-[#8B5CF6] to-[#2E1065]" />
+          <div className="h-1 w-full bg-gradient-to-r from-[#3B82F6] via-[#3B82F6] to-[#030213]" />
 
           <div className="px-8 pt-10 pb-10 flex flex-col items-center gap-6">
 
@@ -74,12 +74,12 @@ export function AuthPage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1, type: "spring", stiffness: 300 }}
             >
-              <img src={mcgLogoColour} alt="Middlesex Consulting Group" className="h-14 w-auto" />
+              <BrandaptLogo variant="dark" className="h-14" />
             </motion.div>
 
             {/* Headline */}
             <div className="text-center space-y-1.5">
-              <h1 className="text-2xl font-black tracking-tight text-[#2E1065]">
+              <h1 className="text-2xl font-black tracking-tight text-[#030213]">
                 NFC Card Platform
               </h1>
               <p className="text-sm font-medium text-gray-500">
@@ -94,11 +94,11 @@ export function AuthPage() {
             <button
               onClick={handleSignIn}
               disabled={signingIn}
-              className="group relative w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-[#2E1065]/20 transition-all duration-200 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed font-semibold text-[#2E1065]"
+              className="group relative w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-[#030213]/20 transition-all duration-200 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed font-semibold text-[#030213]"
             >
               {signingIn ? (
                 <>
-                  <div className="h-5 w-5 rounded-full border-2 border-[#2E1065]/20 border-t-[#2E1065] animate-spin" />
+                  <div className="h-5 w-5 rounded-full border-2 border-[#030213]/20 border-t-[#030213] animate-spin" />
                   <span>Signing in…</span>
                 </>
               ) : (
@@ -108,12 +108,12 @@ export function AuthPage() {
                 </>
               )}
               {/* Hover shimmer */}
-              <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-[#F97316]/5 via-transparent to-[#8B5CF6]/5" />
+              <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-[#3B82F6]/5 via-transparent to-[#3B82F6]/5" />
             </button>
 
             {/* Footer note */}
             <p className="text-[11px] text-center text-gray-400 font-medium leading-relaxed">
-              Access is restricted to authorised MCG employees.<br />
+              Access is restricted to authorised Brandapt employees.<br />
               Use your company Google account to continue.
             </p>
 
@@ -122,7 +122,7 @@ export function AuthPage() {
 
         {/* Bottom branding */}
         <p className="text-center text-[11px] text-gray-400 mt-5 font-medium">
-          Powered by <span className="text-[#2E1065] font-semibold">BrandApt</span>
+          Powered by <span className="text-[#030213] font-semibold">Brandapt</span>
         </p>
       </motion.div>
     </div>
