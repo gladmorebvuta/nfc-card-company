@@ -19,6 +19,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ### Removed
 - Orphaned MCG SVG assets in `src/assets/` and `src/imports/`, plus the dead `src/app/test.ts` debug file.
 
+### Fixed
+- CI deploy: replaced the broken `w9jds/firebase-action` + unset `FIREBASE_TOKEN` step in `.github/workflows/deploy.yml` with service-account auth (`google-github-actions/auth@v2` + `firebase deploy --only hosting:nfc`), matching BrandaptOS/Pamhepo. Requires the `FIREBASE_SERVICE_ACCOUNT_BRANDAPTOS_V2` repo secret.
+
 ## 2026-04-19
 
 ### Added
