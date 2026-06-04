@@ -80,13 +80,13 @@ export function Events() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213]">Event Mode</h1>
-          <p className="text-sm text-gray-500 font-medium">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">Event Mode</h1>
+          <p className="text-sm text-muted-foreground font-medium">
             Tag every tap from a networking event — see exactly who you met and where
           </p>
         </div>
         <Button
-          className="gap-2 bg-[#030213] hover:bg-[#030213]/90 text-white rounded-xl shadow-lg shadow-[#030213]/20"
+          className="gap-2 bg-foreground hover:bg-foreground/90 text-background rounded-xl shadow-lg shadow-black/20"
           onClick={() => setShowCreate(true)}
           disabled={!!activeEvent}
           title={activeEvent ? "End the current event before creating a new one" : undefined}
@@ -97,7 +97,7 @@ export function Events() {
 
       {/* Active Event Card */}
       {loading ? null : activeEvent ? (
-        <Card className="border-2 border-[#3B82F6]/30">
+        <Card className="border-2 border-blue-500/30">
           <CardContent className="p-6 space-y-5">
             {/* Event name + end button */}
             <div className="flex items-start justify-between gap-4">
@@ -107,9 +107,9 @@ export function Events() {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
                 </span>
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-green-600">Live</span>
-                  <h2 className="text-xl font-black text-[#030213] leading-tight">{activeEvent.name}</h2>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mt-1">
+                  <span className="text-xs font-bold uppercase tracking-widest text-green-400">Live</span>
+                  <h2 className="text-xl font-black text-foreground leading-tight">{activeEvent.name}</h2>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground mt-1">
                     {activeEvent.location && (
                       <span className="flex items-center gap-1">
                         <MapPin className="h-3.5 w-3.5 shrink-0" />
@@ -125,7 +125,7 @@ export function Events() {
               </div>
               <button
                 onClick={() => handleEnd(activeEvent.id, activeEvent.name)}
-                className="shrink-0 rounded-xl border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100 transition-colors"
+                className="shrink-0 rounded-xl border border-red-500/50 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-400 hover:bg-red-500/20 transition-colors"
               >
                 End Event
               </button>
@@ -133,47 +133,47 @@ export function Events() {
 
             {/* Live stats */}
             <div className="flex gap-3">
-              <div className="flex items-center gap-3 rounded-xl bg-white/80 border border-white px-4 py-3 shadow-sm">
-                <Eye className="h-4 w-4 text-[#3B82F6]" />
+              <div className="flex items-center gap-3 rounded-xl bg-card/80 border border-border px-4 py-3 shadow-sm">
+                <Eye className="h-4 w-4 text-blue-400" />
                 <div>
-                  <div className="text-xl font-black text-[#030213]">{activeEvent.viewCount}</div>
-                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Views</div>
+                  <div className="text-xl font-black text-foreground">{activeEvent.viewCount}</div>
+                  <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">Views</div>
                 </div>
               </div>
-              <div className="flex items-center gap-3 rounded-xl bg-white/80 border border-white px-4 py-3 shadow-sm">
-                <Users className="h-4 w-4 text-[#3B82F6]" />
+              <div className="flex items-center gap-3 rounded-xl bg-card/80 border border-border px-4 py-3 shadow-sm">
+                <Users className="h-4 w-4 text-blue-400" />
                 <div>
-                  <div className="text-xl font-black text-[#030213]">{activeEvent.exchangeCount}</div>
-                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Exchanges</div>
+                  <div className="text-xl font-black text-foreground">{activeEvent.exchangeCount}</div>
+                  <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">Exchanges</div>
                 </div>
               </div>
             </div>
 
             {/* Shareable links */}
             <div className="space-y-2">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
                 Shareable Links — tag every tap to this event
               </p>
               {(["nfc", "qr"] as const).map(src => (
                 <div
                   key={src}
-                  className="flex items-center gap-3 rounded-xl bg-white/70 border border-white/60 px-3 py-2.5 shadow-sm"
+                  className="flex items-center gap-3 rounded-xl bg-card/70 border border-border px-3 py-2.5 shadow-sm"
                 >
                   <span
                     className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-wide ${
                       src === "nfc"
-                        ? "bg-violet-100 text-violet-700"
-                        : "bg-blue-100 text-blue-700"
+                        ? "bg-violet-500/15 text-violet-300"
+                        : "bg-blue-500/15 text-blue-300"
                     }`}
                   >
                     {src.toUpperCase()}
                   </span>
-                  <code className="flex-1 truncate text-xs text-gray-400 font-mono">
+                  <code className="flex-1 truncate text-xs text-muted-foreground font-mono">
                     {eventLink(activeEvent.id, src)}
                   </code>
                   <button
                     onClick={() => copyLink(eventLink(activeEvent.id, src), src.toUpperCase())}
-                    className="shrink-0 rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-gray-100 transition-colors"
+                    className="shrink-0 rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-card transition-colors"
                     title={`Copy ${src.toUpperCase()} link`}
                   >
                     <Copy className="h-3.5 w-3.5" />
@@ -186,16 +186,16 @@ export function Events() {
       ) : (
         <Card>
           <CardContent className="flex flex-col items-center gap-3 py-14 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#ececf0]">
-              <Zap className="h-8 w-8 text-[#030213]" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-card">
+              <Zap className="h-8 w-8 text-foreground" />
             </div>
-            <p className="text-base font-bold text-[#030213]">No active event</p>
-            <p className="text-sm text-gray-400 max-w-xs leading-relaxed">
+            <p className="text-base font-bold text-foreground">No active event</p>
+            <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
               Create an event before your next networking session to tag every tap and
               know exactly where each connection came from.
             </p>
             <Button
-              className="mt-2 gap-2 bg-[#3B82F6] hover:bg-[#3B82F6]/90 text-white rounded-xl shadow-lg shadow-[#3B82F6]/20"
+              className="mt-2 gap-2 bg-blue-500 hover:bg-blue-500/90 text-white rounded-xl shadow-lg shadow-blue-500/20"
               onClick={() => setShowCreate(true)}
             >
               <Plus className="h-4 w-4" /> Create Event
@@ -207,13 +207,13 @@ export function Events() {
       {/* Past Events */}
       {pastEvents.length > 0 && (
         <Card>
-          <div className="border-b border-white/40 px-6 py-4">
-            <h2 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Past Events</h2>
+          <div className="border-b border-border px-6 py-4">
+            <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Past Events</h2>
           </div>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-white/30 text-xs font-bold uppercase text-gray-500 border-b border-white/40">
+                <thead className="bg-card/30 text-xs font-bold uppercase text-muted-foreground border-b border-border">
                   <tr>
                     <th className="px-6 py-3">Event</th>
                     <th className="px-6 py-3 hidden sm:table-cell">Date</th>
@@ -223,28 +223,28 @@ export function Events() {
                     <th className="px-6 py-3 text-right">Link</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/40">
+                <tbody className="divide-y divide-border">
                   {pastEvents.map(ev => (
-                    <tr key={ev.id} className="hover:bg-white/60 transition-colors">
+                    <tr key={ev.id} className="hover:bg-card/60 transition-colors">
                       <td className="px-6 py-3">
-                        <div className="flex items-center gap-2 font-bold text-[#030213]">
-                          <CheckCircle className="h-3.5 w-3.5 text-gray-300 shrink-0" />
+                        <div className="flex items-center gap-2 font-bold text-foreground">
+                          <CheckCircle className="h-3.5 w-3.5 text-muted-foreground/50 shrink-0" />
                           {ev.name}
                         </div>
                       </td>
-                      <td className="px-6 py-3 hidden sm:table-cell text-gray-500 font-medium">
+                      <td className="px-6 py-3 hidden sm:table-cell text-muted-foreground font-medium">
                         {ev.date}
                       </td>
-                      <td className="px-6 py-3 hidden md:table-cell text-gray-500 font-medium">
-                        {ev.location || <span className="text-gray-300">—</span>}
+                      <td className="px-6 py-3 hidden md:table-cell text-muted-foreground font-medium">
+                        {ev.location || <span className="text-muted-foreground/50">—</span>}
                       </td>
-                      <td className="px-6 py-3 font-bold text-[#030213]">{ev.viewCount}</td>
-                      <td className="px-6 py-3 font-bold text-[#030213]">{ev.exchangeCount}</td>
+                      <td className="px-6 py-3 font-bold text-foreground">{ev.viewCount}</td>
+                      <td className="px-6 py-3 font-bold text-foreground">{ev.exchangeCount}</td>
                       <td className="px-6 py-3 text-right">
                         <button
                           onClick={() => copyLink(eventLink(ev.id, "nfc"), "Event")}
                           title="Copy NFC link"
-                          className="rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-white/60 transition-colors"
+                          className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-card/60 transition-colors"
                         >
                           <Copy className="h-4 w-4" />
                         </button>

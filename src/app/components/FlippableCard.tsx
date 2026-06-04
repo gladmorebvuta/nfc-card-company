@@ -1,6 +1,6 @@
 import * as React from "react";
 import { motion } from "motion/react";
-import { Phone, Mail, Globe, MapPin } from "lucide-react";
+import { Phone, Mail, Globe, MapPin, Radio } from "lucide-react";
 
 interface CardProfile {
   name: string;
@@ -17,35 +17,44 @@ const backfaceHidden: React.CSSProperties = {
 };
 
 /* ── FRONT of the card ── */
-function CardFront() {
+function CardFront({ profile }: { profile: CardProfile }) {
   return (
     <div
-      className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-gradient-to-br from-[#030213] via-[#030213] to-[#020817]"
+      className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-gradient-to-br from-[#030213] via-[#030213] to-[#020817] border border-white/10"
       style={backfaceHidden}
     >
-      {/* Glassmorphic effect with subtle blue accent glow */}
-      <div className="absolute inset-0 backdrop-blur-sm" />
-      <div className="absolute top-0 right-12 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Premium subtle glow accent — low opacity blue→cyan→purple mesh in corner */}
+      <div className="absolute -top-12 -right-12 w-40 h-40 bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-purple-500/20 rounded-full blur-3xl pointer-events-none opacity-70" />
 
       {/* Brandapt logo — top left */}
       <div className="absolute top-4 left-4 flex items-center">
         <img
           src="/logo-dark.png"
           alt="Brandapt"
-          className="h-6 object-contain"
+          className="h-4 object-contain"
         />
       </div>
 
-      {/* Subtle blue→purple accent stripe on the left edge */}
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-purple-500 opacity-60" />
+      {/* Faint top inner sheen */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
 
-      {/* Faint "B" watermark in corner */}
-      <div className="absolute bottom-2 right-3 text-white/10 text-4xl font-bold font-mono">
-        B
+      {/* Content — identity focal point */}
+      <div className="absolute inset-0 flex flex-col justify-end p-4">
+        {/* Holder's name and title — lower left focal point */}
+        <div className="relative z-10">
+          <h2 className="text-white font-medium text-base leading-tight font-mono mb-0.5">
+            {profile.name}
+          </h2>
+          <p className="text-white/55 text-[10px] uppercase tracking-wide font-mono">
+            {profile.title}
+          </p>
+        </div>
       </div>
 
-      {/* Subtle glass overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none" />
+      {/* NFC tap affordance — bottom right */}
+      <div className="absolute bottom-4 right-4">
+        <Radio className="h-3.5 w-3.5 text-white/30" />
+      </div>
     </div>
   );
 }
@@ -59,35 +68,35 @@ function CardBack({ profile }: { profile: CardProfile }) {
 
   return (
     <div
-      className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-gradient-to-br from-[#030213] via-[#030213] to-[#020817] flex flex-col justify-between p-3 font-mono"
+      className="w-full aspect-[252/144] rounded-2xl overflow-hidden relative select-none bg-gradient-to-br from-[#030213] via-[#030213] to-[#020817] border border-white/10 flex flex-col p-4 font-mono"
       style={{
         ...backfaceHidden,
         transform: "rotateY(180deg)",
         WebkitTransform: "rotateY(180deg)",
       }}
     >
-      {/* Glassmorphic effect */}
-      <div className="absolute inset-0 backdrop-blur-sm pointer-events-none" />
+      {/* Premium subtle glow accent — consistent with front */}
+      <div className="absolute -top-12 -right-12 w-40 h-40 bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-purple-500/20 rounded-full blur-3xl pointer-events-none opacity-70" />
+
+      {/* Faint top inner sheen */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
 
       {/* Content overlay */}
       <div className="relative z-10 flex flex-col h-full">
-        {/* Name & Title section */}
-        <div className="flex flex-col mb-2">
-          <h2 className="text-white font-medium text-sm leading-tight">
-            {profile.name}
-          </h2>
-          <p className="text-white/60 text-xs leading-tight">
-            {profile.title}
+        {/* "CONTACT" header */}
+        <div className="mb-3">
+          <p className="text-white/40 text-[8px] uppercase tracking-widest font-mono">
+            CONTACT
           </p>
         </div>
 
-        {/* Contact info rows */}
-        <div className="flex flex-col gap-1.5 flex-grow justify-center">
+        {/* Contact info rows — clean, airy, premium */}
+        <div className="flex flex-col gap-2.5 flex-grow justify-start">
           {/* Phone */}
           {profile.phone && (
-            <div className="flex items-center gap-1.5">
-              <Phone className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
-              <span className="text-white/80 text-xs truncate">
+            <div className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-blue-400 flex-shrink-0" />
+              <span className="text-white/85 text-xs font-mono truncate">
                 {profile.phone}
               </span>
             </div>
@@ -95,9 +104,9 @@ function CardBack({ profile }: { profile: CardProfile }) {
 
           {/* Email */}
           {profile.email && (
-            <div className="flex items-center gap-1.5">
-              <Mail className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
-              <span className="text-white/80 text-xs truncate">
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4 text-blue-400 flex-shrink-0" />
+              <span className="text-white/85 text-xs font-mono truncate">
                 {profile.email}
               </span>
             </div>
@@ -105,26 +114,23 @@ function CardBack({ profile }: { profile: CardProfile }) {
 
           {/* Website */}
           {website && (
-            <div className="flex items-center gap-1.5">
-              <Globe className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
-              <span className="text-white/80 text-xs truncate">{website}</span>
+            <div className="flex items-center gap-2">
+              <Globe className="h-4 w-4 text-blue-400 flex-shrink-0" />
+              <span className="text-white/85 text-xs font-mono truncate">{website}</span>
             </div>
           )}
 
           {/* Office/Address */}
           {profile.office && (
-            <div className="flex items-start gap-1.5">
-              <MapPin className="h-3.5 w-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
-              <span className="text-white/80 text-xs line-clamp-2">
+            <div className="flex items-start gap-2">
+              <MapPin className="h-4 w-4 text-blue-400 flex-shrink-0 mt-0.5" />
+              <span className="text-white/85 text-xs font-mono line-clamp-2">
                 {profile.office}
               </span>
             </div>
           )}
         </div>
       </div>
-
-      {/* Subtle glass overlay */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/5 pointer-events-none" />
     </div>
   );
 }
@@ -146,7 +152,7 @@ export function FlippableCard({ profile }: { profile: CardProfile }) {
       >
         {/* 3D flip container — CSS transition is more reliable than Framer Motion for preserve-3d */}
         <div
-          className="relative w-full rounded-2xl shadow-[0_20px_50px_rgba(3,2,19,0.35)]"
+          className="relative w-full rounded-2xl shadow-[0_24px_60px_rgba(3,2,19,0.5)]"
           style={{
             transformStyle: "preserve-3d",
             WebkitTransformStyle: "preserve-3d",
@@ -156,7 +162,7 @@ export function FlippableCard({ profile }: { profile: CardProfile }) {
           } as React.CSSProperties}
         >
           {/* Front */}
-          <CardFront />
+          <CardFront profile={profile} />
 
           {/* Back — absolutely overlays front, pre-rotated 180deg */}
           <div className="absolute inset-0" style={{ transformStyle: "preserve-3d" } as React.CSSProperties}>

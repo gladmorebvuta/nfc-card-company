@@ -31,6 +31,7 @@
 | **Team/Org Cards** | planned | Multiple cards per organization |
 | **Custom Card Designs** | planned | Branded card templates |
 | **Brandapt Rebrand** | done | Full visual rebrand to Brandapt design system (navy `#030213`, Space Mono, glassmorphism, dark-first); code-rendered Brandapt business card; reused BrandaptOS logo/favicon assets |
+| **True Dark Theme** | done | Ported BrandaptOS glassmorphic UI primitives + converted shell/pages from hardcoded light colors to tokens; fixed white-shell/black-card breakage; premium card redesign; scannable dark-on-white QR |
 | **CRM Integration** | planned | Export contacts to CRM tools |
 
 ## User Flows

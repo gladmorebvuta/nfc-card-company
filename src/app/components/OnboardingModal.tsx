@@ -109,11 +109,11 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#030213]/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-foreground/60 backdrop-blur-sm p-4">
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="relative w-full max-w-md rounded-[2rem] bg-white/98 backdrop-blur-xl border border-white/60 shadow-2xl overflow-hidden"
+        className="relative w-full max-w-md rounded-[2rem] bg-card/98 backdrop-blur-xl border border-border shadow-2xl overflow-hidden"
       >
         {/* Header gradient strip */}
         <div className="h-1.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500" />
@@ -126,7 +126,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
             </div>
             <div>
               <p className="text-xs font-bold text-[#3B82F6] uppercase tracking-wider">Welcome</p>
-              <h2 className="text-lg font-black text-[#030213] leading-tight">Let's set up your card</h2>
+              <h2 className="text-lg font-black text-foreground leading-tight">Let's set up your card</h2>
             </div>
           </div>
 
@@ -139,12 +139,12 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                   "h-1.5 rounded-full transition-all duration-300",
                   i <= step
                     ? "bg-[#3B82F6]"
-                    : "bg-gray-200",
+                    : "bg-muted",
                   i === step ? "w-8" : "w-4"
                 )}
               />
             ))}
-            <span className="ml-auto text-xs font-semibold text-gray-400">
+            <span className="ml-auto text-xs font-semibold text-muted-foreground">
               {step + 1} / {TOTAL_STEPS}
             </span>
           </div>
@@ -226,9 +226,9 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                       placeholder="I help companies build great digital products..."
                       maxLength={300}
                       rows={5}
-                      className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                      className="w-full resize-none rounded-xl border border-border bg-background/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
                     />
-                    <p className="text-right text-xs text-gray-400 mt-1">{bio.length}/300</p>
+                    <p className="text-right text-xs text-muted-foreground mt-1">{bio.length}/300</p>
                   </div>
                 </motion.div>
               )}
@@ -251,7 +251,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                   />
                   <div className="space-y-3 mt-4">
                     <div>
-                      <label className="mb-1 block text-xs font-semibold text-gray-600 uppercase tracking-wide">Platform</label>
+                      <label className="mb-1 block text-xs font-semibold text-muted-foreground uppercase tracking-wide">Platform</label>
                       <select
                         value={linkPlatform}
                         onChange={(e) => {
@@ -259,7 +259,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                           const opt = PLATFORM_OPTIONS.find((p) => p.value === e.target.value);
                           if (opt && !linkLabel) setLinkLabel(opt.label);
                         }}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                        className="w-full rounded-xl border border-border bg-background/40 px-4 py-2.5 text-sm text-foreground focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
                       >
                         {PLATFORM_OPTIONS.map((p) => (
                           <option key={p.value} value={p.value}>{p.label}</option>
@@ -279,7 +279,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
             {step > 0 && (
               <button
                 onClick={goBack}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground hover:bg-background/40 transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
               </button>
@@ -292,7 +292,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                 className={cn(
                   "flex flex-1 items-center justify-center gap-2 h-11 rounded-full font-bold text-sm transition-all",
                   step === 0 && !displayName.trim()
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    ? "bg-muted text-muted-foreground cursor-not-allowed"
                     : "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-[#3B82F6]/30 hover:shadow-xl hover:shadow-[#3B82F6]/40 active:scale-95"
                 )}
               >
@@ -303,7 +303,7 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
                 <button
                   onClick={() => finish(true)}
                   disabled={saving}
-                  className="flex-1 h-11 rounded-full border border-gray-200 text-sm font-semibold text-gray-500 hover:bg-gray-50 transition-colors"
+                  className="flex-1 h-11 rounded-full border border-border text-sm font-semibold text-muted-foreground hover:bg-background/40 transition-colors"
                 >
                   Skip for now
                 </button>
@@ -332,12 +332,12 @@ export function OnboardingModal({ nfcProfile }: OnboardingModalProps) {
 function StepHeader({ icon, title, subtitle }: { icon: React.ReactNode; title: string; subtitle: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#ffffff] text-[#3B82F6] border border-[#3B82F6]/20">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-background/40 text-[#3B82F6] border border-[#3B82F6]/20">
         {icon}
       </div>
       <div>
-        <h3 className="font-black text-[#030213] text-base">{title}</h3>
-        <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
+        <h3 className="font-black text-foreground text-base">{title}</h3>
+        <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
       </div>
     </div>
   );
@@ -355,7 +355,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-1 block text-xs font-semibold text-gray-600 uppercase tracking-wide">{label}</label>
+      <label className="mb-1 block text-xs font-semibold text-muted-foreground uppercase tracking-wide">{label}</label>
       <div className="relative">
         {icon && (
           <span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">{icon}</span>
@@ -366,7 +366,7 @@ function Field({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className={cn(
-            "w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all",
+            "w-full rounded-xl border border-border bg-background/40 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[#3B82F6]/50 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20 transition-all",
             icon ? "pl-9 pr-4" : "px-4"
           )}
         />

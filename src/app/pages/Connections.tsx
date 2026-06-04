@@ -14,18 +14,18 @@ type FollowUpStatus = "new" | "contacted" | "meeting" | "converted" | "not_inter
 type SortKey = "date" | "score" | "followUp";
 
 const STATUS_CONFIG: Record<FollowUpStatus, { label: string; color: string; bg: string }> = {
-  new:            { label: "New",           color: "text-violet-700", bg: "bg-violet-100" },
-  contacted:      { label: "Contacted",     color: "text-blue-700",   bg: "bg-blue-100"   },
-  meeting:        { label: "Meeting",       color: "text-amber-700",  bg: "bg-amber-100"  },
-  converted:      { label: "Converted",     color: "text-green-700",  bg: "bg-green-100"  },
-  not_interested: { label: "Not Interested",color: "text-gray-500",   bg: "bg-gray-100"   },
+  new:            { label: "New",           color: "text-violet-300", bg: "bg-violet-500/15" },
+  contacted:      { label: "Contacted",     color: "text-blue-300",   bg: "bg-blue-500/15"   },
+  meeting:        { label: "Meeting",       color: "text-amber-300",  bg: "bg-amber-500/15"  },
+  converted:      { label: "Converted",     color: "text-emerald-300",  bg: "bg-emerald-500/15"  },
+  not_interested: { label: "Not Interested",color: "text-gray-300",   bg: "bg-gray-500/15"   },
 };
 
 const SOURCE_CONFIG: Record<string, { label: string; color: string; bg: string; Icon: React.ComponentType<{ className?: string }> }> = {
-  nfc:    { label: "NFC",    color: "text-violet-700", bg: "bg-violet-100", Icon: Wifi   },
-  qr:     { label: "QR",     color: "text-blue-700",   bg: "bg-blue-100",   Icon: QrCode },
-  link:   { label: "Link",   color: "text-teal-700",   bg: "bg-teal-100",   Icon: Link2  },
-  direct: { label: "Direct", color: "text-gray-500",   bg: "bg-gray-100",   Icon: Globe  },
+  nfc:    { label: "NFC",    color: "text-violet-300", bg: "bg-violet-500/15", Icon: Wifi   },
+  qr:     { label: "QR",     color: "text-blue-300",   bg: "bg-blue-500/15",   Icon: QrCode },
+  link:   { label: "Link",   color: "text-teal-300",   bg: "bg-teal-500/15",   Icon: Link2  },
+  direct: { label: "Direct", color: "text-gray-300",   bg: "bg-gray-500/15",   Icon: Globe  },
 };
 
 const STATUS_FILTERS: Array<{ key: FollowUpStatus | "all"; label: string }> = [
@@ -38,11 +38,11 @@ const STATUS_FILTERS: Array<{ key: FollowUpStatus | "all"; label: string }> = [
 ];
 
 function ScoreBadge({ score }: { score: number }) {
-  if (!score) return <span className="text-gray-300 text-xs font-medium">—</span>;
+  if (!score) return <span className="text-gray-400 text-xs font-medium">—</span>;
   const cls =
-    score >= 60 ? "bg-green-100 text-green-700" :
-    score >= 30 ? "bg-amber-100 text-amber-700" :
-                  "bg-gray-100 text-gray-500";
+    score >= 60 ? "bg-emerald-500/15 text-emerald-300" :
+    score >= 30 ? "bg-amber-500/15 text-amber-300" :
+                  "bg-gray-500/15 text-gray-300";
   return (
     <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold ${cls}`}>
       {score}
@@ -157,8 +157,8 @@ export function Connections() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213]">Connections</h1>
-          <p className="text-sm text-gray-500 font-medium">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">Connections</h1>
+          <p className="text-sm text-muted-foreground font-medium">
             Lead pipeline — {exchanges.length} total
           </p>
         </div>
@@ -167,8 +167,8 @@ export function Connections() {
             onClick={() => { setHighPriorityOnly(!highPriorityOnly); setPage(0); }}
             className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-sm font-semibold transition-colors ${
               highPriorityOnly
-                ? "bg-amber-100 border-amber-300 text-amber-700"
-                : "bg-white/50 border-white text-gray-500 hover:text-amber-600 shadow-sm"
+                ? "bg-amber-500/15 border-amber-500/30 text-amber-300"
+                : "bg-card/50 border-border text-muted-foreground hover:text-amber-400 shadow-sm"
             }`}
           >
             <Star className="h-3.5 w-3.5" /> High Priority
@@ -176,7 +176,7 @@ export function Connections() {
           <select
             value={sortBy}
             onChange={e => { setSortBy(e.target.value as SortKey); setPage(0); }}
-            className="rounded-xl border border-white bg-white/50 px-3 py-1.5 text-sm font-semibold text-[#030213] shadow-sm focus:outline-none"
+            className="rounded-xl border border-border bg-card/50 px-3 py-1.5 text-sm font-semibold text-foreground shadow-sm focus:outline-none"
           >
             <option value="date">Sort: Latest</option>
             <option value="score">Sort: Score ↓</option>
@@ -223,12 +223,12 @@ export function Connections() {
               onClick={() => { setStatusFilter(key); setPage(0); }}
               className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold transition-colors ${
                 active
-                  ? "bg-[#030213] text-white"
-                  : "bg-white/60 text-gray-500 hover:text-[#030213] border border-white/60"
+                  ? "bg-foreground text-background"
+                  : "bg-card/60 text-muted-foreground hover:text-foreground border border-border"
               }`}
             >
               {label}
-              <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-black ${active ? "bg-white/20" : "bg-gray-100"}`}>
+              <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-black ${active ? "bg-foreground/20" : "bg-card"}`}>
                 {count}
               </span>
             </button>
@@ -238,19 +238,19 @@ export function Connections() {
 
       <Card>
         {/* Search */}
-        <div className="flex items-center gap-3 border-b border-white/40 p-4 sm:p-6">
-          <div className="flex flex-1 items-center gap-2 rounded-2xl border border-white/60 bg-white/40 px-4 py-2 shadow-sm focus-within:bg-white focus-within:border-[#3B82F6]/50 transition-all">
-            <Search className="h-4 w-4 text-gray-400 shrink-0" />
+        <div className="flex items-center gap-3 border-b border-border p-4 sm:p-6">
+          <div className="flex flex-1 items-center gap-2 rounded-2xl border border-border bg-card/40 px-4 py-2 shadow-sm focus-within:bg-card focus-within:border-blue-500/50 transition-all">
+            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
             <input
               type="text"
               placeholder="Search by name, email, or company…"
-              className="w-full bg-transparent text-sm text-gray-700 outline-none placeholder:text-gray-400 font-medium"
+              className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground font-medium"
               value={search}
               onChange={e => { setSearch(e.target.value); setPage(0); }}
             />
             {search && (
               <button onClick={() => { setSearch(""); setPage(0); }}>
-                <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
               </button>
             )}
           </div>
@@ -259,7 +259,7 @@ export function Connections() {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-white/30 text-xs font-bold uppercase text-gray-500 border-b border-white/40">
+              <thead className="bg-card/30 text-xs font-bold uppercase text-muted-foreground border-b border-border">
                 <tr>
                   <th className="px-4 py-3">Contact</th>
                   <th className="px-4 py-3 hidden sm:table-cell">Score</th>
@@ -270,16 +270,16 @@ export function Connections() {
                   <th className="px-4 py-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/40">
+              <tbody className="divide-y divide-border">
                 {exchangesLoading ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center text-gray-400 font-medium">
+                    <td colSpan={7} className="px-6 py-12 text-center text-muted-foreground font-medium">
                       Loading connections…
                     </td>
                   </tr>
                 ) : paginated.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center text-gray-400 font-medium">
+                    <td colSpan={7} className="px-6 py-12 text-center text-muted-foreground font-medium">
                       {search || statusFilter !== "all" || highPriorityOnly
                         ? "No connections match your filters."
                         : "No connections yet — share your card to start collecting leads."}
@@ -294,21 +294,21 @@ export function Connections() {
 
                   return (
                     <React.Fragment key={e.id}>
-                      <tr className="group hover:bg-white/60 transition-colors">
+                      <tr className="group hover:bg-card/60 transition-colors">
                         {/* Contact */}
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-3">
                             <img
                               src={avatar}
                               alt={e.visitorName}
-                              className="h-9 w-9 rounded-xl border-2 border-white shadow-sm shrink-0"
+                              className="h-9 w-9 rounded-xl border-2 border-border shadow-sm shrink-0"
                             />
                             <div className="min-w-0">
-                              <div className="font-bold text-[#030213] truncate">{e.visitorName}</div>
-                              <div className="text-xs text-gray-400 truncate">
+                              <div className="font-bold text-foreground truncate">{e.visitorName}</div>
+                              <div className="text-xs text-muted-foreground truncate">
                                 {e.visitorCompany || e.visitorEmail}
                               </div>
-                              <div className="text-[10px] text-gray-300 mt-0.5 sm:hidden">{dateStr}</div>
+                              <div className="text-[10px] text-muted-foreground/70 mt-0.5 sm:hidden">{dateStr}</div>
                             </div>
                           </div>
                         </td>
@@ -324,14 +324,14 @@ export function Connections() {
                         </td>
 
                         {/* Location */}
-                        <td className="px-4 py-3 hidden lg:table-cell text-xs text-gray-500 font-medium">
+                        <td className="px-4 py-3 hidden lg:table-cell text-xs text-muted-foreground font-medium">
                           {e.location?.city || e.location?.country ? (
                             <span className="flex items-center gap-1">
                               <MapPin className="h-3 w-3 shrink-0" />
                               {[e.location.city, e.location.country].filter(Boolean).join(", ")}
                             </span>
                           ) : (
-                            <span className="text-gray-300">—</span>
+                            <span className="text-muted-foreground/50">—</span>
                           )}
                         </td>
 
@@ -341,10 +341,10 @@ export function Connections() {
                             type="date"
                             defaultValue={formatDateInput(e.followUpDate)}
                             onChange={ev => handleFollowUpDateChange(e.id, ev.target.value)}
-                            className={`rounded-lg border px-2 py-1 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-[#3B82F6] ${
+                            className={`rounded-lg border px-2 py-1 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500 ${
                               overdue
-                                ? "border-red-300 text-red-600 bg-red-50"
-                                : "border-gray-200 text-gray-600 bg-white/60"
+                                ? "border-red-500/50 text-red-300 bg-red-500/10"
+                                : "border-border text-foreground bg-card/60"
                             }`}
                           />
                         </td>
@@ -377,8 +377,8 @@ export function Connections() {
                               }}
                               className={`rounded-lg p-1.5 transition-colors ${
                                 notesOpen
-                                  ? "bg-[#030213] text-white"
-                                  : "text-gray-400 hover:text-[#030213] hover:bg-white/60"
+                                  ? "bg-foreground text-background"
+                                  : "text-muted-foreground hover:text-foreground hover:bg-card/60"
                               }`}
                             >
                               <FileText className="h-4 w-4" />
@@ -386,7 +386,7 @@ export function Connections() {
                             <button
                               title={`Email ${e.visitorName}`}
                               onClick={() => { window.location.href = `mailto:${e.visitorEmail}`; }}
-                              className="rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-white/60 transition-colors"
+                              className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-card/60 transition-colors"
                             >
                               <Mail className="h-4 w-4" />
                             </button>
@@ -400,7 +400,7 @@ export function Connections() {
                                 });
                                 toast.success(`${e.visitorName}'s vCard downloaded!`);
                               }}
-                              className="rounded-lg p-1.5 text-gray-400 hover:text-[#030213] hover:bg-white/60 transition-colors"
+                              className="rounded-lg p-1.5 text-muted-foreground hover:text-foreground hover:bg-card/60 transition-colors"
                             >
                               <Download className="h-4 w-4" />
                             </button>
@@ -411,10 +411,10 @@ export function Connections() {
                       {/* Notes expansion row */}
                       {notesOpen && (
                         <tr>
-                          <td colSpan={7} className="px-4 pb-4 pt-0 bg-white/40">
+                          <td colSpan={7} className="px-4 pb-4 pt-0 bg-card/40">
                             <div className="flex gap-2 items-start pt-2">
                               <textarea
-                                className="flex-1 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#3B82F6] resize-none"
+                                className="flex-1 rounded-xl border border-border bg-card px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
                                 rows={2}
                                 placeholder="Add a private note about this lead…"
                                 value={noteDraft}
@@ -422,7 +422,7 @@ export function Connections() {
                               />
                               <Button
                                 size="sm"
-                                className="bg-[#030213] text-white hover:bg-[#030213]/90 rounded-xl shrink-0"
+                                className="bg-foreground text-background hover:bg-foreground/90 rounded-xl shrink-0"
                                 onClick={() => handleNoteSave(e.id)}
                               >
                                 Save
@@ -439,23 +439,23 @@ export function Connections() {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between gap-3 border-t border-white/40 p-4 text-xs font-medium text-gray-500 bg-white/20">
+          <div className="flex items-center justify-between gap-3 border-t border-border p-4 text-xs font-medium text-muted-foreground bg-card/20">
             <span>
               Showing{" "}
-              <strong className="text-[#030213]">
+              <strong className="text-foreground">
                 {filtered.length === 0 ? 0 : page * PAGE_SIZE + 1}
               </strong>
               –
-              <strong className="text-[#030213]">
+              <strong className="text-foreground">
                 {Math.min((page + 1) * PAGE_SIZE, filtered.length)}
               </strong>{" "}
-              of <strong className="text-[#030213]">{filtered.length}</strong>
+              of <strong className="text-foreground">{filtered.length}</strong>
             </span>
             <div className="flex gap-2">
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 bg-white/40 border-white/60 text-gray-400"
+                className="h-8 bg-card/40 border-border text-muted-foreground"
                 disabled={page === 0}
                 onClick={() => setPage(p => p - 1)}
               >
@@ -464,7 +464,7 @@ export function Connections() {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 bg-white border-white text-[#030213] shadow-sm"
+                className="h-8 bg-card border-border text-foreground shadow-sm"
                 disabled={page >= totalPages - 1}
                 onClick={() => setPage(p => p + 1)}
               >

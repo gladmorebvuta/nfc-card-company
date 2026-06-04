@@ -23,23 +23,23 @@ export function QuestionsSection({ questions }: { questions: Question[] }) {
 
   const getImpactColor = (impact: string) => {
     switch (impact.toLowerCase()) {
-      case 'critical': return 'bg-red-100 text-red-800 border-red-200';
+      case 'critical': return 'bg-red-500/15 text-red-300 border-red-500/30';
       case 'high': return 'bg-[#3B82F6]/10 text-[#3B82F6] border-[#3B82F6]/20';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'medium': return 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30';
+      default: return 'bg-muted text-muted-foreground border-border';
     }
   }
 
   return (
-    <Card className="h-full border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-gradient-to-br from-white to-gray-50/50">
-      <CardHeader className="pb-6 border-b border-gray-50">
+    <Card className="h-full border border-border shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-card">
+      <CardHeader className="pb-6 border-b border-border">
         <div className="flex items-center space-x-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-500 shadow-sm border border-red-100">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/15 text-red-300 shadow-sm border border-red-500/30">
             <HelpCircle className="h-5 w-5" />
           </div>
           <div>
             <CardTitle className="text-xl">Blocking Questions</CardTitle>
-            <p className="text-sm text-gray-500 mt-1">Issues requiring immediate attention</p>
+            <p className="text-sm text-muted-foreground mt-1">Issues requiring immediate attention</p>
           </div>
         </div>
       </CardHeader>
@@ -52,8 +52,8 @@ export function QuestionsSection({ questions }: { questions: Question[] }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
               className={cn(
-                "group relative overflow-hidden rounded-2xl border bg-white p-5 shadow-sm transition-all hover:shadow-md",
-                q.status === 'unresolved' ? "border-red-100" : "border-gray-100"
+                "group relative overflow-hidden rounded-2xl border bg-card p-5 shadow-sm transition-all hover:shadow-md",
+                q.status === 'unresolved' ? "border-red-500/30" : "border-border"
               )}
             >
               {q.status === 'unresolved' && (
@@ -68,10 +68,10 @@ export function QuestionsSection({ questions }: { questions: Question[] }) {
               
               <div className="mb-3 flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 shrink-0 bg-gray-50 rounded-full p-1.5 border border-gray-100 shadow-inner">
+                  <div className="mt-0.5 shrink-0 bg-background/40 rounded-full p-1.5 border border-border shadow-inner">
                     {getStatusIcon(q.status)}
                   </div>
-                  <h4 className="text-sm font-semibold leading-tight text-[#030213] md:text-base">
+                  <h4 className="text-sm font-semibold leading-tight text-foreground md:text-base">
                     {q.question}
                   </h4>
                 </div>
@@ -82,7 +82,7 @@ export function QuestionsSection({ questions }: { questions: Question[] }) {
                   {q.impact}
                 </span>
               </div>
-              <p className="ml-12 text-sm text-gray-500 leading-relaxed">
+              <p className="ml-12 text-sm text-muted-foreground leading-relaxed">
                 {q.context}
               </p>
             </motion.div>

@@ -22,8 +22,8 @@ export function AuthPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-tr from-[#ffffff] to-[#ececf0]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#030213]" />
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
       </div>
     );
   }
@@ -44,14 +44,14 @@ export function AuthPage() {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-tr from-[#ffffff] via-[#ececf0] to-[#ececf0]">
+    <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-background">
       <Seo title="Sign In" description="Sign in to manage your NFC digital business card." noindex />
 
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-[#3B82F6]/10 blur-3xl" />
-        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-[#3B82F6]/15 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-[#030213]/5 blur-3xl" />
+        <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
+        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-blue-500/15 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-foreground/5 blur-3xl" />
       </div>
 
       <motion.div
@@ -61,10 +61,10 @@ export function AuthPage() {
         className="relative z-10 w-full max-w-sm mx-4"
       >
         {/* Card */}
-        <div className="rounded-[2rem] bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_24px_64px_rgba(46,16,101,0.12)] overflow-hidden">
+        <div className="rounded-[2rem] bg-card backdrop-blur-2xl border border-border shadow-2xl shadow-black/40 overflow-hidden">
 
           {/* Top accent bar */}
-          <div className="h-1 w-full bg-gradient-to-r from-[#3B82F6] via-[#3B82F6] to-[#030213]" />
+          <div className="h-1 w-full bg-gradient-to-r from-blue-500 via-blue-500 to-foreground" />
 
           <div className="px-8 pt-10 pb-10 flex flex-col items-center gap-6">
 
@@ -79,26 +79,26 @@ export function AuthPage() {
 
             {/* Headline */}
             <div className="text-center space-y-1.5">
-              <h1 className="text-2xl font-black tracking-tight text-[#030213]">
+              <h1 className="text-2xl font-black tracking-tight text-foreground">
                 NFC Card Platform
               </h1>
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm font-medium text-muted-foreground">
                 Sign in to manage your digital business card
               </p>
             </div>
 
             {/* Divider */}
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
             {/* Google Sign-in Button */}
             <button
               onClick={handleSignIn}
               disabled={signingIn}
-              className="group relative w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-[#030213]/20 transition-all duration-200 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed font-semibold text-[#030213]"
+              className="group relative w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-card border border-border shadow-sm hover:shadow-md hover:bg-card/80 transition-all duration-200 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed font-semibold text-foreground"
             >
               {signingIn ? (
                 <>
-                  <div className="h-5 w-5 rounded-full border-2 border-[#030213]/20 border-t-[#030213] animate-spin" />
+                  <div className="h-5 w-5 rounded-full border-2 border-border border-t-foreground animate-spin" />
                   <span>Signing in…</span>
                 </>
               ) : (
@@ -108,11 +108,11 @@ export function AuthPage() {
                 </>
               )}
               {/* Hover shimmer */}
-              <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-[#3B82F6]/5 via-transparent to-[#3B82F6]/5" />
+              <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-blue-500/5 via-transparent to-blue-500/5" />
             </button>
 
             {/* Footer note */}
-            <p className="text-[11px] text-center text-gray-400 font-medium leading-relaxed">
+            <p className="text-[11px] text-center text-muted-foreground font-medium leading-relaxed">
               Access is restricted to authorised Brandapt employees.<br />
               Use your company Google account to continue.
             </p>
@@ -121,8 +121,8 @@ export function AuthPage() {
         </div>
 
         {/* Bottom branding */}
-        <p className="text-center text-[11px] text-gray-400 mt-5 font-medium">
-          Powered by <span className="text-[#030213] font-semibold">Brandapt</span>
+        <p className="text-center text-[11px] text-muted-foreground mt-5 font-medium">
+          Powered by <span className="text-foreground font-semibold">Brandapt</span>
         </p>
       </motion.div>
     </div>

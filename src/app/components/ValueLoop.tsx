@@ -10,15 +10,15 @@ export function ValueLoop() {
   ]
 
   return (
-    <Card className="h-full border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+    <Card className="h-full border border-border shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
       <CardHeader className="pb-4">
         <div className="flex items-center space-x-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ffffff] text-[#3B82F6] shadow-sm border border-[#3B82F6]/20">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background/40 text-[#3B82F6] shadow-sm border border-[#3B82F6]/20">
             <Share2 className="h-5 w-5" />
           </div>
           <div>
             <CardTitle className="text-xl">Core Value Loop</CardTitle>
-            <p className="text-sm text-gray-500 mt-1">User journey visualization</p>
+            <p className="text-sm text-muted-foreground mt-1">User journey visualization</p>
           </div>
         </div>
       </CardHeader>
@@ -30,26 +30,26 @@ export function ValueLoop() {
           <div className="absolute left-1/2 top-0 h-full w-1 bg-gradient-to-b from-blue-500 via-cyan-500 to-purple-500 opacity-20 sm:hidden -translate-x-1/2 rounded-full" />
 
           {steps.map((step, idx) => (
-            <motion.div 
+            <motion.div
               key={step.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.2 + 0.3 }}
-              className="relative z-10 flex flex-col items-center text-center group bg-white p-4 rounded-2xl shadow-sm border border-gray-50 w-full sm:w-48 hover:shadow-md transition-shadow"
+              className="relative z-10 flex flex-col items-center text-center group bg-card p-4 rounded-2xl shadow-sm border border-border w-full sm:w-48 hover:shadow-md transition-shadow"
             >
-              <div className={`mb-4 flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg transition-transform group-hover:scale-110 ${step.color} ring-4 ring-white`}>
+              <div className={`mb-4 flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg transition-transform group-hover:scale-110 ${step.color} ring-4 ring-card`}>
                 <step.icon className="h-7 w-7" />
               </div>
-              <h4 className="mb-1 text-base font-bold text-[#030213]">{step.title}</h4>
-              <p className="text-xs font-medium text-gray-500 leading-relaxed">{step.desc}</p>
+              <h4 className="mb-1 text-base font-bold text-foreground">{step.title}</h4>
+              <p className="text-xs font-medium text-muted-foreground leading-relaxed">{step.desc}</p>
               
               {idx < steps.length - 1 && (
-                <div className="absolute -bottom-8 left-1/2 sm:hidden -translate-x-1/2 text-gray-300">
+                <div className="absolute -bottom-8 left-1/2 sm:hidden -translate-x-1/2 text-muted-foreground">
                    <ArrowRight className="h-6 w-6 rotate-90" />
                 </div>
               )}
               {idx < steps.length - 1 && (
-                <div className="absolute -right-8 top-1/2 hidden sm:block -translate-y-1/2 text-gray-300">
+                <div className="absolute -right-8 top-1/2 hidden sm:block -translate-y-1/2 text-muted-foreground">
                    <ArrowRight className="h-6 w-6" />
                 </div>
               )}

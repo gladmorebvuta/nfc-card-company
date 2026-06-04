@@ -158,16 +158,16 @@ export function PublicProfile() {
   // Loading / error states for live cards
   if (isLiveCard && apiLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#030213]" />
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
       </div>
     );
   }
   if (isLiveCard && apiError) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <h1 className="text-2xl font-bold text-gray-700">Profile not found</h1>
-        <p className="text-gray-500">{apiError}</p>
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4 bg-background">
+        <h1 className="text-2xl font-bold text-foreground">Profile not found</h1>
+        <p className="text-muted-foreground">{apiError}</p>
       </div>
     );
   }
@@ -291,7 +291,7 @@ export function PublicProfile() {
     : `${currentEmployee.title ? `${currentEmployee.title} at ` : ""}${employeeAny.company || "Brandapt"} — digital business card`;
 
   return (
-    <div className="min-h-[100dvh] font-sans text-gray-900 relative overflow-x-hidden">
+    <div className="min-h-[100dvh] font-sans text-foreground relative overflow-x-hidden bg-background">
       {isLiveCard && (
         <Seo
           title={currentEmployee.name}
@@ -321,26 +321,26 @@ export function PublicProfile() {
 
       {/* Scroll-Responsive Animated Background Layers */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <motion.div style={{ opacity: bgOpacity1 }} className="absolute inset-0 bg-gradient-to-tr from-[#ffffff] via-[#ececf0] to-[#ececf0]" />
-        <motion.div style={{ opacity: bgOpacity2 }} className="absolute inset-0 bg-gradient-to-tr from-[#ececf0] via-[#ffffff] to-[#ececf0]" />
-        <motion.div style={{ opacity: bgOpacity3 }} className="absolute inset-0 bg-gradient-to-tr from-[#ececf0] via-[#ececf0] to-[#ffffff]" />
+        <motion.div style={{ opacity: bgOpacity1 }} className="absolute inset-0 bg-background" />
+        <motion.div style={{ opacity: bgOpacity2 }} className="absolute inset-0 bg-background" />
+        <motion.div style={{ opacity: bgOpacity3 }} className="absolute inset-0 bg-background" />
       </div>
 
       {/* Background Ambience */}
-      <motion.div style={{ y: orbY }} className="fixed top-[-20%] left-[-10%] w-[60vw] max-w-[500px] h-[60vw] max-h-[500px] rounded-full bg-white opacity-50 blur-[120px] pointer-events-none z-0" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] max-w-[400px] h-[50vw] max-h-[400px] rounded-full bg-white opacity-60 blur-[100px] pointer-events-none z-0" />
+      <motion.div style={{ y: orbY }} className="fixed top-[-20%] left-[-10%] w-[60vw] max-w-[500px] h-[60vw] max-h-[500px] rounded-full bg-blue-500/10 blur-[120px] pointer-events-none z-0" />
+      <div className="fixed bottom-[-10%] right-[-10%] w-[50vw] max-w-[400px] h-[50vw] max-h-[400px] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none z-0" />
 
       <div className="w-full max-w-md mx-auto relative z-10 flex flex-col min-h-[100dvh] px-4 sm:px-6 md:px-8 lg:px-12 pb-12">
         {/* Company Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 mb-2 sticky top-0 z-20 bg-white/70 backdrop-blur-xl border-b border-white/50 rounded-b-2xl shadow-[0_2px_16px_rgba(46,16,101,0.06)]"
+          className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 mb-2 sticky top-0 z-20 bg-card/40 backdrop-blur-xl border-b border-border rounded-b-2xl shadow-lg shadow-black/20"
         >
           <div className="flex items-center min-w-0">
             <BrandaptLogo variant="dark" className="h-8" />
           </div>
-          <button onClick={() => setShowShareModal(true)} className="p-2 rounded-full bg-white/40 hover:bg-white/60 transition-colors backdrop-blur-md text-[#030213]">
+          <button onClick={() => setShowShareModal(true)} className="p-2 rounded-full bg-card/60 hover:bg-card/80 transition-colors backdrop-blur-md text-foreground">
             <QrCode className="h-5 w-5" />
           </button>
         </motion.div>
@@ -350,13 +350,13 @@ export function PublicProfile() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="flex-1 flex flex-col text-gray-900 mx-2 sm:mx-0 mt-4"
+          className="flex-1 flex flex-col text-foreground mx-2 sm:mx-0 mt-4"
         >
           {/* Flippable SVG Business Card */}
           <FlippableCard profile={currentEmployee} />
 
           {/* Profile Hero Card */}
-          <div className="bg-white/70 backdrop-blur-2xl rounded-[1.5rem] sm:rounded-[2.5rem] border border-white/60 shadow-[0_8px_32px_rgba(46,16,101,0.08)] overflow-hidden flex flex-col mt-4">
+          <div className="bg-card backdrop-blur-2xl rounded-[1.5rem] sm:rounded-[2.5rem] border border-border shadow-lg shadow-black/20 overflow-hidden flex flex-col mt-4">
 
             {/* Cover Banner */}
             <div className="relative h-24 w-full overflow-hidden rounded-t-[1.5rem] sm:rounded-t-[2.5rem]">
@@ -390,17 +390,17 @@ export function PublicProfile() {
                 </div>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213] text-center leading-tight">{currentEmployee.name}</h1>
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground text-center leading-tight">{currentEmployee.name}</h1>
               {currentEmployee.title && (
-                <p className="text-sm font-bold text-[#3B82F6] mt-0.5 text-center">{currentEmployee.title}</p>
+                <p className="text-sm font-bold text-blue-400 mt-0.5 text-center">{currentEmployee.title}</p>
               )}
               {currentEmployee.department && (
-                <p className="text-xs font-semibold text-gray-400 mt-0.5 flex items-center gap-1">
+                <p className="text-xs font-semibold text-muted-foreground mt-0.5 flex items-center gap-1">
                   <Building className="h-3 w-3" />{currentEmployee.department}
                 </p>
               )}
               {currentEmployee.bio && (
-                <p className="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-[#030213]/60 text-center max-w-[280px]">
+                <p className="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-foreground/70 text-center max-w-[280px]">
                   {currentEmployee.bio}
                 </p>
               )}
@@ -415,7 +415,7 @@ export function PublicProfile() {
                 {/* Row 1: Save Contact — full width */}
                 <button
                   onClick={handleSaveContact}
-                  className="w-full flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-gradient-to-br from-[#030213] to-[#1e1b4b] text-white text-sm font-bold shadow-[0_4px_18px_rgba(46,16,101,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-gradient-to-br from-foreground to-purple-900 text-white text-sm font-bold shadow-lg shadow-black/30 hover:opacity-90 transition-all active:scale-[0.98]"
                 >
                   <Download className="h-4 w-4" />
                   Save Contact
@@ -424,14 +424,14 @@ export function PublicProfile() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => { if (isLiveCard) { setPendingEngagementScore(computeEngagementScore()); setExchangeFormOpen(true); } else { setShowExchangeModal(true); } }}
-                    className="flex-1 flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-white/90 border border-gray-200/60 text-[#030213] text-sm font-bold shadow-sm hover:bg-white hover:shadow-md transition-all active:scale-[0.98]"
+                    className="flex-1 flex items-center justify-center gap-2 h-13 py-3.5 rounded-full bg-card border border-border text-foreground text-sm font-bold shadow-sm hover:bg-card/80 hover:shadow-md transition-all active:scale-[0.98]"
                   >
                     <Users className="h-4 w-4" />
                     Exchange
                   </button>
                   <button
                     onClick={() => setShowShareModal(true)}
-                    className="flex h-13 w-13 aspect-square py-3.5 px-3.5 items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#030213] shadow-sm hover:bg-white hover:shadow-md transition-all active:scale-[0.98]"
+                    className="flex h-13 w-13 aspect-square py-3.5 px-3.5 items-center justify-center rounded-full bg-card border border-border text-foreground shadow-sm hover:bg-card/80 hover:shadow-md transition-all active:scale-[0.98]"
                   >
                     <Share2 className="h-4 w-4" />
                   </button>
@@ -444,36 +444,36 @@ export function PublicProfile() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="flex justify-around gap-2 border-y border-gray-100/80 py-5 px-5 sm:px-6"
+              className="flex justify-around gap-2 border-y border-border py-5 px-5 sm:px-6"
             >
               <a
                 href={`mailto:${currentEmployee.email}`}
                 onClick={() => { if (viewDocId && isLiveCard && !clickedEmail) { setClickedEmail(true); updateViewSession(viewDocId, { clickedEmail: true }); } }}
                 className="group flex flex-col items-center gap-1.5"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#3B82F6] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card/80 backdrop-blur-xl text-blue-400 transition-all group-hover:-translate-y-1 shadow-lg shadow-black/20 border border-border">
                   <Mail className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Email</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Email</span>
               </a>
               <a
                 href={`tel:${currentEmployee.phone}`}
                 onClick={() => { if (viewDocId && isLiveCard && !clickedPhone) { setClickedPhone(true); updateViewSession(viewDocId, { clickedPhone: true }); } }}
                 className="group flex flex-col items-center gap-1.5"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#3B82F6] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card/80 backdrop-blur-xl text-blue-400 transition-all group-hover:-translate-y-1 shadow-lg shadow-black/20 border border-border">
                   <Phone className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Call</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Call</span>
               </a>
               <button
                 onClick={() => { setShowOfficeModal(true); if (viewDocId && isLiveCard && !clickedLocation) { setClickedLocation(true); updateViewSession(viewDocId, { clickedLocation: true }); } }}
                 className="group flex flex-col items-center gap-1.5"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-xl text-[#030213] transition-all group-hover:-translate-y-1 shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card/80 backdrop-blur-xl text-foreground transition-all group-hover:-translate-y-1 shadow-lg shadow-black/20 border border-border">
                   <MapPin className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-wider text-gray-400">Office</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">Office</span>
               </button>
             </motion.div>
 
@@ -497,7 +497,7 @@ export function PublicProfile() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => handleLinkClick(link)}
-                      className="group flex items-center justify-between rounded-2xl bg-white/80 backdrop-blur-xl px-4 py-3.5 shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-white/60 transition-all hover:bg-white hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)] active:scale-[0.98]"
+                      className="group flex items-center justify-between rounded-2xl bg-card/80 backdrop-blur-xl px-4 py-3.5 shadow-lg shadow-black/10 border border-border transition-all hover:bg-card/90 hover:shadow-lg hover:shadow-black/20 active:scale-[0.98]"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div
@@ -507,11 +507,11 @@ export function PublicProfile() {
                           {initial}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-bold text-[#030213] leading-tight truncate">{link.title}</p>
-                          <p className="text-[11px] font-medium text-gray-400 truncate">{stripUrl(link.url)}</p>
+                          <p className="text-sm font-bold text-foreground leading-tight truncate">{link.title}</p>
+                          <p className="text-[11px] font-medium text-muted-foreground truncate">{stripUrl(link.url)}</p>
                         </div>
                       </div>
-                      <ChevronRight className="h-4 w-4 shrink-0 text-gray-300 group-hover:text-[#030213] transition-colors ml-2" />
+                      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-foreground transition-colors ml-2" />
                     </a>
                   );
                 })}
@@ -523,13 +523,13 @@ export function PublicProfile() {
         </motion.div>
 
         {/* Employee Login Entry Point (Subtle) */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1 }}
           className="mt-6 flex justify-center"
         >
-          <Link to="/dashboard" className="text-xs font-semibold text-[#030213]/50 hover:text-[#030213] transition-colors">
+          <Link to="/dashboard" className="text-xs font-semibold text-foreground/50 hover:text-foreground transition-colors">
             Employee Login
           </Link>
         </motion.div>
@@ -544,7 +544,7 @@ export function PublicProfile() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowShareModal(false)}
-              className="fixed inset-0 z-50 bg-[#030213]/50 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-foreground/50 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, y: "100%" }}
@@ -554,49 +554,50 @@ export function PublicProfile() {
               className="fixed bottom-0 left-0 right-0 z-50 max-h-[90vh] overflow-y-auto"
             >
               {/* Sheet */}
-              <div className="bg-white rounded-t-[2rem] shadow-[0_-12px_48px_rgba(46,16,101,0.18)] overflow-hidden">
+              <div className="bg-card rounded-t-[2rem] shadow-lg shadow-black/40 overflow-hidden">
                 {/* Accent bar */}
-                <div className="h-1.5 w-full bg-gradient-to-r from-[#3B82F6] via-[#3B82F6] to-[#030213]" />
+                <div className="h-1.5 w-full bg-gradient-to-r from-blue-500 via-blue-500 to-foreground" />
 
                 <div className="px-6 pt-5 pb-8">
                   {/* Drag handle */}
-                  <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-6" />
+                  <div className="w-10 h-1 bg-border rounded-full mx-auto mb-6" />
 
                   {/* Profile row */}
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center shrink-0 shadow-sm">
+                    <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-foreground to-blue-500 flex items-center justify-center shrink-0 shadow-sm">
                       {currentEmployee.avatar
                         ? <img src={currentEmployee.avatar} alt="" className="w-full h-full object-cover" />
                         : <span className="text-base font-black text-white">{currentEmployee.name?.charAt(0)}</span>
                       }
                     </div>
                     <div>
-                      <p className="text-sm font-black text-[#030213] leading-tight">{currentEmployee.name}</p>
-                      <p className="text-xs font-medium text-gray-400">{currentEmployee.title}</p>
+                      <p className="text-sm font-black text-foreground leading-tight">{currentEmployee.name}</p>
+                      <p className="text-xs font-medium text-muted-foreground">{currentEmployee.title}</p>
                     </div>
                   </div>
 
                   {/* QR code */}
                   <div className="flex flex-col items-center mb-6">
-                    <div className="p-4 bg-white rounded-[1.75rem] shadow-[0_4px_32px_rgba(46,16,101,0.12)] border border-gray-100/80">
+                    <div className="p-4 bg-white rounded-[1.75rem] shadow-lg shadow-black/40 border border-border">
                       <QRCodeSVG
                         value={(() => { const u = new URL(window.location.href); u.searchParams.set("src", "qr"); return u.toString(); })()}
                         size={180}
                         level="Q"
                         includeMargin={false}
                         fgColor="#030213"
+                        bgColor="#ffffff"
                       />
                     </div>
-                    <p className="mt-3 text-xs font-semibold text-gray-400">Scan to view profile</p>
+                    <p className="mt-3 text-xs font-semibold text-muted-foreground">Scan to view profile</p>
                   </div>
 
                   {/* Link row */}
-                  <div className="flex items-center gap-2 bg-gray-50 rounded-2xl px-4 py-3 mb-4 border border-gray-100">
-                    <Link2 className="h-4 w-4 text-gray-400 shrink-0" />
-                    <span className="text-xs font-medium text-gray-500 truncate flex-1">{shareableUrl.replace(/^https?:\/\//, "")}</span>
+                  <div className="flex items-center gap-2 bg-background rounded-2xl px-4 py-3 mb-4 border border-border">
+                    <Link2 className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <span className="text-xs font-medium text-muted-foreground truncate flex-1">{shareableUrl.replace(/^https?:\/\//, "")}</span>
                     <button
                       onClick={handleCopyLink}
-                      className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-gray-200 text-xs font-bold text-[#030213] hover:bg-gray-50 transition-all active:scale-[0.97] shadow-sm"
+                      className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-card border border-border text-xs font-bold text-foreground hover:bg-card/80 transition-all active:scale-[0.97] shadow-sm"
                     >
                       {linkCopied ? <><Check className="h-3.5 w-3.5 text-emerald-500" />Copied</> : <><Copy className="h-3.5 w-3.5" />Copy</>}
                     </button>
@@ -605,7 +606,7 @@ export function PublicProfile() {
                   {/* Share button */}
                   <button
                     onClick={handleNativeShare}
-                    className="w-full h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#030213] to-[#1e1b4b] text-white font-bold text-sm shadow-[0_4px_18px_rgba(46,16,101,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
+                    className="w-full h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-foreground to-purple-900 text-white font-bold text-sm shadow-lg shadow-black/30 hover:opacity-90 transition-all active:scale-[0.98]"
                   >
                     <Share2 className="h-4 w-4" /> Share via...
                   </button>
@@ -625,7 +626,7 @@ export function PublicProfile() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => { setShowExchangeModal(false); setTimeout(() => setExchangeSuccess(false), 300); }}
-              className="fixed inset-0 z-50 bg-[#030213]/50 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-foreground/50 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, y: "100%" }}
@@ -634,26 +635,26 @@ export function PublicProfile() {
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="fixed bottom-0 left-0 right-0 z-50 max-h-[90vh] overflow-y-auto"
             >
-              <div className="bg-white rounded-t-[2rem] shadow-[0_-12px_48px_rgba(46,16,101,0.18)] overflow-hidden">
+              <div className="bg-card rounded-t-[2rem] shadow-lg shadow-black/40 overflow-hidden">
                 {/* Accent bar */}
-                <div className="h-1.5 w-full bg-gradient-to-r from-[#3B82F6] via-[#3B82F6] to-[#030213]" />
+                <div className="h-1.5 w-full bg-gradient-to-r from-blue-500 via-blue-500 to-foreground" />
 
                 <div className="px-6 pt-5 pb-8">
-                  <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
+                  <div className="w-10 h-1 bg-border rounded-full mx-auto mb-5" />
 
                   {!exchangeSuccess ? (
                     <>
                       {/* "Connecting with" header */}
                       <div className="flex items-center gap-3 mb-6">
-                        <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center shrink-0 shadow-sm">
+                        <div className="h-11 w-11 rounded-2xl overflow-hidden bg-gradient-to-br from-foreground to-blue-500 flex items-center justify-center shrink-0 shadow-sm">
                           {currentEmployee.avatar
                             ? <img src={currentEmployee.avatar} alt="" className="w-full h-full object-cover" />
                             : <span className="text-base font-black text-white">{currentEmployee.name?.charAt(0)}</span>
                           }
                         </div>
                         <div>
-                          <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Connecting with</p>
-                          <p className="text-sm font-black text-[#030213]">{currentEmployee.name}</p>
+                          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Connecting with</p>
+                          <p className="text-sm font-black text-foreground">{currentEmployee.name}</p>
                         </div>
                       </div>
 
@@ -668,20 +669,20 @@ export function PublicProfile() {
                           { icon: <Briefcase className="h-4 w-4" />, type: "text", placeholder: "Job Title", required: false },
                           { icon: <Building2 className="h-4 w-4" />, type: "text", placeholder: "Company", required: false },
                         ].map(({ icon, type, placeholder, required }) => (
-                          <div key={placeholder} className="flex items-center gap-3 h-13 bg-gray-50 border border-gray-100 rounded-2xl px-4 focus-within:border-[#3B82F6]/40 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(249,115,22,0.08)] transition-all">
-                            <span className="text-gray-400 shrink-0">{icon}</span>
+                          <div key={placeholder} className="flex items-center gap-3 h-13 bg-background border border-border rounded-2xl px-4 focus-within:border-blue-500/40 focus-within:bg-card focus-within:shadow-lg focus-within:shadow-blue-500/10 transition-all">
+                            <span className="text-muted-foreground shrink-0">{icon}</span>
                             <input
                               required={required}
                               type={type}
                               placeholder={placeholder}
-                              className="flex-1 bg-transparent py-3.5 text-sm font-medium text-[#030213] placeholder:text-gray-400 focus:outline-none"
+                              className="flex-1 bg-transparent py-3.5 text-sm font-medium text-foreground placeholder:text-muted-foreground focus:outline-none"
                             />
                           </div>
                         ))}
 
                         <button
                           type="submit"
-                          className="w-full mt-2 h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#ea580c] text-white font-bold text-sm shadow-[0_4px_18px_rgba(249,115,22,0.30)] hover:opacity-90 transition-all active:scale-[0.98]"
+                          className="w-full mt-2 h-13 py-3.5 flex items-center justify-center gap-2 rounded-full bg-gradient-to-br from-blue-500 to-orange-500 text-white font-bold text-sm shadow-lg shadow-orange-500/30 hover:opacity-90 transition-all active:scale-[0.98]"
                         >
                           <Users className="h-4 w-4" /> Exchange Contact
                         </button>
@@ -696,12 +697,12 @@ export function PublicProfile() {
                       <div className="h-20 w-20 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-[1.5rem] flex items-center justify-center mb-5 shadow-[0_8px_24px_rgba(16,185,129,0.3)]">
                         <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                       </div>
-                      <h3 className="text-2xl font-black text-[#030213] mb-1">Connected!</h3>
-                      <p className="text-center text-sm text-gray-500 font-medium max-w-[220px]">
+                      <h3 className="text-2xl font-black text-foreground mb-1">Connected!</h3>
+                      <p className="text-center text-sm text-muted-foreground font-medium max-w-[220px]">
                         Your info was sent to {currentEmployee.name.split(" ")[0]}.
                       </p>
                       <button
-                        className="mt-7 w-full h-13 py-3.5 rounded-full border border-gray-200 bg-white text-[#030213] font-bold text-sm hover:bg-gray-50 transition-all active:scale-[0.98]"
+                        className="mt-7 w-full h-13 py-3.5 rounded-full border border-border bg-card text-foreground font-bold text-sm hover:bg-card/80 transition-all active:scale-[0.98]"
                         onClick={() => { setShowExchangeModal(false); setTimeout(() => setExchangeSuccess(false), 300); }}
                       >
                         Close
@@ -719,25 +720,25 @@ export function PublicProfile() {
       <AnimatePresence>
         {showOfficeModal && (
           <>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowOfficeModal(false)}
-              className="fixed inset-0 z-50 bg-[#030213]/40 backdrop-blur-sm"
+              className="fixed inset-0 z-50 bg-foreground/40 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: "100%" }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-t border-white/60 rounded-t-[1.5rem] sm:rounded-t-[2.5rem] p-5 sm:p-8 pb-safe shadow-[0_-8px_32px_rgba(46,16,101,0.1)] max-h-[85vh] overflow-y-auto"
+              className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-2xl border-t border-border rounded-t-[1.5rem] sm:rounded-t-[2.5rem] p-5 sm:p-8 pb-safe shadow-lg shadow-black/30 max-h-[85vh] overflow-y-auto"
             >
-              <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6" />
+              <div className="w-12 h-1.5 bg-border rounded-full mx-auto mb-6" />
               <div className="text-center mb-6">
-                <MapPin className="h-8 w-8 text-[#3B82F6] mx-auto mb-3" />
-                <h3 className="text-2xl font-black text-[#030213]">Office Location</h3>
-                <p className="text-sm font-medium text-gray-500 mt-2">{currentEmployee.office}</p>
+                <MapPin className="h-8 w-8 text-blue-400 mx-auto mb-3" />
+                <h3 className="text-2xl font-black text-foreground">Office Location</h3>
+                <p className="text-sm font-medium text-muted-foreground mt-2">{currentEmployee.office}</p>
               </div>
               <a
                 href={`https://maps.google.com/?q=${encodeURIComponent(currentEmployee.office)}`}
@@ -745,14 +746,14 @@ export function PublicProfile() {
                 rel="noreferrer"
                 className="block"
               >
-                <Button size="lg" className="w-full shadow-[0_8px_30px_rgb(46,16,101,0.2)] text-base font-semibold h-14 bg-gradient-to-br from-[#030213] to-[#1e1b4b] hover:opacity-95 rounded-full flex items-center justify-center gap-2 border border-white/10 transition-all active:scale-[0.98]">
+                <Button size="lg" className="w-full shadow-lg shadow-black/30 text-base font-semibold h-14 bg-gradient-to-br from-foreground to-purple-900 hover:opacity-95 rounded-full flex items-center justify-center gap-2 border border-border transition-all active:scale-[0.98]">
                   Open in Maps
                 </Button>
               </a>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="w-full text-base font-semibold h-14 mt-3 rounded-full border-gray-200/60 bg-white/50 text-[#030213] hover:bg-white transition-all active:scale-[0.98]"
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full text-base font-semibold h-14 mt-3 rounded-full border-border bg-card text-foreground hover:bg-card/80 transition-all active:scale-[0.98]"
                 onClick={() => setShowOfficeModal(false)}
               >
                 Close

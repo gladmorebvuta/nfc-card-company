@@ -16,8 +16,8 @@ export function ProtectedRoute({ children, allowUnboarded = false }: Props) {
   // Wait until auth resolves AND (if logged in) the Firestore profile has loaded
   if (loading || (user && nfcProfile === null)) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#ffffff] via-[#ececf0] to-[#ececf0]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3B82F6]" />
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
       </div>
     );
   }
