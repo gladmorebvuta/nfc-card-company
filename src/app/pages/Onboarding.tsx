@@ -127,7 +127,7 @@ export function Onboarding() {
 
       {/* Top bar */}
       <header className="relative z-10 flex items-center justify-between px-6 sm:px-10 py-5">
-        <BrandaptLogo variant="dark" className="h-7" />
+        <BrandaptLogo className="h-7" />
         <span className="text-xs font-semibold text-muted-foreground bg-card/60 backdrop-blur-md rounded-full px-4 py-1.5 border border-border">
           Step {step + 1} of {TOTAL_STEPS}
         </span>

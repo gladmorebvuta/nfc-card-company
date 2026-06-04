@@ -497,7 +497,7 @@ export function Dashboard() {
 
                 {/* Company header bar — matches the real sticky header */}
                 <div className="flex items-center justify-between px-3 py-2.5 bg-card/70 backdrop-blur-xl border-b border-border sticky top-0 z-20">
-                  <BrandaptLogo variant="dark" className="h-5" />
+                  <BrandaptLogo className="h-5" />
                   <QrCode className="h-4 w-4 text-foreground opacity-60" />
                 </div>
 

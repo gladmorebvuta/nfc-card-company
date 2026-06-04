@@ -338,7 +338,7 @@ export function PublicProfile() {
           className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 mb-2 sticky top-0 z-20 bg-card/40 backdrop-blur-xl border-b border-border rounded-b-2xl shadow-lg shadow-black/20"
         >
           <div className="flex items-center min-w-0">
-            <BrandaptLogo variant="dark" className="h-8" />
+            <BrandaptLogo className="h-8" />
           </div>
           <button onClick={() => setShowShareModal(true)} className="p-2 rounded-full bg-card/60 hover:bg-card/80 transition-colors backdrop-blur-md text-foreground">
             <QrCode className="h-5 w-5" />
