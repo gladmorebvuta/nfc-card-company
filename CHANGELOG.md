@@ -20,7 +20,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 - Orphaned MCG SVG assets in `src/assets/` and `src/imports/`, plus the dead `src/app/test.ts` debug file.
 
 ### Fixed
-- CI deploy: replaced the broken `w9jds/firebase-action` + unset `FIREBASE_TOKEN` step in `.github/workflows/deploy.yml` with service-account auth (`google-github-actions/auth@v2` + `firebase deploy --only hosting:nfc`), matching BrandaptOS/Pamhepo. Requires the `FIREBASE_SERVICE_ACCOUNT_BRANDAPTOS_V2` repo secret.
+- CI deploy: replaced the broken `w9jds/firebase-action` + unset `FIREBASE_TOKEN` step in `.github/workflows/deploy.yml` with service-account auth (`google-github-actions/auth@v2` + `firebase deploy --only hosting:nfc`), matching BrandaptOS/Pamhepo. Requires the `FIREBASE_SERVICE_ACCOUNT_BRANDAPTOS_V2` repo secret (key for the new least-privilege `nfc-git-firebase-deploy` SA).
+- CI build: inlined the Firebase web config (`VITE_FIREBASE_*`) as plain env in the build step instead of unset GitHub secrets — these values are public by design (they ship in the client bundle), so the build no longer depends on per-repo secrets.
 
 ## 2026-04-19
 

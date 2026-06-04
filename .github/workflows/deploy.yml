@@ -27,12 +27,14 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          # Firebase web config — public by design (ships in the client bundle).
+          # Not secret: security is enforced by Firestore/Storage rules, not by hiding these.
+          VITE_FIREBASE_API_KEY: AIzaSyBv1utejNT1HD6A7KxLmnhh32oG4gtYX2I
+          VITE_FIREBASE_AUTH_DOMAIN: brandaptos-v2.firebaseapp.com
+          VITE_FIREBASE_PROJECT_ID: brandaptos-v2
+          VITE_FIREBASE_STORAGE_BUCKET: brandaptos-v2.firebasestorage.app
+          VITE_FIREBASE_MESSAGING_SENDER_ID: "561453413325"
+          VITE_FIREBASE_APP_ID: "1:561453413325:web:bb19a9891cb2e45c588a84"
 
       - name: Upload build artifact
         if: github.ref == 'refs/heads/main'
