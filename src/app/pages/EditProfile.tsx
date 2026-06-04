@@ -195,21 +195,21 @@ export function EditProfile() {
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#030213]">Edit Card</h1>
-          <p className="text-sm sm:text-base text-gray-500 font-medium">Update your public digital business card</p>
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">Edit Card</h1>
+          <p className="text-sm sm:text-base text-muted-foreground font-medium">Update your public digital business card</p>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white text-[#030213] rounded-xl"
+          <Button
+            variant="outline"
+            size="lg"
+            className="gap-2 bg-card/50 border-border shadow-sm hover:bg-card text-foreground rounded-xl"
             onClick={() => setShowPreview(true)}
           >
             <Eye className="h-4 w-4" /> Preview
           </Button>
-          <Button 
-            size="lg" 
-            className="shadow-lg shadow-[#3B82F6]/20 bg-[#030213] hover:bg-[#030213]/90 text-white rounded-xl"
+          <Button
+            size="lg"
+            className="shadow-lg shadow-black/20 bg-foreground hover:bg-foreground/90 text-background rounded-xl"
             onClick={handleSave}
             disabled={saving}
           >
@@ -221,20 +221,20 @@ export function EditProfile() {
       <div className="space-y-6">
         {/* Images */}
         <Card>
-          <div className="border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#030213]">Images</h2>
+          <div className="border-b border-border p-6">
+            <h2 className="text-lg font-bold text-foreground">Images</h2>
           </div>
           <CardContent className="p-6">
             <div className="space-y-6">
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">Cover Photo</label>
-                <div className="relative h-32 sm:h-40 w-full overflow-hidden rounded-xl sm:rounded-[1.5rem] border-2 border-dashed border-white/60 bg-white/40 transition-colors hover:border-[#3B82F6]/50">
+                <label className="mb-2 block text-sm font-semibold text-foreground">Cover Photo</label>
+                <div className="relative h-32 sm:h-40 w-full overflow-hidden rounded-xl sm:rounded-[1.5rem] border-2 border-dashed border-border bg-card/40 transition-colors hover:border-blue-500/50">
                   {coverUrl && <img src={coverUrl} alt="Cover" className="h-full w-full object-cover" />}
                   <div className="absolute inset-0 flex items-center justify-center bg-black/10">
                     <Button
                       variant="secondary"
                       size="sm"
-                      className="gap-2 shadow-lg bg-white border border-white text-[#030213] hover:text-[#3B82F6]"
+                      className="gap-2 shadow-lg bg-card border border-border text-foreground hover:text-blue-400"
                       onClick={() => coverInputRef.current?.click()}
                       disabled={uploadingCover}
                     >
@@ -246,12 +246,12 @@ export function EditProfile() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">Profile Picture</label>
+                <label className="mb-2 block text-sm font-semibold text-foreground">Profile Picture</label>
                 <div className="flex items-center gap-4 sm:gap-6">
                   <div className="relative shrink-0">
                     {avatarUrl
-                      ? <img src={avatarUrl} alt="Avatar" className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl sm:rounded-[1.25rem] border-4 border-white bg-white object-cover shadow-md" />
-                      : <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl sm:rounded-[1.25rem] border-4 border-white bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center shadow-md">
+                      ? <img src={avatarUrl} alt="Avatar" className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl sm:rounded-[1.25rem] border-4 border-card bg-card object-cover shadow-md" />
+                      : <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-xl sm:rounded-[1.25rem] border-4 border-card bg-gradient-to-br from-foreground to-blue-500 flex items-center justify-center shadow-md">
                           <span className="text-2xl font-black text-white">{name?.charAt(0)}</span>
                         </div>
                     }
@@ -265,13 +265,13 @@ export function EditProfile() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white hover:text-[#3B82F6]"
+                      className="gap-2 bg-card/50 border-border shadow-sm hover:bg-card hover:text-blue-400"
                       onClick={() => avatarInputRef.current?.click()}
                       disabled={uploadingAvatar}
                     >
                       <Camera className="h-4 w-4" /> Upload New
                     </Button>
-                    <p className="text-xs text-gray-400">JPG, PNG or WebP · max 5MB</p>
+                    <p className="text-xs text-muted-foreground">JPG, PNG or WebP · max 5MB</p>
                   </div>
                 </div>
               </div>
@@ -281,36 +281,36 @@ export function EditProfile() {
 
         {/* Basic Info */}
         <Card>
-          <div className="border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#030213]">Basic Info</h2>
+          <div className="border-b border-border p-6">
+            <h2 className="text-lg font-bold text-foreground">Basic Info</h2>
           </div>
           <CardContent className="space-y-4 p-6">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Full Name</label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} className="bg-white/60 border-white/60 focus:bg-white" />
+                <label className="text-sm font-semibold text-foreground">Full Name</label>
+                <Input value={name} onChange={(e) => setName(e.target.value)} className="bg-card/60 border-border focus:bg-card" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Job Title</label>
-                <Input value={title} onChange={(e) => setTitle(e.target.value)} className="bg-white/60 border-white/60 focus:bg-white" />
+                <label className="text-sm font-semibold text-foreground">Job Title</label>
+                <Input value={title} onChange={(e) => setTitle(e.target.value)} className="bg-card/60 border-border focus:bg-card" />
               </div>
             </div>
-            
+
             <div className="grid gap-4 sm:grid-cols-2 mt-4">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Department</label>
-                <Input value={department} onChange={(e) => setDepartment(e.target.value)} className="bg-white/60 border-white/60 focus:bg-white" />
+                <label className="text-sm font-semibold text-foreground">Department</label>
+                <Input value={department} onChange={(e) => setDepartment(e.target.value)} className="bg-card/60 border-border focus:bg-card" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Office Location</label>
-                <Input value={office} onChange={(e) => setOffice(e.target.value)} className="bg-white/60 border-white/60 focus:bg-white" />
+                <label className="text-sm font-semibold text-foreground">Office Location</label>
+                <Input value={office} onChange={(e) => setOffice(e.target.value)} className="bg-card/60 border-border focus:bg-card" />
               </div>
             </div>
 
             <div className="space-y-2 mt-4">
-              <label className="text-sm font-semibold text-gray-700">Bio</label>
-              <textarea 
-                className="w-full rounded-[1.25rem] border border-white/60 bg-white/60 p-4 text-sm text-[#030213] shadow-sm transition-all focus:border-[#3B82F6]/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3B82F6]/20"
+              <label className="text-sm font-semibold text-foreground">Bio</label>
+              <textarea
+                className="w-full rounded-[1.25rem] border border-border bg-card/60 p-4 text-sm text-foreground shadow-sm transition-all focus:border-blue-500/50 focus:bg-card focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                 rows={3}
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
@@ -321,18 +321,18 @@ export function EditProfile() {
 
         {/* Contact Methods */}
         <Card>
-          <div className="border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#030213]">Contact Options</h2>
+          <div className="border-b border-border p-6">
+            <h2 className="text-lg font-bold text-foreground">Contact Options</h2>
           </div>
           <CardContent className="space-y-4 p-6">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Email Address</label>
-                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/60 border-white/60 focus:bg-white" />
+                <label className="text-sm font-semibold text-foreground">Email Address</label>
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-card/60 border-border focus:bg-card" />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700">Phone Number</label>
-                <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-white/60 border-white/60 focus:bg-white" />
+                <label className="text-sm font-semibold text-foreground">Phone Number</label>
+                <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-card/60 border-border focus:bg-card" />
               </div>
             </div>
           </CardContent>
@@ -340,12 +340,12 @@ export function EditProfile() {
 
         {/* Links */}
         <Card>
-          <div className="flex items-center justify-between border-b border-white/40 p-6">
-            <h2 className="text-lg font-bold text-[#030213]">Links & Socials</h2>
+          <div className="flex items-center justify-between border-b border-border p-6">
+            <h2 className="text-lg font-bold text-foreground">Links & Socials</h2>
             <Button
               variant="outline"
               size="sm"
-              className="gap-2 bg-white/50 border-white shadow-sm hover:bg-white hover:text-[#3B82F6]"
+              className="gap-2 bg-card/50 border-border shadow-sm hover:bg-card hover:text-blue-400"
               onClick={() => setShowPlatformPicker(true)}
             >
               <Plus className="h-4 w-4" /> Add Link
@@ -353,12 +353,12 @@ export function EditProfile() {
           </div>
           <CardContent className="space-y-3 p-6">
             {links.length === 0 && (
-              <p className="text-sm text-gray-400 text-center py-8">No links yet. Click "Add Link" to get started.</p>
+              <p className="text-sm text-muted-foreground text-center py-8">No links yet. Click "Add Link" to get started.</p>
             )}
             {links.map((link) => {
               const platform = PLATFORMS.find((p) => p.id === link.type) ?? PLATFORMS[PLATFORMS.length - 1];
               return (
-                <div key={link.id} className="flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-[1.25rem] border border-white/60 bg-white/40 p-2 sm:p-3 shadow-sm transition-all hover:bg-white hover:shadow-md">
+                <div key={link.id} className="flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-[1.25rem] border border-border bg-card/40 p-2 sm:p-3 shadow-sm transition-all hover:bg-card/60 hover:shadow-md">
                   <button className="cursor-grab p-1 sm:p-2 text-gray-400 hover:text-gray-600 active:cursor-grabbing shrink-0">
                     <GripVertical className="h-4 w-4 sm:h-5 sm:w-5" />
                   </button>
@@ -373,18 +373,18 @@ export function EditProfile() {
                     <Input
                       value={link.title}
                       onChange={(e) => handleLinkChange(link.id, "title", e.target.value)}
-                      className="h-10 text-sm bg-white/50 border-white/60 focus:bg-white"
+                      className="h-10 text-sm bg-card/50 border-border focus:bg-card"
                       placeholder="Link Title"
                     />
                     <Input
                       value={link.url}
                       onChange={(e) => handleLinkChange(link.id, "url", e.target.value)}
-                      className="h-10 text-sm bg-white/50 border-white/60 focus:bg-white"
+                      className="h-10 text-sm bg-card/50 border-border focus:bg-card"
                       placeholder={platform.placeholder}
                     />
                   </div>
                   <button
-                    className="ml-2 rounded-xl p-3 text-red-400 transition-colors bg-white/50 border border-white hover:bg-red-50 hover:text-red-500 shadow-sm"
+                    className="ml-2 rounded-xl p-3 text-red-400 transition-colors bg-card/50 border border-border hover:bg-red-500/20 hover:text-red-300 shadow-sm"
                     onClick={() => handleRemoveLink(link.id)}
                   >
                     <Trash2 className="h-5 w-5" />
@@ -404,7 +404,7 @@ export function EditProfile() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={handleClosePlatformPicker}
-                className="fixed inset-0 z-[80] bg-[#030213]/40 backdrop-blur-sm"
+                className="fixed inset-0 z-[80] bg-foreground/40 backdrop-blur-sm"
               />
               <motion.div
                 initial={{ opacity: 0, y: "100%" }}
@@ -413,45 +413,45 @@ export function EditProfile() {
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
                 className="fixed bottom-0 left-0 right-0 z-[90] max-h-[80vh] overflow-y-auto"
               >
-                <div className="bg-white rounded-t-[2rem] shadow-[0_-12px_48px_rgba(3,2,19,0.18)] overflow-hidden">
-                  <div className="h-1.5 w-full bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#030213]" />
+                <div className="bg-card rounded-t-[2rem] shadow-lg shadow-black/40 overflow-hidden">
+                  <div className="h-1.5 w-full bg-gradient-to-r from-blue-500 via-purple-500 to-foreground" />
                   <div className="px-6 pt-5 pb-8">
-                    <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
+                    <div className="w-10 h-1 bg-border rounded-full mx-auto mb-5" />
                     <div className="flex items-center justify-between mb-5">
                       <div className="flex items-center gap-2">
                         {pendingLink && (
-                          <button onClick={() => setPendingLink(null)} className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                          <button onClick={() => setPendingLink(null)} className="p-2 rounded-xl bg-background hover:bg-background/80 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                           </button>
                         )}
-                        <h3 className="text-lg font-black text-[#030213]">{pendingLink ? "Add Link" : "Choose Platform"}</h3>
+                        <h3 className="text-lg font-black text-foreground">{pendingLink ? "Add Link" : "Choose Platform"}</h3>
                       </div>
-                      <button onClick={handleClosePlatformPicker} className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
-                        <X className="h-4 w-4 text-gray-500" />
+                      <button onClick={handleClosePlatformPicker} className="p-2 rounded-xl bg-background hover:bg-background/80 transition-colors">
+                        <X className="h-4 w-4 text-muted-foreground" />
                       </button>
                     </div>
                     {pendingLink ? (() => {
                       const platform = PLATFORMS.find((p) => p.id === pendingLink.platformId) ?? PLATFORMS[PLATFORMS.length - 1];
                       return (
                         <div className="space-y-4">
-                          <div className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
+                          <div className="flex items-center gap-3 p-3 rounded-2xl bg-background border border-border">
                             <div className="h-10 w-10 rounded-xl flex items-center justify-center text-white text-sm font-black shadow-sm shrink-0" style={{ backgroundColor: platform.color }}>
                               {platform.initial}
                             </div>
-                            <span className="font-semibold text-[#030213]">{platform.label}</span>
+                            <span className="font-semibold text-foreground">{platform.label}</span>
                           </div>
                           <div className="space-y-2">
                             <Input
                               value={pendingLink.title}
                               onChange={(e) => setPendingLink({ ...pendingLink, title: e.target.value })}
                               placeholder="Link Title"
-                              className="h-11 bg-gray-50 border-gray-200 focus:bg-white"
+                              className="h-11 bg-background border-border focus:bg-card"
                             />
                             <Input
                               value={pendingLink.url}
                               onChange={(e) => setPendingLink({ ...pendingLink, url: e.target.value })}
                               placeholder={platform.placeholder}
-                              className="h-11 bg-gray-50 border-gray-200 focus:bg-white"
+                              className="h-11 bg-background border-border focus:bg-card"
                               autoFocus
                               onKeyDown={(e) => { if (e.key === "Enter" && pendingLink.url.trim()) handleConfirmLink(); }}
                             />
@@ -459,7 +459,7 @@ export function EditProfile() {
                           <Button
                             onClick={handleConfirmLink}
                             disabled={!pendingLink.url.trim()}
-                            className="w-full h-12 bg-[#030213] hover:bg-[#030213]/90 text-white rounded-xl font-bold shadow-lg shadow-[#030213]/20"
+                            className="w-full h-12 bg-foreground hover:bg-foreground/90 text-background rounded-xl font-bold shadow-lg shadow-black/20"
                           >
                             <Plus className="h-4 w-4 mr-2" /> Add Link
                           </Button>
@@ -471,7 +471,7 @@ export function EditProfile() {
                         <button
                           key={p.id}
                           onClick={() => handleAddLink(p.id)}
-                          className="flex flex-col items-center gap-2 p-3 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-white hover:border-gray-200 hover:shadow-md transition-all active:scale-[0.96]"
+                          className="flex flex-col items-center gap-2 p-3 rounded-2xl border border-border bg-background hover:bg-card hover:border-border/80 hover:shadow-md transition-all active:scale-[0.96]"
                         >
                           <div
                             className="h-11 w-11 rounded-xl flex items-center justify-center text-white text-sm font-black shadow-sm"
@@ -479,7 +479,7 @@ export function EditProfile() {
                           >
                             {p.initial}
                           </div>
-                          <span className="text-[11px] font-semibold text-gray-600 text-center leading-tight">{p.label}</span>
+                          <span className="text-[11px] font-semibold text-muted-foreground text-center leading-tight">{p.label}</span>
                         </button>
                       ))}
                     </div>
@@ -504,9 +504,9 @@ export function EditProfile() {
           >
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 rounded-full bg-[#030213] px-6 py-3 text-sm font-bold text-white shadow-xl shadow-[#030213]/30 transition-all hover:bg-[#030213]/90 active:scale-95 border border-white/10"
+              className="flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-bold text-background shadow-xl shadow-black/30 transition-all hover:bg-foreground/90 active:scale-95 border border-border"
             >
-              <div className="h-2 w-2 rounded-full bg-[#3B82F6] animate-pulse" />
+              <div className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
               Save Changes
             </button>
           </motion.div>
@@ -535,28 +535,28 @@ export function EditProfile() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowPreview(false)}
-                className="fixed inset-0 z-[60] bg-[#030213]/40 backdrop-blur-sm"
+                className="fixed inset-0 z-[60] bg-foreground/40 backdrop-blur-sm"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="fixed left-1/2 top-1/2 z-[70] h-[80vh] w-[calc(100vw-2rem)] max-w-[340px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] border-[6px] sm:border-[8px] border-white bg-white shadow-2xl ring-1 ring-gray-200"
+                className="fixed left-1/2 top-1/2 z-[70] h-[80vh] w-[calc(100vw-2rem)] max-w-[340px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] border-[6px] sm:border-[8px] border-card bg-card shadow-2xl ring-1 ring-border"
               >
                 {/* Fake notch */}
-                <div className="absolute left-1/2 top-0 z-50 h-5 w-32 -translate-x-1/2 rounded-b-2xl bg-white" />
+                <div className="absolute left-1/2 top-0 z-50 h-5 w-32 -translate-x-1/2 rounded-b-2xl bg-card" />
 
                 {/* Close */}
                 <button
                   onClick={() => setShowPreview(false)}
-                  className="absolute top-3 right-3 z-50 h-8 w-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#030213] hover:bg-white transition-colors border border-white/60 shadow-sm"
+                  className="absolute top-3 right-3 z-50 h-8 w-8 rounded-full bg-card/80 backdrop-blur-md flex items-center justify-center text-foreground hover:bg-card transition-colors border border-border shadow-sm"
                 >
                   <X className="w-4 h-4" />
                 </button>
 
                 {/* Scrollable content — matches PublicProfile layout */}
-                <div className="h-full w-full overflow-y-auto bg-gradient-to-tr from-[#ffffff] to-[#ececf0] scrollbar-hide px-3 pt-8">
+                <div className="h-full w-full overflow-y-auto bg-background scrollbar-hide px-3 pt-8">
 
                   {/* Flippable Business Card */}
                   <div className="mb-4">
@@ -564,7 +564,7 @@ export function EditProfile() {
                   </div>
 
                   {/* Profile Hero Card */}
-                  <div className="bg-white/70 backdrop-blur-2xl rounded-[2rem] border border-white/60 shadow-[0_8px_32px_rgba(46,16,101,0.08)] overflow-hidden flex flex-col">
+                  <div className="bg-card backdrop-blur-2xl rounded-[2rem] border border-border shadow-lg shadow-black/20 overflow-hidden flex flex-col">
 
                     {/* Cover Banner */}
                     <div className="relative h-24 w-full overflow-hidden">
@@ -592,25 +592,25 @@ export function EditProfile() {
                         </div>
                       </div>
 
-                      <h1 className="text-xl font-black tracking-tight text-[#030213] text-center leading-tight">{name || "Your Name"}</h1>
-                      {title && <p className="text-sm font-bold text-[#3B82F6] mt-0.5 text-center">{title}</p>}
+                      <h1 className="text-xl font-black tracking-tight text-foreground text-center leading-tight">{name || "Your Name"}</h1>
+                      {title && <p className="text-sm font-bold text-blue-400 mt-0.5 text-center">{title}</p>}
                       {department && (
-                        <p className="text-xs font-semibold text-gray-400 mt-0.5 flex items-center gap-1">
+                        <p className="text-xs font-semibold text-muted-foreground mt-0.5 flex items-center gap-1">
                           <Building className="h-3 w-3" />{department}
                         </p>
                       )}
-                      {bio && <p className="mt-3 text-xs font-medium leading-relaxed text-[#030213]/60 text-center max-w-[260px]">{bio}</p>}
+                      {bio && <p className="mt-3 text-xs font-medium leading-relaxed text-foreground/70 text-center max-w-[260px]">{bio}</p>}
 
                       {/* Action Buttons */}
                       <div className="mt-5 flex flex-col gap-2.5 w-full">
-                        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-to-br from-[#030213] to-[#1e1b4b] text-white text-sm font-bold shadow-[0_4px_18px_rgba(3,2,19,0.30)]">
+                        <button className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-to-br from-foreground to-purple-900 text-white text-sm font-bold shadow-lg shadow-black/30">
                           <Download className="h-4 w-4" /> Save Contact
                         </button>
                         <div className="flex gap-2">
-                          <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-full bg-white/90 border border-gray-200/60 text-[#030213] text-sm font-bold shadow-sm">
+                          <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-full bg-card/90 border border-border text-foreground text-sm font-bold shadow-sm">
                             <Users className="h-4 w-4" /> Exchange
                           </button>
-                          <button className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#030213] shadow-sm">
+                          <button className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-card/90 border border-border text-foreground shadow-sm">
                             <Share2 className="h-4 w-4" />
                           </button>
                         </div>
@@ -618,17 +618,17 @@ export function EditProfile() {
                     </div>
 
                     {/* Quick Contact Icons */}
-                    <div className="flex justify-around gap-2 border-y border-gray-100/80 py-4 px-5">
+                    <div className="flex justify-around gap-2 border-y border-border py-4 px-5">
                       {[
-                        { icon: <Mail className="h-4 w-4" />, label: "Email", color: "text-[#3B82F6]" },
-                        { icon: <Phone className="h-4 w-4" />, label: "Call", color: "text-[#8B5CF6]" },
-                        { icon: <MapPin className="h-4 w-4" />, label: "Office", color: "text-[#030213]" },
+                        { icon: <Mail className="h-4 w-4" />, label: "Email", color: "text-blue-400" },
+                        { icon: <Phone className="h-4 w-4" />, label: "Call", color: "text-purple-400" },
+                        { icon: <MapPin className="h-4 w-4" />, label: "Office", color: "text-foreground" },
                       ].map((item) => (
                         <div key={item.label} className="flex flex-col items-center gap-1.5">
-                          <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-white/80 backdrop-blur-xl ${item.color} shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-white/60`}>
+                          <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-card/80 backdrop-blur-xl ${item.color} shadow-lg shadow-black/10 border border-border`}>
                             {item.icon}
                           </div>
-                          <span className="text-[8px] font-bold uppercase tracking-wider text-gray-400">{item.label}</span>
+                          <span className="text-[8px] font-bold uppercase tracking-wider text-muted-foreground">{item.label}</span>
                         </div>
                       ))}
                     </div>
@@ -636,25 +636,25 @@ export function EditProfile() {
                     {/* Links Section */}
                     {links.filter(l => l.title).length > 0 && (
                       <div className="px-4 py-4 space-y-2">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 px-1 mb-2">Links</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-1 mb-2">Links</p>
                         {links.filter(l => l.title).map((link) => {
                           const color = getColor(link.type);
                           const initial = getInitial(link.title, link.type);
                           return (
                             <div
                               key={link.id}
-                              className="flex items-center justify-between rounded-xl bg-white/80 backdrop-blur-xl px-3 py-3 shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-white/60"
+                              className="flex items-center justify-between rounded-xl bg-card/80 backdrop-blur-xl px-3 py-3 shadow-lg shadow-black/10 border border-border"
                             >
                               <div className="flex items-center gap-2.5 min-w-0">
                                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white text-[10px] font-black shadow-sm" style={{ backgroundColor: color }}>
                                   {initial}
                                 </div>
                                 <div className="min-w-0">
-                                  <p className="text-xs font-bold text-[#030213] leading-tight truncate">{link.title}</p>
-                                  {link.url && <p className="text-[10px] font-medium text-gray-400 truncate">{stripUrl(link.url)}</p>}
+                                  <p className="text-xs font-bold text-foreground leading-tight truncate">{link.title}</p>
+                                  {link.url && <p className="text-[10px] font-medium text-muted-foreground truncate">{stripUrl(link.url)}</p>}
                                 </div>
                               </div>
-                              <ChevronRight className="h-3.5 w-3.5 shrink-0 text-gray-300 ml-2" />
+                              <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground ml-2" />
                             </div>
                           );
                         })}

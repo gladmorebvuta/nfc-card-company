@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## 2026-06-02
 
+### Fixed (dark theme)
+- Implemented a true dark theme matching BrandaptOS. The earlier rebrand left a white shell with black cards and dark-on-dark text because the UI primitives were the flat shadcn versions and the dashboard/pages hardcoded light colors.
+- Ported BrandaptOS's glassmorphic UI primitives verbatim (`card`, `button`, `input`, `textarea`, `dropdown-menu`, `dialog`, `sheet`, etc.): translucent `bg-background/30 backdrop-blur-xl`, hairline `border-border/25`, layered `shadow-black/*`.
+- Converted `DashboardLayout` (shell, glass sidebar/topbar/mobile nav, notifications, settings modal), `Dashboard`, and all pages (`AuthPage`, `PublicProfile`, `Onboarding`, `Connections`, `Events`, `EditProfile`, `ProtectedRoute`) + marketing components from hardcoded light colors to theme tokens. Color-coded badges use dark-readable `bg-*-500/15 text-*-300` tints. Added `class="dark"` to `index.html` to prevent a light flash.
+- Redesigned `FlippableCard` to a premium dark card: subtle blue→cyan→purple glow, hairline border, Brandapt wordmark, holder name/title in Space Mono, NFC affordance — removed the oversized "B" watermark and hard stripe.
+- QR codes render dark-on-white on a white tile (scannable) instead of white-on-dark.
+
 ### Changed
 - Rebranded the entire app from the white-label "MCG" theme to the Brandapt design system: design tokens in `src/styles/theme.css` swapped to navy `#030213`/dark-first palette, glassmorphism utilities added, and `Qugan` font replaced with `Space Mono` (`src/styles/fonts.css`).
 - Swept ~270 hardcoded MCG purple/orange hex values (`#2E1065`, `#F97316`, cream/peach tints) → Brandapt navy/blue across all pages and components; social-platform brand colors preserved.

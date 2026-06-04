@@ -69,8 +69,8 @@ function Sparkline({ viewsByDay }: { viewsByDay: Record<string, number> }) {
   return (
     <div className="space-y-1.5">
       <div className="flex items-baseline justify-between">
-        <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Views — 7 days</span>
-        <span className="text-2xl font-black text-[#030213]">{total}</span>
+        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Views — 7 days</span>
+        <span className="text-2xl font-black text-foreground">{total}</span>
       </div>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ height: 56 }} preserveAspectRatio="none">
         <defs>
@@ -89,7 +89,7 @@ function Sparkline({ viewsByDay }: { viewsByDay: Record<string, number> }) {
       </svg>
       <div className="flex justify-between">
         {days.map((d) => (
-          <span key={d.date} className="text-[9px] font-bold text-gray-400">{d.label}</span>
+          <span key={d.date} className="text-[9px] font-bold text-muted-foreground">{d.label}</span>
         ))}
       </div>
     </div>
@@ -111,8 +111,8 @@ function SourceBreakdown({ viewsBySource }: { viewsBySource: Record<string, numb
     .filter((b) => b.count > 0);
 
   return (
-    <div className="space-y-2 pt-4 border-t border-white/40">
-      <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Traffic Sources — 30 days</span>
+    <div className="space-y-2 pt-4 border-t border-border">
+      <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Traffic Sources — 30 days</span>
       <div className="flex h-2 rounded-full overflow-hidden gap-px">
         {bars.map((b) => (
           <div key={b.src} style={{ width: `${b.pct}%`, backgroundColor: b.color }} />
@@ -120,11 +120,11 @@ function SourceBreakdown({ viewsBySource }: { viewsBySource: Record<string, numb
       </div>
       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
         {bars.map((b) => (
-          <div key={b.src} className="flex items-center gap-1.5 text-xs font-semibold text-gray-500">
+          <div key={b.src} className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
             <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: b.color }} />
             {b.label}
-            <span className="font-black text-gray-600">{b.pct}%</span>
-            <span className="text-gray-300">({b.count})</span>
+            <span className="font-black text-muted-foreground">{b.pct}%</span>
+            <span className="text-muted-foreground">({b.count})</span>
           </div>
         ))}
       </div>
@@ -139,27 +139,27 @@ function Funnel({ views, exchanges, converted }: { views: number; exchanges: num
 
   return (
     <div className="space-y-3">
-      <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Conversion Funnel</span>
+      <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Conversion Funnel</span>
       <div className="flex items-stretch gap-2">
-        <div className="flex-1 rounded-xl bg-violet-50 px-3 py-3 text-center">
-          <p className="text-2xl font-black text-violet-700">{views.toLocaleString()}</p>
-          <p className="text-[10px] font-bold text-violet-400 mt-0.5 uppercase tracking-wide">Views</p>
+        <div className="flex-1 rounded-xl bg-blue-500/10 px-3 py-3 text-center">
+          <p className="text-2xl font-black text-blue-300">{views.toLocaleString()}</p>
+          <p className="text-[10px] font-bold text-blue-300 mt-0.5 uppercase tracking-wide">Views</p>
         </div>
         <div className="flex flex-col items-center justify-center shrink-0">
-          <ChevronRight className="h-4 w-4 text-gray-300" />
-          <span className="text-[9px] font-black text-gray-400">{vToE}%</span>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          <span className="text-[9px] font-black text-muted-foreground">{vToE}%</span>
         </div>
-        <div className="flex-1 rounded-xl bg-[#ffffff] px-3 py-3 text-center">
+        <div className="flex-1 rounded-xl bg-card px-3 py-3 text-center">
           <p className="text-2xl font-black text-[#3B82F6]">{exchanges.toLocaleString()}</p>
           <p className="text-[10px] font-bold text-[#3B82F6]/60 mt-0.5 uppercase tracking-wide">Exchanges</p>
         </div>
         <div className="flex flex-col items-center justify-center shrink-0">
-          <ChevronRight className="h-4 w-4 text-gray-300" />
-          <span className="text-[9px] font-black text-gray-400">{eToC}%</span>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+          <span className="text-[9px] font-black text-muted-foreground">{eToC}%</span>
         </div>
-        <div className="flex-1 rounded-xl bg-green-50 px-3 py-3 text-center">
-          <p className="text-2xl font-black text-green-700">{converted.toLocaleString()}</p>
-          <p className="text-[10px] font-bold text-green-500 mt-0.5 uppercase tracking-wide">Converted</p>
+        <div className="flex-1 rounded-xl bg-emerald-500/10 px-3 py-3 text-center">
+          <p className="text-2xl font-black text-emerald-300">{converted.toLocaleString()}</p>
+          <p className="text-[10px] font-bold text-emerald-300 mt-0.5 uppercase tracking-wide">Converted</p>
         </div>
       </div>
     </div>
@@ -179,7 +179,7 @@ function LinkPerformance({
 
   return (
     <div className="space-y-3">
-      <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Link Performance — 30 days</span>
+      <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Link Performance — 30 days</span>
       <div className="space-y-3">
         {linkClicks.slice(0, 5).map((link, i) => {
           const barPct = Math.round((link.count / maxClicks) * 100);
@@ -188,12 +188,12 @@ function LinkPerformance({
           return (
             <div key={link.linkUrl || i} className="space-y-1">
               <div className="flex items-center justify-between gap-2 text-xs">
-                <span className="font-semibold text-[#030213] truncate flex-1">{link.linkTitle}</span>
-                <span className="font-bold text-gray-400 shrink-0">
+                <span className="font-semibold text-foreground truncate flex-1">{link.linkTitle}</span>
+                <span className="font-bold text-muted-foreground shrink-0">
                   {link.count} clicks · {ctr}% CTR
                 </span>
               </div>
-              <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
+              <div className="h-1.5 rounded-full bg-background/40 overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{ width: `${barPct}%`, backgroundColor: color }}
@@ -263,25 +263,25 @@ export function Dashboard() {
     >
       <Seo title="Dashboard" description="Manage your NFC digital business card." noindex />
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tight text-[#030213]">Overview</h1>
-        <p className="text-gray-500 font-medium">Welcome back, {currentEmployee.name.split(" ")[0]}</p>
+        <h1 className="text-3xl font-black tracking-tight text-foreground">Overview</h1>
+        <p className="text-muted-foreground font-medium">Welcome back, {currentEmployee.name.split(" ")[0]}</p>
       </div>
 
       {/* Active Event Banner */}
       {activeEvent && (
         <button
           onClick={() => navigate("/dashboard/events")}
-          className="flex w-full items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-left transition-colors hover:bg-green-100"
+          className="flex w-full items-center gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-left transition-colors hover:bg-emerald-500/20"
         >
           <span className="relative flex h-2.5 w-2.5 shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
           </span>
           <div className="flex-1 min-w-0">
-            <span className="text-sm font-bold text-green-700">Event Mode: </span>
-            <span className="text-sm font-semibold text-green-600">{activeEvent.name}</span>
+            <span className="text-sm font-bold text-emerald-300">Event Mode: </span>
+            <span className="text-sm font-semibold text-emerald-300">{activeEvent.name}</span>
           </div>
-          <div className="flex items-center gap-3 shrink-0 text-xs font-bold text-green-600">
+          <div className="flex items-center gap-3 shrink-0 text-xs font-bold text-emerald-300">
             <span className="flex items-center gap-1">
               <Eye className="h-3.5 w-3.5" /> {activeEvent.viewCount}
             </span>
@@ -312,23 +312,23 @@ export function Dashboard() {
             label: "New Leads",
             value: isFirestoreBacked ? String(currentEmployee.stats.leads) : "—",
             icon: <Users className="h-5 w-5" />,
-            iconBg: "bg-emerald-100 text-emerald-600",
+            iconBg: "bg-emerald-500/10 text-emerald-300",
           },
           {
             label: "Active Links",
             value: String(currentEmployee.links.length),
             icon: <Link2 className="h-5 w-5" />,
-            iconBg: "bg-[#030213]/10 text-[#030213]",
+            iconBg: "bg-foreground/10 text-foreground",
           },
         ].map((stat) => (
-          <Card key={stat.label} className="p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-all hover:bg-white/70">
+          <Card key={stat.label} className="p-5 flex flex-col gap-3 shadow-sm hover:shadow-md transition-all hover:bg-card/80">
             <div className="flex items-start justify-between">
-              <p className="text-xs font-semibold text-gray-500 leading-tight">{stat.label}</p>
+              <p className="text-xs font-semibold text-muted-foreground leading-tight">{stat.label}</p>
               <div className={`flex h-8 w-8 items-center justify-center rounded-2xl ${stat.iconBg}`}>
                 {stat.icon}
               </div>
             </div>
-            <p className="text-3xl font-black tracking-tight text-[#030213] leading-none">{stat.value}</p>
+            <p className="text-3xl font-black tracking-tight text-foreground leading-none">{stat.value}</p>
           </Card>
         ))}
       </div>
@@ -340,11 +340,11 @@ export function Dashboard() {
 
           {/* Share Profile */}
           <Card>
-            <div className="flex items-center justify-between border-b border-white/40 p-5">
+            <div className="flex items-center justify-between border-b border-border p-5">
               <div>
-                <h2 className="text-base font-bold text-[#030213]">Share Profile</h2>
+                <h2 className="text-base font-bold text-foreground">Share Profile</h2>
                 {baseProfileUrl !== `${window.location.origin}/` && (
-                  <p className="text-xs text-gray-400 font-medium mt-0.5 truncate max-w-[180px]">
+                  <p className="text-xs text-muted-foreground font-medium mt-0.5 truncate max-w-[180px]">
                     {baseProfileUrl.replace(/^https?:\/\//, "")}
                   </p>
                 )}
@@ -353,8 +353,8 @@ export function Dashboard() {
                 onClick={handleCopyLink}
                 className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all border ${
                   linkCopied
-                    ? "bg-emerald-100 text-emerald-700 border-emerald-200"
-                    : "bg-white/60 text-[#030213] border-white hover:bg-white shadow-sm"
+                    ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+                    : "bg-background/40 text-foreground border-border hover:bg-background/60 shadow-sm"
                 }`}
               >
                 {linkCopied ? (
@@ -367,14 +367,14 @@ export function Dashboard() {
             <CardContent className="p-6">
               <button
                 onClick={() => setShowQrModal(true)}
-                className="group flex w-full cursor-pointer items-center gap-4 rounded-[1.5rem] border border-white/60 bg-white/40 p-4 transition-all hover:border-[#3B82F6]/30 hover:bg-white/60 hover:shadow-md text-left"
+                className="group flex w-full cursor-pointer items-center gap-4 rounded-[1.5rem] border border-border bg-background/40 p-4 transition-all hover:border-[#3B82F6]/30 hover:bg-background/60 hover:shadow-md text-left"
               >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-[#3B82F6] shadow-sm">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-card text-[#3B82F6] shadow-sm">
                   <QrCode className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#030213]">My QR Code</h3>
-                  <p className="text-xs text-gray-500 font-medium">Download for print</p>
+                  <h3 className="font-semibold text-foreground">My QR Code</h3>
+                  <p className="text-xs text-muted-foreground font-medium">Download for print</p>
                 </div>
               </button>
             </CardContent>
@@ -382,12 +382,12 @@ export function Dashboard() {
 
           {/* Analytics: Sparkline + Source breakdown */}
           <Card>
-            <div className="border-b border-white/40 px-5 py-4">
-              <h2 className="text-base font-bold text-[#030213]">Analytics</h2>
+            <div className="border-b border-border px-5 py-4">
+              <h2 className="text-base font-bold text-foreground">Analytics</h2>
             </div>
             <CardContent className="p-5 space-y-5">
               {insightsLoading ? (
-                <p className="text-sm text-gray-400 font-medium text-center py-4">Loading analytics…</p>
+                <p className="text-sm text-muted-foreground font-medium text-center py-4">Loading analytics…</p>
               ) : (
                 <>
                   <Sparkline viewsByDay={viewsByDay} />
@@ -415,8 +415,8 @@ export function Dashboard() {
 
           {/* Recent Leads */}
           <Card>
-            <div className="flex items-center justify-between border-b border-white/40 p-5">
-              <h2 className="text-base font-bold text-[#030213]">Recent Leads</h2>
+            <div className="flex items-center justify-between border-b border-border p-5">
+              <h2 className="text-base font-bold text-foreground">Recent Leads</h2>
               <button
                 onClick={() => navigate("/dashboard/connections")}
                 className="inline-flex items-center gap-1 text-xs font-semibold text-[#3B82F6] hover:text-[#3B82F6]/80 transition-colors"
@@ -425,28 +425,28 @@ export function Dashboard() {
               </button>
             </div>
             <CardContent className="p-0">
-              <div className="divide-y divide-white/30">
+              <div className="divide-y divide-border">
                 {exchanges.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-10 gap-2">
-                    <Users className="h-8 w-8 text-gray-200" />
-                    <p className="text-sm font-medium text-gray-400">No connections yet</p>
-                    <p className="text-xs text-gray-300">Share your card to start collecting leads</p>
+                    <Users className="h-8 w-8 text-muted-foreground" />
+                    <p className="text-sm font-medium text-muted-foreground">No connections yet</p>
+                    <p className="text-xs text-muted-foreground">Share your card to start collecting leads</p>
                   </div>
                 ) : (
                   exchanges.slice(0, 3).map((ex) => (
                     <div
                       key={ex.id}
-                      className="flex items-center justify-between px-5 py-3.5 transition-colors hover:bg-white/40 gap-2"
+                      className="flex items-center justify-between px-5 py-3.5 transition-colors hover:bg-background/40 gap-2"
                     >
                       <div className="flex items-center gap-3 min-w-0 flex-1">
                         <img
-                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(ex.visitorName)}&background=EDE9FE&color=2E1065`}
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(ex.visitorName)}&background=030213&color=3B82F6`}
                           alt={ex.visitorName}
-                          className="h-10 w-10 rounded-2xl border-2 border-white object-cover shadow-sm shrink-0"
+                          className="h-10 w-10 rounded-2xl border-2 border-border object-cover shadow-sm shrink-0"
                         />
                         <div className="min-w-0">
-                          <h4 className="font-bold text-[#030213] truncate text-sm">{ex.visitorName}</h4>
-                          <p className="text-xs font-medium text-gray-500 truncate">
+                          <h4 className="font-bold text-foreground truncate text-sm">{ex.visitorName}</h4>
+                          <p className="text-xs font-medium text-muted-foreground truncate">
                             {ex.visitorCompany || ex.visitorEmail}
                           </p>
                         </div>
@@ -456,16 +456,16 @@ export function Dashboard() {
                           <span
                             className={`text-[10px] font-black rounded-full px-1.5 py-0.5 ${
                               ex.engagementScore >= 60
-                                ? "bg-green-100 text-green-700"
+                                ? "bg-emerald-500/20 text-emerald-300"
                                 : ex.engagementScore >= 30
-                                ? "bg-amber-100 text-amber-700"
-                                : "bg-gray-100 text-gray-500"
+                                ? "bg-amber-500/20 text-amber-300"
+                                : "bg-background/40 text-muted-foreground"
                             }`}
                           >
                             {ex.engagementScore}
                           </span>
                         )}
-                        <span className="text-[11px] font-semibold text-gray-400 bg-white/60 px-2 py-1 rounded-full">
+                        <span className="text-[11px] font-semibold text-muted-foreground bg-background/40 px-2 py-1 rounded-full">
                           {ex.createdAt?.toDate?.()?.toLocaleDateString() || ""}
                         </span>
                       </div>
@@ -479,26 +479,26 @@ export function Dashboard() {
 
         {/* Right col — 2/5: Live Preview */}
         <div className="lg:col-span-2">
-          <Card className="overflow-hidden border-gray-100 bg-gray-50/50 shadow-inner">
-            <div className="flex items-center justify-between border-b border-gray-200/50 bg-white/50 p-4 backdrop-blur-md">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Live Preview</h2>
+          <Card className="overflow-hidden border-border bg-background/40 shadow-inner">
+            <div className="flex items-center justify-between border-b border-border bg-card/40 p-4 backdrop-blur-md">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Live Preview</h2>
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500 ring-4 ring-green-100" />
-                <span className="text-xs font-bold text-gray-500">Online</span>
+                <div className="h-2 w-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20" />
+                <span className="text-xs font-bold text-muted-foreground">Online</span>
               </div>
             </div>
 
             {/* Phone frame */}
-            <div className="relative mx-auto my-6 h-[520px] sm:h-[580px] lg:h-[640px] w-full max-w-[260px] lg:max-w-[300px] overflow-hidden rounded-[2rem] border-[6px] border-white bg-white shadow-2xl ring-1 ring-gray-200">
-              <div className="absolute left-1/2 top-0 z-50 h-5 w-28 -translate-x-1/2 rounded-b-2xl bg-white" />
+            <div className="relative mx-auto my-6 h-[520px] sm:h-[580px] lg:h-[640px] w-full max-w-[260px] lg:max-w-[300px] overflow-hidden rounded-[2rem] border-[6px] border-card bg-card shadow-2xl ring-1 ring-border">
+              <div className="absolute left-1/2 top-0 z-50 h-5 w-28 -translate-x-1/2 rounded-b-2xl bg-card" />
 
               {/* Scrollable profile content */}
-              <div className="h-full w-full overflow-y-auto bg-gradient-to-tr from-[#ffffff] via-[#ececf0] to-[#ececf0] scrollbar-hide">
+              <div className="h-full w-full overflow-y-auto bg-gradient-to-tr from-background via-background/80 to-background/80 scrollbar-hide">
 
                 {/* Company header bar — matches the real sticky header */}
-                <div className="flex items-center justify-between px-3 py-2.5 bg-white/70 backdrop-blur-xl border-b border-white/50 sticky top-0 z-20">
+                <div className="flex items-center justify-between px-3 py-2.5 bg-card/70 backdrop-blur-xl border-b border-border sticky top-0 z-20">
                   <BrandaptLogo variant="dark" className="h-5" />
-                  <QrCode className="h-4 w-4 text-[#030213] opacity-60" />
+                  <QrCode className="h-4 w-4 text-foreground opacity-60" />
                 </div>
 
                 <div className="px-2 pt-2 pb-6 space-y-2">
@@ -506,15 +506,15 @@ export function Dashboard() {
                   <FlippableCard profile={currentEmployee} />
 
                   {/* Profile Hero Card */}
-                  <div className="bg-white/70 backdrop-blur-2xl rounded-[1.25rem] border border-white/60 shadow-[0_8px_32px_rgba(46,16,101,0.08)] overflow-hidden">
+                  <div className="bg-card/70 backdrop-blur-2xl rounded-[1.25rem] border border-border shadow-[0_8px_32px_rgba(3,2,19,0.2)] overflow-hidden">
 
                     {/* Cover banner */}
                     <div className="relative h-14 w-full overflow-hidden rounded-t-[1.25rem]">
                       {currentEmployee.cover ? (
                         <img src={currentEmployee.cover} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-blue-500 via-cyan-500 to-purple-500">
-                          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #3B82F6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #3B82F6 0%, transparent 40%)" }} />
+                        <div className="w-full h-full bg-gradient-to-br from-blue-600 via-cyan-600 to-purple-600">
+                          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, #3B82F6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #3B82F6 0%, transparent 40%)" }} />
                         </div>
                       )}
                     </div>
@@ -523,7 +523,7 @@ export function Dashboard() {
                     <div className="flex flex-col items-center px-4 pb-4">
                       {/* Avatar overlapping cover */}
                       <div className="relative -mt-7 mb-2">
-                        <div className="h-14 w-14 rounded-full border-[3px] border-white shadow-lg overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center">
+                        <div className="h-14 w-14 rounded-full border-[3px] border-card shadow-lg overflow-hidden bg-gradient-to-br from-[#030213] to-[#3B82F6] flex items-center justify-center">
                           {currentEmployee.avatar ? (
                             <img src={currentEmployee.avatar} alt={currentEmployee.name} className="w-full h-full object-cover" />
                           ) : (
@@ -534,17 +534,17 @@ export function Dashboard() {
                         </div>
                       </div>
 
-                      <h3 className="text-sm font-black text-[#030213] text-center leading-tight">{currentEmployee.name}</h3>
+                      <h3 className="text-sm font-black text-foreground text-center leading-tight">{currentEmployee.name}</h3>
                       {currentEmployee.title && (
                         <p className="text-[10px] font-bold text-[#3B82F6] mt-0.5 text-center">{currentEmployee.title}</p>
                       )}
                       {currentEmployee.department && (
-                        <p className="text-[8px] font-semibold text-gray-400 mt-0.5 flex items-center gap-0.5">
+                        <p className="text-[8px] font-semibold text-muted-foreground mt-0.5 flex items-center gap-0.5">
                           <Building className="h-2.5 w-2.5" />{currentEmployee.department}
                         </p>
                       )}
                       {currentEmployee.bio && (
-                        <p className="mt-2 text-[8px] leading-relaxed text-[#030213]/60 text-center line-clamp-2 max-w-[200px]">
+                        <p className="mt-2 text-[8px] leading-relaxed text-foreground/60 text-center line-clamp-2 max-w-[200px]">
                           {currentEmployee.bio}
                         </p>
                       )}
@@ -570,10 +570,10 @@ export function Dashboard() {
                           <Download className="h-3 w-3" /> Save Contact
                         </button>
                         <div className="flex gap-1.5">
-                          <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white/90 border border-gray-200/60 text-[#030213] text-[10px] font-bold shadow-sm">
+                          <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-card/90 border border-border text-foreground text-[10px] font-bold shadow-sm">
                             <Users className="h-3 w-3" /> Exchange
                           </div>
-                          <div className="flex h-9 w-9 aspect-square items-center justify-center rounded-full bg-white/90 border border-gray-200/60 text-[#030213] shadow-sm">
+                          <div className="flex h-9 w-9 aspect-square items-center justify-center rounded-full bg-card/90 border border-border text-foreground shadow-sm">
                             <Share2 className="h-3 w-3" />
                           </div>
                         </div>
@@ -581,17 +581,17 @@ export function Dashboard() {
                     </div>
 
                     {/* Quick contact icons — Email / Call / Office */}
-                    <div className="flex justify-around border-y border-gray-100/80 py-3 px-4">
+                    <div className="flex justify-around border-y border-border py-3 px-4">
                       {[
                         { Icon: Mail,   label: "Email",  color: "text-[#3B82F6]"  },
                         { Icon: Phone,  label: "Call",   color: "text-[#3B82F6]"  },
-                        { Icon: MapPin, label: "Office", color: "text-[#030213]"  },
+                        { Icon: MapPin, label: "Office", color: "text-foreground"  },
                       ].map(({ Icon, label, color }) => (
                         <div key={label} className="flex flex-col items-center gap-1">
-                          <div className={`flex h-9 w-9 items-center justify-center rounded-xl bg-white/80 ${color} shadow-sm border border-white/60`}>
+                          <div className={`flex h-9 w-9 items-center justify-center rounded-xl bg-card/80 ${color} shadow-sm border border-border`}>
                             <Icon className="h-4 w-4" />
                           </div>
-                          <span className="text-[7px] font-bold uppercase tracking-wider text-gray-400">{label}</span>
+                          <span className="text-[7px] font-bold uppercase tracking-wider text-muted-foreground">{label}</span>
                         </div>
                       ))}
                     </div>
@@ -599,7 +599,7 @@ export function Dashboard() {
                     {/* Links — match real profile tile style */}
                     {currentEmployee.links.length > 0 && (
                       <div className="px-3 py-3 space-y-1.5">
-                        <p className="text-[7px] font-black uppercase tracking-widest text-gray-400 px-1 mb-2">Links</p>
+                        <p className="text-[7px] font-black uppercase tracking-widest text-muted-foreground px-1 mb-2">Links</p>
                         {currentEmployee.links.map((link) => {
                           const platform = (link.type || "default").toLowerCase();
                           const color = PLATFORM_COLORS[platform] || PLATFORM_COLORS.default;
@@ -609,7 +609,7 @@ export function Dashboard() {
                           };
                           const initial = initMap[platform] ?? link.title.charAt(0).toUpperCase();
                           return (
-                            <div key={link.id} className="flex items-center justify-between rounded-xl bg-white/80 backdrop-blur-xl px-3 py-2 border border-white/60">
+                            <div key={link.id} className="flex items-center justify-between rounded-xl bg-card/80 backdrop-blur-xl px-3 py-2 border border-border">
                               <div className="flex items-center gap-2 min-w-0">
                                 <div
                                   className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white text-[8px] font-black shadow-sm"
@@ -617,9 +617,9 @@ export function Dashboard() {
                                 >
                                   {initial}
                                 </div>
-                                <p className="text-[10px] font-bold text-[#030213] truncate">{link.title}</p>
+                                <p className="text-[10px] font-bold text-foreground truncate">{link.title}</p>
                               </div>
-                              <ChevronRight className="h-3 w-3 text-gray-300 shrink-0 ml-1" />
+                              <ChevronRight className="h-3 w-3 text-muted-foreground shrink-0 ml-1" />
                             </div>
                           );
                         })}
@@ -640,33 +640,33 @@ export function Dashboard() {
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setShowQrModal(false)}
-              className="fixed inset-0 z-[60] bg-[#030213]/40 backdrop-blur-sm"
+              className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed left-1/2 top-1/2 z-[70] w-[90%] max-w-sm -translate-x-1/2 -translate-y-1/2 rounded-[2rem] bg-white/95 backdrop-blur-2xl p-8 shadow-2xl border border-white/60"
+              className="fixed left-1/2 top-1/2 z-[70] w-[90%] max-w-sm -translate-x-1/2 -translate-y-1/2 rounded-[2rem] bg-card/95 backdrop-blur-2xl p-8 shadow-2xl border border-border"
             >
               <button
                 onClick={() => setShowQrModal(false)}
-                className="absolute top-4 right-4 h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors"
+                className="absolute top-4 right-4 h-8 w-8 rounded-full bg-background/40 flex items-center justify-center text-muted-foreground hover:bg-background/60 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-black text-[#030213]">Your QR Code</h3>
-                <p className="text-sm font-medium text-gray-500 mt-1">Share or download for print</p>
+                <h3 className="text-2xl font-black text-foreground">Your QR Code</h3>
+                <p className="text-sm font-medium text-muted-foreground mt-1">Share or download for print</p>
               </div>
-              <div className="aspect-square w-48 mx-auto bg-white rounded-[1.5rem] border border-gray-100 flex items-center justify-center mb-6 shadow-lg shadow-[#030213]/5">
-                <QRCodeSVG value={qrProfileUrl} size={140} level="Q" includeMargin={false} fgColor="#030213" />
+              <div className="aspect-square w-48 mx-auto bg-white rounded-[1.5rem] border border-border flex items-center justify-center mb-6 shadow-lg shadow-black/30">
+                <QRCodeSVG value={qrProfileUrl} size={140} level="Q" includeMargin={false} fgColor="#030213" bgColor="#ffffff" />
               </div>
-              <p className="text-xs text-center text-gray-400 mb-6 font-medium">{baseProfileUrl}</p>
+              <p className="text-xs text-center text-muted-foreground mb-6 font-medium">{baseProfileUrl}</p>
               <div className="grid grid-cols-2 gap-3">
-                <Button variant="outline" className="h-12 rounded-xl text-[#030213]" onClick={handleCopyLink}>
+                <Button variant="outline" className="h-12 rounded-xl text-foreground" onClick={handleCopyLink}>
                   {linkCopied ? "Copied!" : "Copy Link"}
                 </Button>
                 <Button
-                  className="h-12 rounded-xl bg-[#030213] hover:bg-[#030213]/90 text-white"
+                  className="h-12 rounded-xl bg-[#3B82F6] hover:bg-[#3B82F6]/90 text-white"
                   onClick={() => {
                     toast.success("QR Code downloaded!");
                     setShowQrModal(false);
