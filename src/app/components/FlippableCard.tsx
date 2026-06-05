@@ -29,7 +29,7 @@ function CardFront({ profile }: { profile: CardProfile }) {
       {/* Brandapt logo — top left */}
       <div className="absolute top-4 left-4 flex items-center">
         <img
-          src="/logo-dark.png"
+          src="/logo-light.png"
           alt="Brandapt"
           className="h-4 object-contain"
         />

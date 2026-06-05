@@ -74,7 +74,7 @@ export function AuthPage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1, type: "spring", stiffness: 300 }}
             >
-              <BrandaptLogo variant="dark" className="h-14" />
+              <BrandaptLogo className="h-14" />
             </motion.div>
 
             {/* Headline */}
